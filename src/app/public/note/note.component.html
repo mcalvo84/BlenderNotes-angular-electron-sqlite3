@@ -1,0 +1,5 @@
+<div class="jumbotron">
+  <h1>Note {{ note.id }}</h1>
+  <p>{{ note.text }}</p>
+</div>
+<a class="btn" [routerLink]="['/note', note.id + 1]">Next note</a>
