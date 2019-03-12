@@ -1,0 +1,38 @@
+{
+  "name": "Back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "babel-node": "babel-node src_back/index.js",
+    "dev": "nodemon --exec npm run babel-node",
+    "build": "./node_modules/.bin/babel src_back --out-dir dist",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/sequelize": "^4.27.39",
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "consign": "^0.1.6",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.3.1",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.38.0",
+    "sqlite3": "^4.0.6",
+    "timeago.js": "^4.0.0-beta.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.4",
+    "nodemon": "^1.18.10"
+  }
+}
