@@ -28,7 +28,9 @@ function createWindow() {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  const posts = require('./posts.api')
+  //const posts = require('./posts.api')
+  let Users = require('./users')
+  Users.init(knex, ipcMain, mainWindow);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
