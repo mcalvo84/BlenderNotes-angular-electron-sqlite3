@@ -1,0 +1,5 @@
+button,
+ul.navbar-nav,
+.navbar-brand {
+    -webkit-app-region: no-drag;
+}
