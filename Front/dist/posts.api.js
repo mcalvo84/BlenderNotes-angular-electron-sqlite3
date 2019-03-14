@@ -7,10 +7,9 @@ function postsGetPosts(knex, ipcMain, mainWindow) {
       })
     })
   };
-  
+
   module.exports = {
       init: (knex, ipcMain, mainWindow) => {
         postsGetPosts(knex, ipcMain, mainWindow);
       }
   }
-  

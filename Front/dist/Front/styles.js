@@ -744,12 +744,12 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/node_modules/bootstrap/dist/css/bootstrap.css */"./node_modules/bootstrap/dist/css/bootstrap.css");
-__webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/node_modules/font-awesome/css/font-awesome.css */"./node_modules/font-awesome/css/font-awesome.css");
-__webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/node_modules/primeicons/primeicons.css */"./node_modules/primeicons/primeicons.css");
-__webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/node_modules/primeng/resources/themes/nova-dark/theme.css */"./node_modules/primeng/resources/themes/nova-dark/theme.css");
-__webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/node_modules/primeng/resources/primeng.min.css */"./node_modules/primeng/resources/primeng.min.css");
-module.exports = __webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/src/styles.css */"./src/styles.css");
+__webpack_require__(/*! /home/everis/sites/blognotes/Front/node_modules/bootstrap/dist/css/bootstrap.css */"./node_modules/bootstrap/dist/css/bootstrap.css");
+__webpack_require__(/*! /home/everis/sites/blognotes/Front/node_modules/font-awesome/css/font-awesome.css */"./node_modules/font-awesome/css/font-awesome.css");
+__webpack_require__(/*! /home/everis/sites/blognotes/Front/node_modules/primeicons/primeicons.css */"./node_modules/primeicons/primeicons.css");
+__webpack_require__(/*! /home/everis/sites/blognotes/Front/node_modules/primeng/resources/themes/nova-dark/theme.css */"./node_modules/primeng/resources/themes/nova-dark/theme.css");
+__webpack_require__(/*! /home/everis/sites/blognotes/Front/node_modules/primeng/resources/primeng.min.css */"./node_modules/primeng/resources/primeng.min.css");
+module.exports = __webpack_require__(/*! /home/everis/sites/blognotes/Front/src/styles.css */"./src/styles.css");
 
 
 /***/ })

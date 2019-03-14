@@ -3,6 +3,8 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
+let maximizedWindow = false;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -15,7 +17,7 @@ let knex = require("knex")({
 
 function createWindow() {
   // Create the browser window.
-  /* 
+  /*
   titleBarStyle?: ('default' | 'hidden' | 'hiddenInset' | 'customButtonsOnHover');
     type?: string;
     icon?: (NativeImage) | (string);
@@ -24,10 +26,10 @@ function createWindow() {
     skipTaskbar?: boolean;
     autoHideMenuBar?: boolean;
     */
-  mainWindow = new BrowserWindow({ 
-    width: 1600, 
-    height: 920, 
-    show: false, 
+  mainWindow = new BrowserWindow({
+    width: 1600,
+    height: 920,
+    show: false,
     titleBarStyle: 'customButtonsOnHover', frame: false,
     autoHidMenuBar: true
   })
@@ -52,6 +54,24 @@ function createWindow() {
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
 
+
+  ipcMain.on('close-app', function() {
+    mainWindow.close()
+  })
+
+  ipcMain.on('maximize-app', function() {
+    if (!maximizedWindow) {
+      mainWindow.maximize()
+    } else {
+      mainWindow.restore()
+    }
+    maximizedWindow = !maximizedWindow;
+  })
+
+  ipcMain.on('minimize-app', function() {
+    mainWindow.minimize()
+  })
+
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -68,12 +88,11 @@ app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  mainWindow.close()
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  //if (process.platform !== 'darwin') {
+  if (process.platform !== 'darwin') {
     app.quit()
-  //}
+  }
 })
 
 app.on('activate', () => {

@@ -3,7 +3,6 @@ function catGetCategoryTypes(knex, ipcMain, mainWindow) {
   ipcMain.on("catGetCategoryTypes", function () {
     let result = knex.select("*").from("TagTypes")
     result.then(function (rows) {
-      console.log(result);
       mainWindow.webContents.send("catGetCategoryTypesResultSent", rows);
     })
   })

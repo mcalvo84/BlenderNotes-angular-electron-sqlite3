@@ -34,7 +34,17 @@ export class AppComponent {
   }
 
   onClose() {
-    console.log("onClose");
-    this.ipc.send('window-all-closed');
+    const me = this;
+    me.ipc.send('close-app');
+  }
+
+  onMaximize() {
+    const me = this;
+    me.ipc.send('maximize-app');
+  }
+
+  onMinimize() {
+    const me = this;
+    me.ipc.send('minimize-app');
   }
 }
