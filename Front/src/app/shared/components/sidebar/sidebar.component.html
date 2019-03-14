@@ -1,0 +1,8 @@
+<p-sidebar [(visible)]="display" [showCloseIcon]="false">
+  <i class="fa fa-hamburguer" (click)="display = !display"></i>
+  <hr />
+  <div *ngFor="let cat of categoryTypes">
+    <h5>{{cat.name}}</h5>
+    <hr />
+  </div>
+</p-sidebar>

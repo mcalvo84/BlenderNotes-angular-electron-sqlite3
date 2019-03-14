@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"  style="-webkit-app-region: drag">
+  <a class="navbar-brand" href="#">BlogNotes CRUD</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/api/posts">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/posts/add">Posts <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Users</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      [ ADMIN ZONE ]
+      <button class="btn btn-success mr-1 ml-2" (click)="onMinimize()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>
+      <button class="btn btn-warning mr-1" (click)="onMaximize()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>
+      <button class="btn btn-danger" id="closeApp" (click)="onClose()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>
+    </span>
+  </div>
+</nav>

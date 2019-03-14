@@ -78,7 +78,7 @@ module.exports = "button,\nul.navbar-nav,\n.navbar-brand {\n    -webkit-app-regi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\"  style=\"-webkit-app-region: drag\">\n  <a class=\"navbar-brand\" href=\"#\" (click)=\"display = !display\">BlogNotes CRUD</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"/api/posts\">Home</a>\n      </li>\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"/posts/add\">Posts <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Users</a>\n      </li>\n    </ul>\n    <span class=\"navbar-text\">\n      [ ADMIN ZONE ]\n      <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n    </span>\n  </div>\n</nav>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <p-sidebar [(visible)]=\"display\" [showCloseIcon]=\"false\">\n    <hr />\n    <div *ngFor=\"let cat of categoryTypes\">\n      <h5>{{cat.name}}</h5>\n      <hr />\n    </div>\n  </p-sidebar>\n  <div class=\"row\">\n          <div *ngFor=\"let post of list\" class=\"col-md-6 p-4\">\n              <div class=\"card\">\n                  <div class=\"card-header text-center\">\n                      <a href=\"/posts/{{post.id}}\" target=\"_blank\">\n                          <h4 class=\"card-title\">\n                              {{post.title}}\n                          </h4>\n                      </a>\n                  </div>\n                  <div class=\"card-body\">\n                      <p class=\"m-2\">\n                          {{post.body}}\n                      </p>\n                  </div>\n                  <div class=\"card-footer\">\n                      <small><b>Created: </b>{{post.createdAt}}</small>\n                      <br />\n                      <small><b>Updated:</b>{{post.updatedAt}}</small>\n                  </div>\n                  <div class=\"card-footer text-right\">\n                      <a class=\"btn btn-danger\" href=\"/posts/delete/{{post.id}}\">\n                          Delete Post\n                      </a>\n                      <a class=\"btn btn-secondary\" href=\"/posts/edit/{{post.id}}\">Edit</a>\n                  </div>\n              </div>\n          </div>\n      <div class=\"col-md-6 mx-auto mt-4\" *ngIf=\"list.length === 0\">\n          <div class=\"card p-4\">\n              <div class=\"card-body text-center\">\n                  <p>There are no posts saved yed.</p>\n                  <a href=\"/posts/add\">Create One!</a>\n              </div>\n          </div>\n      </div>\n  </div>\n</div>\n\n"
+module.exports = "<app-header></app-header>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <div class=\"row\">\n    \n      <div *ngFor=\"let post of list\" class=\"col-md-6 p-4\">\n          <div class=\"card\">\n              <div class=\"card-header text-center\">\n                  <a href=\"/posts/{{post.id}}\" target=\"_blank\">\n                      <h4 class=\"card-title\">\n                          {{post.title}}\n                      </h4>\n                  </a>\n              </div>\n              <div class=\"card-body\">\n                  <p class=\"m-2\">\n                      {{post.body}}\n                  </p>\n              </div>\n              <div class=\"card-footer\">\n                  <small><b>Created: </b>{{post.createdAt}}</small>\n                  <br />\n                  <small><b>Updated:</b>{{post.updatedAt}}</small>\n              </div>\n              <div class=\"card-footer text-right\">\n                  <a class=\"btn btn-danger\" href=\"/posts/delete/{{post.id}}\">\n                      Delete Post\n                  </a>\n                  <a class=\"btn btn-secondary\" href=\"/posts/edit/{{post.id}}\">Edit</a>\n              </div>\n          </div>\n      </div>\n      <div class=\"col-md-6 mx-auto mt-4\" *ngIf=\"list.length === 0\">\n          <div class=\"card p-4\">\n              <div class=\"card-body text-center\">\n                  <p>There are no posts saved yed.</p>\n                  <a href=\"/posts/add\">Create One!</a>\n              </div>\n          </div>\n      </div>\n\n\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -109,8 +109,6 @@ var AppComponent = /** @class */ (function () {
         this.title = 'my app';
         this.ipc = electron.ipcRenderer;
         this.list = [];
-        this.categoryTypes = [];
-        this.display = false;
     }
     AppComponent.prototype.ngOnInit = function () {
         var me = this;
@@ -120,24 +118,6 @@ var AppComponent = /** @class */ (function () {
             me.list = result;
             me.ref.detectChanges();
         });
-        me.ipc.send("catGetCategoryTypes");
-        me.ipc.on("catGetCategoryTypesResultSent", function (evt, result) {
-            console.log("catGetCategoryTypes", result);
-            me.categoryTypes = result;
-            me.ref.detectChanges();
-        });
-    };
-    AppComponent.prototype.onClose = function () {
-        var me = this;
-        me.ipc.send('close-app');
-    };
-    AppComponent.prototype.onMaximize = function () {
-        var me = this;
-        me.ipc.send('maximize-app');
-    };
-    AppComponent.prototype.onMinimize = function () {
-        var me = this;
-        me.ipc.send('minimize-app');
     };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -169,8 +149,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primeng/sidebar */ "./node_modules/primeng/sidebar.js");
-/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primeng_sidebar__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shared/shared.module */ "./src/app/shared/shared.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -195,13 +174,209 @@ var AppModule = /** @class */ (function () {
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__["BrowserAnimationsModule"],
-                primeng_sidebar__WEBPACK_IMPORTED_MODULE_5__["SidebarModule"]
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__["SharedModule"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/header/header.component.css":
+/*!***************************************************************!*\
+  !*** ./src/app/shared/components/header/header.component.css ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/header/header.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/shared/components/header/header.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\"  style=\"-webkit-app-region: drag\">\n  <a class=\"navbar-brand\" href=\"#\">BlogNotes CRUD</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"/api/posts\">Home</a>\n      </li>\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"/posts/add\">Posts <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Users</a>\n      </li>\n    </ul>\n    <span class=\"navbar-text\">\n      [ ADMIN ZONE ]\n      <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n    </span>\n  </div>\n</nav>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/header/header.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/shared/components/header/header.component.ts ***!
+  \**************************************************************/
+/*! exports provided: HeaderComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderComponent", function() { return HeaderComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var HeaderComponent = /** @class */ (function () {
+    function HeaderComponent() {
+        this.ipc = electron.ipcRenderer;
+    }
+    HeaderComponent.prototype.ngOnInit = function () { };
+    HeaderComponent.prototype.onClose = function () {
+        var me = this;
+        me.ipc.send('close-app');
+    };
+    HeaderComponent.prototype.onMaximize = function () {
+        var me = this;
+        me.ipc.send('maximize-app');
+    };
+    HeaderComponent.prototype.onMinimize = function () {
+        var me = this;
+        me.ipc.send('minimize-app');
+    };
+    HeaderComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-header',
+            template: __webpack_require__(/*! ./header.component.html */ "./src/app/shared/components/header/header.component.html"),
+            styles: [__webpack_require__(/*! ./header.component.css */ "./src/app/shared/components/header/header.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/sidebar/sidebar.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/shared/components/sidebar/sidebar.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/sidebar/sidebar.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/shared/components/sidebar/sidebar.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p-sidebar [(visible)]=\"display\" [showCloseIcon]=\"false\">\n  <i class=\"fa fa-hamburguer\" (click)=\"display = !display\"></i>\n  <hr />\n  <div *ngFor=\"let cat of categoryTypes\">\n    <h5>{{cat.name}}</h5>\n    <hr />\n  </div>\n</p-sidebar>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/sidebar/sidebar.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/shared/components/sidebar/sidebar.component.ts ***!
+  \****************************************************************/
+/*! exports provided: SidebarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SidebarComponent", function() { return SidebarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SidebarComponent = /** @class */ (function () {
+    function SidebarComponent(ref) {
+        this.ref = ref;
+        this.ipc = electron.ipcRenderer;
+        this.categoryTypes = [];
+        this.display = false;
+    }
+    SidebarComponent.prototype.ngOnInit = function () {
+        var me = this;
+        me.ipc.send("catGetCategoryTypes");
+        me.ipc.on("catGetCategoryTypesResultSent", function (evt, result) {
+            console.log("catGetCategoryTypes", result);
+            me.categoryTypes = result;
+            me.ref.detectChanges();
+        });
+    };
+    SidebarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-sidebar',
+            template: __webpack_require__(/*! ./sidebar.component.html */ "./src/app/shared/components/sidebar/sidebar.component.html"),
+            styles: [__webpack_require__(/*! ./sidebar.component.css */ "./src/app/shared/components/sidebar/sidebar.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]])
+    ], SidebarComponent);
+    return SidebarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/shared.module.ts":
+/*!*****************************************!*\
+  !*** ./src/app/shared/shared.module.ts ***!
+  \*****************************************/
+/*! exports provided: SharedModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SharedModule", function() { return SharedModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _components_header_header_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/header/header.component */ "./src/app/shared/components/header/header.component.ts");
+/* harmony import */ var _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/sidebar/sidebar.component */ "./src/app/shared/components/sidebar/sidebar.component.ts");
+/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primeng/sidebar */ "./node_modules/primeng/sidebar.js");
+/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var SharedModule = /** @class */ (function () {
+    function SharedModule() {
+    }
+    SharedModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__["SidebarModule"]
+            ],
+            declarations: [_components_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SidebarComponent"]],
+            exports: [_components_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SidebarComponent"]]
+        })
+    ], SharedModule);
+    return SharedModule;
 }());
 
 
@@ -268,7 +443,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/everis/sites/blognotes/Front/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/src/main.ts */"./src/main.ts");
 
 
 /***/ })

@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {SidebarModule} from 'primeng/sidebar';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -14,7 +14,7 @@ import {SidebarModule} from 'primeng/sidebar';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SidebarModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
