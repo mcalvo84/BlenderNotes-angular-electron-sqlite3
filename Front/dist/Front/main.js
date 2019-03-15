@@ -67,7 +67,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "button,\nul.navbar-nav,\n.navbar-brand {\n    -webkit-app-region: no-drag;\n}\n"
+module.exports = ""
 
 /***/ }),
 
@@ -194,7 +194,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "button,\nul.navbar-nav,\n.navbar-brand {\n    -webkit-app-region: no-drag;\n}\n"
 
 /***/ }),
 
@@ -269,7 +269,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ":host >>> .ui-tabview-left > .ui-tabview-nav {\n    width: 40px;\n}\n\n:host >>> .ui-tabview-left>.ui-tabview-panels {\n    width: calc(100% - 41px);;\n    height: calc(100vh - 70px);\n}\n\n:host >>> .ui-tabview .ui-tabview-panels {\n    background-color: #3f3f3f;\n    border: none;\n    color: #eee;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active {\n    background-color: #3f3f3f;\n    border: 1px solid #3f3f3f;\n    position: relative;\n    left: 5px;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li:hover {\n    border: 1px solid #3f3f3f;\n    background-color: #3f3f3f;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {\n    border: 1px solid #3f3f3f;\n    background-color: #3f3f3f;\n}\n"
 
 /***/ }),
 
@@ -280,7 +280,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p-sidebar [(visible)]=\"display\" [showCloseIcon]=\"false\">\n  <i class=\"fa fa-hamburguer\" (click)=\"display = !display\"></i>\n  <hr />\n  <div *ngFor=\"let cat of categoryTypes\">\n    <h5>{{cat.name}}</h5>\n    <hr />\n  </div>\n</p-sidebar>"
+module.exports = "<p-sidebar [(visible)]=\"display\" [showCloseIcon]=\"false\">\n\n  <p-tabView orientation=\"left\" [activeIndex]=\"index\" (onChange)=\"handleChange($event)\">\n    <p-tabPanel \n    [header]=\"\" \n    *ngFor=\"let item of categoryTypes; let i = index\" \n    leftIcon=\"fa fa-check\" \n    [selected]=\"i == index\">\n        <h5>{{item.name}}</h5>\n        <hr style=\"border-color: #aaa;\" />\n        <span *ngFor=\"let c of categoriesType[i+1]\">\n          <button class=\"btn btn-sm btn-warning m-1\" style=\"font-size: 0.9em;\">\n            {{c.name}}\n          </button>\n        </span>\n    </p-tabPanel>\n  </p-tabView>\n\n</p-sidebar>"
 
 /***/ }),
 
@@ -310,7 +310,9 @@ var SidebarComponent = /** @class */ (function () {
         this.ref = ref;
         this.ipc = electron.ipcRenderer;
         this.categoryTypes = [];
+        this.categoriesType = {};
         this.display = false;
+        this.index = 0;
     }
     SidebarComponent.prototype.ngOnInit = function () {
         var me = this;
@@ -320,6 +322,29 @@ var SidebarComponent = /** @class */ (function () {
             me.categoryTypes = result;
             me.ref.detectChanges();
         });
+        me.ipc.send("catGetCategoriesByType", 1);
+        me.ipc.on("catGetCategoriesByTypeResultSent", function (evt, result) {
+            console.log("catGetCategoriesByType", result);
+            me.categoriesType = result;
+            console.log(result);
+            me.ref.detectChanges();
+        });
+        me.ipc.send("catGetCategories", 1);
+        me.ipc.on("catGetCategoriesResultSent", function (evt, result) {
+            result.map(function (item) {
+                if (!me.categoriesType[item.TagTypeId]) {
+                    me.categoriesType[item.TagTypeId] = [];
+                }
+                me.categoriesType[item.TagTypeId].push(item);
+            });
+            console.log(me.categoriesType);
+            me.ref.detectChanges();
+        });
+    };
+    SidebarComponent.prototype.handleChange = function (e) {
+        var me = this;
+        me.index = e.index;
+        me.ref.detectChanges();
     };
     SidebarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -352,12 +377,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/sidebar/sidebar.component */ "./src/app/shared/components/sidebar/sidebar.component.ts");
 /* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primeng/sidebar */ "./node_modules/primeng/sidebar.js");
 /* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var primeng_tabview__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primeng/tabview */ "./node_modules/primeng/tabview.js");
+/* harmony import */ var primeng_tabview__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primeng_tabview__WEBPACK_IMPORTED_MODULE_5__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -370,7 +398,8 @@ var SharedModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__["SidebarModule"]
+                primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__["SidebarModule"],
+                primeng_tabview__WEBPACK_IMPORTED_MODULE_5__["TabViewModule"]
             ],
             declarations: [_components_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SidebarComponent"]],
             exports: [_components_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SidebarComponent"]]

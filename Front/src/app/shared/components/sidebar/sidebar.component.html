@@ -1,8 +1,19 @@
 <p-sidebar [(visible)]="display" [showCloseIcon]="false">
-  <i class="fa fa-hamburguer" (click)="display = !display"></i>
-  <hr />
-  <div *ngFor="let cat of categoryTypes">
-    <h5>{{cat.name}}</h5>
-    <hr />
-  </div>
+
+  <p-tabView orientation="left" [activeIndex]="index" (onChange)="handleChange($event)">
+    <p-tabPanel 
+    [header]="" 
+    *ngFor="let item of categoryTypes; let i = index" 
+    leftIcon="fa fa-check" 
+    [selected]="i == index">
+        <h5>{{item.name}}</h5>
+        <hr style="border-color: #aaa;" />
+        <span *ngFor="let c of categoriesType[i+1]">
+          <button class="btn btn-sm btn-warning m-1" style="font-size: 0.9em;">
+            {{c.name}}
+          </button>
+        </span>
+    </p-tabPanel>
+  </p-tabView>
+
 </p-sidebar>

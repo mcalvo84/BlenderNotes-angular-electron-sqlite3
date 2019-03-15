@@ -1,0 +1,42 @@
+:host >>> .ui-tabview-left > .ui-tabview-nav {
+    width: 40px;
+}
+
+:host >>> .ui-tabview-left>.ui-tabview-panels {
+    width: calc(100% - 41px);;
+    height: calc(100vh - 70px);
+}
+
+:host >>> .ui-tabview .ui-tabview-panels {
+    background-color: #3f3f3f;
+    border: none;
+    color: #eee;
+}
+
+
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active, 
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active, 
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active, 
+:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active {
+    background-color: #3f3f3f;
+    border: 1px solid #3f3f3f;
+    position: relative;
+    left: 5px;
+}
+
+
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li:hover, 
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover, 
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover, 
+:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li:hover {
+    border: 1px solid #3f3f3f;
+    background-color: #3f3f3f;
+}
+
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, 
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, 
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, 
+:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {
+    border: 1px solid #3f3f3f;
+    background-color: #3f3f3f;
+}
