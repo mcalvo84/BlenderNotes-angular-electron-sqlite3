@@ -24,4 +24,14 @@ export class AppComponent {
     });
   }
 
+  onClickPost(id) {
+    let me = this;
+    me.ipc.send("postsGetPostById", id)
+    me.ipc.on("postsGetPostByIdResultSent", function (evt, result) {
+      console.log("postsGetPostByIdResultSent", result)
+      me.list = result;
+      me.ref.detectChanges()
+    });
+  }
+
 }

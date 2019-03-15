@@ -78,7 +78,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <div class=\"row\">\n    \n      <div *ngFor=\"let post of list\" class=\"col-md-6 p-4\">\n          <div class=\"card\">\n              <div class=\"card-header text-center\">\n                  <a href=\"/posts/{{post.id}}\" target=\"_blank\">\n                      <h4 class=\"card-title\">\n                          {{post.title}}\n                      </h4>\n                  </a>\n              </div>\n              <div class=\"card-body\">\n                  <p class=\"m-2\">\n                      {{post.body}}\n                  </p>\n              </div>\n              <div class=\"card-footer\">\n                  <small><b>Created: </b>{{post.createdAt}}</small>\n                  <br />\n                  <small><b>Updated:</b>{{post.updatedAt}}</small>\n              </div>\n              <div class=\"card-footer text-right\">\n                  <a class=\"btn btn-danger\" href=\"/posts/delete/{{post.id}}\">\n                      Delete Post\n                  </a>\n                  <a class=\"btn btn-secondary\" href=\"/posts/edit/{{post.id}}\">Edit</a>\n              </div>\n          </div>\n      </div>\n      <div class=\"col-md-6 mx-auto mt-4\" *ngIf=\"list.length === 0\">\n          <div class=\"card p-4\">\n              <div class=\"card-body text-center\">\n                  <p>There are no posts saved yed.</p>\n                  <a href=\"/posts/add\">Create One!</a>\n              </div>\n          </div>\n      </div>\n\n\n  </div>\n</div>\n\n"
+module.exports = "<app-header></app-header>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <div class=\"row\">\n\n      <div *ngFor=\"let post of list\" class=\"col-md-6 p-4\">\n          <div class=\"card\">\n              <div class=\"card-header text-center\">\n                  <!-- <a href=\"/posts/{{post.id}}\" target=\"_blank\"> -->\n                      <h4 class=\"card-title\" (click)=\"onClickPost(post.id)\">\n                          {{post.title}}\n                      </h4>\n                  <!-- </a> -->\n              </div>\n              <div class=\"card-body\">\n                  <p class=\"m-2\">\n                      {{post.body}}\n                  </p>\n              </div>\n              <div class=\"card-footer\">\n                  <small><b>Created: </b>{{post.createdAt}}</small>\n                  <br />\n                  <small><b>Updated:</b>{{post.updatedAt}}</small>\n              </div>\n              <div class=\"card-footer text-right\">\n                  <a class=\"btn btn-danger\" href=\"/posts/delete/{{post.id}}\">\n                      Delete Post\n                  </a>\n                  <a class=\"btn btn-secondary\" href=\"/posts/edit/{{post.id}}\">Edit</a>\n              </div>\n          </div>\n      </div>\n      <div class=\"col-md-6 mx-auto mt-4\" *ngIf=\"list.length === 0\">\n          <div class=\"card p-4\">\n              <div class=\"card-body text-center\">\n                  <p>There are no posts saved yed.</p>\n                  <a href=\"/posts/add\">Create One!</a>\n              </div>\n          </div>\n      </div>\n\n      <hr />\n\n\n\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -115,6 +115,15 @@ var AppComponent = /** @class */ (function () {
         me.ipc.send("postsGetPosts");
         me.ipc.on("postsGetPostsResultSent", function (evt, result) {
             console.log("postsGetPostsResultSent1", result);
+            me.list = result;
+            me.ref.detectChanges();
+        });
+    };
+    AppComponent.prototype.onClickPost = function (id) {
+        var me = this;
+        me.ipc.send("postsGetPostById", id);
+        me.ipc.on("postsGetPostByIdResultSent", function (evt, result) {
+            console.log("postsGetPostByIdResultSent", result);
             me.list = result;
             me.ref.detectChanges();
         });
@@ -472,7 +481,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/everis/sites/blognotes/Front/src/main.ts */"./src/main.ts");
 
 
 /***/ })
