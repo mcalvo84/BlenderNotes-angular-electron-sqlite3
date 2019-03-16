@@ -4,7 +4,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
+    <div class="nav-bar mr-auto">
+        <p-menubar [model]="items" [autoDisplay]="false"></p-menubar>
+    </div>
+    <!-- <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="/api/posts">Home</a>
       </li>
@@ -14,7 +17,10 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Users</a>
       </li>
-    </ul>
+      <li class="nav-item">
+        <p-dropdown [options]="blenderLinks" [(ngModel)]="selectedBlenderLick" placeholder="Blender links" optionLabel="name" [showClear]="true"></p-dropdown>
+      </li>
+    </ul> -->
     <span class="navbar-text">
       [ ADMIN ZONE ]
       <button class="btn btn-success mr-1 ml-2" (click)="onMinimize()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>

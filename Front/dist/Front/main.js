@@ -5,21 +5,37 @@
   !*** ./src/$$_lazy_route_resource lazy namespace object ***!
   \**********************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function webpackEmptyAsyncContext(req) {
-	// Here Promise.resolve().then() is used instead of new Promise() to prevent
-	// uncaught exception popping up in devtools
-	return Promise.resolve().then(function() {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
+var map = {
+	"./features/features.module": [
+		"./src/app/features/features.module.ts",
+		"features-features-module"
+	],
+	"./home/home.module": [
+		"./src/app/features/home/home.module.ts",
+		"home-home-module"
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];
+	if(!ids) {
+		return Promise.resolve().then(function() {
+			var e = new Error("Cannot find module '" + req + "'");
+			e.code = 'MODULE_NOT_FOUND';
+			throw e;
+		});
+	}
+	return __webpack_require__.e(ids[1]).then(function() {
+		var module = __webpack_require__(ids[0]);
+		return module;
 	});
 }
-webpackEmptyAsyncContext.keys = function() { return []; };
-webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
-module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 
@@ -35,6 +51,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_error_error500_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared/error/error500.component */ "./src/app/shared/error/error500.component.ts");
+/* harmony import */ var _shared_error_error404_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared/error/error404.component */ "./src/app/shared/error/error404.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -43,14 +61,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 };
 
 
-var routes = [];
+
+
+var routes = [
+    { path: '', loadChildren: './features/features.module#FeaturesModule' },
+    { path: 'error', component: _shared_error_error500_component__WEBPACK_IMPORTED_MODULE_2__["Error500Component"] },
+    { path: '**', component: _shared_error_error404_component__WEBPACK_IMPORTED_MODULE_3__["Error404Component"] }
+];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forRoot(routes)],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
@@ -78,7 +101,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <div class=\"row\">\n\n      <div *ngFor=\"let post of list\" class=\"col-md-6 p-4\">\n          <div class=\"card\">\n              <div class=\"card-header text-center\">\n                  <!-- <a href=\"/posts/{{post.id}}\" target=\"_blank\"> -->\n                      <h4 class=\"card-title\" (click)=\"onClickPost(post.id)\">\n                          {{post.title}}\n                      </h4>\n                  <!-- </a> -->\n              </div>\n              <div class=\"card-body\">\n                  <p class=\"m-2\">\n                      {{post.body}}\n                  </p>\n              </div>\n              <div class=\"card-footer\">\n                  <small><b>Created: </b>{{post.createdAt}}</small>\n                  <br />\n                  <small><b>Updated:</b>{{post.updatedAt}}</small>\n              </div>\n              <div class=\"card-footer text-right\">\n                  <a class=\"btn btn-danger\" href=\"/posts/delete/{{post.id}}\">\n                      Delete Post\n                  </a>\n                  <a class=\"btn btn-secondary\" href=\"/posts/edit/{{post.id}}\">Edit</a>\n              </div>\n          </div>\n      </div>\n      <div class=\"col-md-6 mx-auto mt-4\" *ngIf=\"list.length === 0\">\n          <div class=\"card p-4\">\n              <div class=\"card-body text-center\">\n                  <p>There are no posts saved yed.</p>\n                  <a href=\"/posts/add\">Create One!</a>\n              </div>\n          </div>\n      </div>\n\n      <hr />\n\n\n\n  </div>\n</div>\n\n"
+module.exports = "<app-header></app-header>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -154,11 +177,14 @@ var AppComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _core_core_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/core.module */ "./src/app/core/core.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -171,25 +197,70 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__["BrowserAnimationsModule"],
-                _shared_shared_module__WEBPACK_IMPORTED_MODULE_5__["SharedModule"]
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__["BrowserAnimationsModule"],
+                _core_core_module__WEBPACK_IMPORTED_MODULE_8__["CoreModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/core.module.ts":
+/*!*************************************!*\
+  !*** ./src/app/core/core.module.ts ***!
+  \*************************************/
+/*! exports provided: CoreModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CoreModule", function() { return CoreModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var CoreModule = /** @class */ (function () {
+    function CoreModule() {
+    }
+    CoreModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            imports: [
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_1__["SharedModule"]
+            ],
+            exports: [_shared_shared_module__WEBPACK_IMPORTED_MODULE_1__["SharedModule"]],
+            declarations: []
+        })
+    ], CoreModule);
+    return CoreModule;
 }());
 
 
@@ -203,7 +274,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "button,\nul.navbar-nav,\n.navbar-brand {\n    -webkit-app-region: no-drag;\n}\n"
+module.exports = "button,\nul.navbar-nav,\n.navbar-brand,\ndiv.nav-bar {\n    -webkit-app-region: no-drag;\n}\n"
 
 /***/ }),
 
@@ -214,7 +285,7 @@ module.exports = "button,\nul.navbar-nav,\n.navbar-brand {\n    -webkit-app-regi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\"  style=\"-webkit-app-region: drag\">\n  <a class=\"navbar-brand\" href=\"#\">BlogNotes CRUD</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"/api/posts\">Home</a>\n      </li>\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"/posts/add\">Posts <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Users</a>\n      </li>\n    </ul>\n    <span class=\"navbar-text\">\n      [ ADMIN ZONE ]\n      <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n    </span>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\"  style=\"-webkit-app-region: drag\">\n  <a class=\"navbar-brand\" href=\"#\">BlogNotes CRUD</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n    <div class=\"nav-bar mr-auto\">\n        <p-menubar [model]=\"items\" [autoDisplay]=\"false\"></p-menubar>\n    </div>\n    <!-- <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"/api/posts\">Home</a>\n      </li>\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"/posts/add\">Posts <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Users</a>\n      </li>\n      <li class=\"nav-item\">\n        <p-dropdown [options]=\"blenderLinks\" [(ngModel)]=\"selectedBlenderLick\" placeholder=\"Blender links\" optionLabel=\"name\" [showClear]=\"true\"></p-dropdown>\n      </li>\n    </ul> -->\n    <span class=\"navbar-text\">\n      [ ADMIN ZONE ]\n      <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n    </span>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -242,8 +313,94 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var HeaderComponent = /** @class */ (function () {
     function HeaderComponent() {
         this.ipc = electron.ipcRenderer;
+        this.blenderLinks = [];
     }
-    HeaderComponent.prototype.ngOnInit = function () { };
+    HeaderComponent.prototype.ngOnInit = function () {
+        this.blenderLinks = [
+            { name: 'Blender Hoy', code: 'NY' },
+            { name: 'Dev Talk', code: 'RM' },
+            { name: 'Right Click', code: 'LDN' },
+            { name: 'Blender Cloud', code: 'IST' },
+            { name: 'Blender.org', code: 'PRS' }
+        ];
+        this.items = [
+            {
+                label: 'File',
+                icon: 'pi pi-fw pi-file',
+                items: [{
+                        label: 'New',
+                        icon: 'pi pi-fw pi-plus',
+                        items: [
+                            { label: 'Project' },
+                            { label: 'Other' },
+                        ]
+                    },
+                    { label: 'Open' },
+                    { separator: true },
+                    { label: 'Quit' }
+                ]
+            },
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                items: [
+                    { label: 'Delete', icon: 'pi pi-fw pi-trash' },
+                    { label: 'Refresh', icon: 'pi pi-fw pi-refresh' }
+                ]
+            },
+            {
+                label: 'Help',
+                icon: 'pi pi-fw pi-question',
+                items: [
+                    {
+                        label: 'Contents'
+                    },
+                    {
+                        label: 'Search',
+                        icon: 'pi pi-fw pi-search',
+                        items: [
+                            {
+                                label: 'Text',
+                                items: [
+                                    {
+                                        label: 'Workspace'
+                                    }
+                                ]
+                            },
+                            {
+                                label: 'File'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                label: 'Actions',
+                icon: 'pi pi-fw pi-cog',
+                items: [
+                    {
+                        label: 'Edit',
+                        icon: 'pi pi-fw pi-pencil',
+                        items: [
+                            { label: 'Save', icon: 'pi pi-fw pi-save' },
+                            { label: 'Update', icon: 'pi pi-fw pi-save' },
+                        ]
+                    },
+                    {
+                        label: 'Other',
+                        icon: 'pi pi-fw pi-tags',
+                        items: [
+                            { label: 'Delete', icon: 'pi pi-fw pi-minus' }
+                        ]
+                    }
+                ]
+            },
+            { separator: true },
+            {
+                label: 'Quit', icon: 'pi pi-fw pi-times'
+            }
+        ];
+    };
     HeaderComponent.prototype.onClose = function () {
         var me = this;
         me.ipc.send('close-app');
@@ -370,6 +527,533 @@ var SidebarComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/error/error404.component.html":
+/*!******************************************************!*\
+  !*** ./src/app/shared/error/error404.component.html ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ocs-error ux-u-text-align-center\">\n    <img src=\"/assets/img/decorative-image-error404.svg\" alt=\"\" style=\"border-radius: 100%;\">\n    <br/>\n    <div class=\"ocs-error-title text-center\">\n        <h1>{{ 'screen.2999.error404.title' }}</h1>\n    </div>\n    <hr />\n    <div class=\"ocs-error-subtitle text-center\">\n        <h4>{{ 'screen.2999.error404.subtitle' }}</h4>\n    </div>\n    <div class=\"ocs-error-info text-center\">\n        <p>{{ 'screen.2999.error404.info' }}</p>\n    </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/error/error404.component.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/error/error404.component.ts ***!
+  \****************************************************/
+/*! exports provided: Error404Component */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Error404Component", function() { return Error404Component; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var Error404Component = /** @class */ (function () {
+    function Error404Component() {
+    }
+    Error404Component.prototype.ngOnInit = function () { };
+    Error404Component = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            template: __webpack_require__(/*! ./error404.component.html */ "./src/app/shared/error/error404.component.html")
+        }),
+        __metadata("design:paramtypes", [])
+    ], Error404Component);
+    return Error404Component;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/error/error500.component.html":
+/*!******************************************************!*\
+  !*** ./src/app/shared/error/error500.component.html ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"ocs-error ux-u-text-align-center\">\n    <img src=\"/assets/img/decorative-image-error500.svg\" alt=\"\" style=\"border-radius: 100%;\">\n    <br/>\n    <div class=\"ocs-error-title text-center\">\n        <h1>{{ 'screen.2999.error500.title' }}</h1>\n    </div>\n    <hr />\n    <div class=\"ocs-error-subtitle text-center\">\n        <h4>{{ 'screen.2999.error500.subtitle' }}</h4>\n    </div>\n    <div class=\"ocs-error-info text-center\">\n        <p>{{ 'screen.2999.error500.info' }}</p>\n    </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/error/error500.component.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/error/error500.component.ts ***!
+  \****************************************************/
+/*! exports provided: Error500Component */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Error500Component", function() { return Error500Component; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var Error500Component = /** @class */ (function () {
+    function Error500Component() {
+    }
+    Error500Component.prototype.ngOnInit = function () { };
+    Error500Component = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            template: __webpack_require__(/*! ./error500.component.html */ "./src/app/shared/error/error500.component.html")
+        }),
+        __metadata("design:paramtypes", [])
+    ], Error500Component);
+    return Error500Component;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/array.pipe.ts":
+/*!********************************************!*\
+  !*** ./src/app/shared/pipes/array.pipe.ts ***!
+  \********************************************/
+/*! exports provided: FilterPipe, SortByPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterPipe", function() { return FilterPipe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SortByPipe", function() { return SortByPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/**
+ * USAGE:
+ * <tr *ngFor="let song of songs | appFilter : term | appSortBy: 'likes'">
+ * songs = [
+ *    {
+ *      title: 'Song 1',
+ *      likes: 25
+ *    },
+ *    {
+ *      title: 'Song 5',
+ *      likes: 50
+ *    },
+ *    {
+ *      title: 'Song 10',
+ *      likes: 10
+ *    }
+ *  ]
+ */
+var FilterPipe = /** @class */ (function () {
+    function FilterPipe() {
+    }
+    FilterPipe.prototype.transform = function (items, term) {
+        return term
+            ? items.filter(function (item) { return item.title.indexOf(term) !== -1; })
+            : items;
+    };
+    FilterPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appFilter',
+            pure: false
+        })
+    ], FilterPipe);
+    return FilterPipe;
+}());
+
+var SortByPipe = /** @class */ (function () {
+    function SortByPipe() {
+    }
+    SortByPipe.prototype.transform = function (items, sortedBy) {
+        return items.sort(function (a, b) { return b[sortedBy] - a[sortedBy]; });
+    };
+    SortByPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appSortBy'
+        })
+    ], SortByPipe);
+    return SortByPipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/camel-to-snake.ts":
+/*!************************************************!*\
+  !*** ./src/app/shared/pipes/camel-to-snake.ts ***!
+  \************************************************/
+/*! exports provided: CamelToSnakePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CamelToSnakePipe", function() { return CamelToSnakePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/*
+ * Convert camelCase into snake-case.
+ */
+var CamelToSnakePipe = /** @class */ (function () {
+    function CamelToSnakePipe() {
+    }
+    CamelToSnakePipe.prototype.transform = function (value, snake) {
+        if (snake === void 0) { snake = '-'; }
+        var upperChars = value.match(/([A-Z])/g);
+        if (!upperChars) {
+            return value;
+        }
+        var str = value.toString();
+        for (var i = 0, n = upperChars.length; i < n; i++) {
+            str = str.replace(new RegExp(upperChars[i]), snake + upperChars[i].toLowerCase());
+        }
+        if (str.slice(0, 1) === snake) {
+            str = str.slice(1);
+        }
+        return str;
+    };
+    CamelToSnakePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appCamelToSnake'
+        })
+    ], CamelToSnakePipe);
+    return CamelToSnakePipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/default-image.pipe.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/pipes/default-image.pipe.ts ***!
+  \****************************************************/
+/*! exports provided: DefaultImagePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultImagePipe", function() { return DefaultImagePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/**
+ * USAGE:
+ * <img [src]="imageUrl | appDefaultImage:'http://url-to-img/128.jpg':true"/>
+ */
+var DefaultImagePipe = /** @class */ (function () {
+    function DefaultImagePipe() {
+    }
+    DefaultImagePipe.prototype.transform = function (value, fallback, forceHttps) {
+        if (forceHttps === void 0) { forceHttps = false; }
+        var image = '';
+        if (value) {
+            image = value;
+        }
+        else {
+            image = fallback;
+        }
+        if (forceHttps) {
+            if (image.indexOf('https') === -1) {
+                image = image.replace('http', 'https');
+            }
+        }
+        return image;
+    };
+    DefaultImagePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appDefaultImage'
+        })
+    ], DefaultImagePipe);
+    return DefaultImagePipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/file-size.pipe.ts":
+/*!************************************************!*\
+  !*** ./src/app/shared/pipes/file-size.pipe.ts ***!
+  \************************************************/
+/*! exports provided: FileSizePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileSizePipe", function() { return FileSizePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/*
+ * Convert bytes into largest possible unit.
+ * Takes an precision argument that defaults to 2.
+ * Usage:
+ *   bytes | appFileSize:precision
+ * Example:
+ *   {{ 1024 |  fileSize}}
+ *   formats to: 1 KB
+ */
+var FileSizePipe = /** @class */ (function () {
+    function FileSizePipe() {
+        this.units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    }
+    FileSizePipe.prototype.transform = function (bytes, precision) {
+        if (bytes === void 0) { bytes = 0; }
+        if (precision === void 0) { precision = 2; }
+        if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) {
+            return '?';
+        }
+        var unit = 0;
+        while (bytes >= 1024) {
+            bytes /= 1024;
+            unit++;
+        }
+        return bytes.toFixed(+precision) + ' ' + this.units[unit];
+    };
+    FileSizePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appFileSize'
+        })
+    ], FileSizePipe);
+    return FileSizePipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/fix-url.ts":
+/*!*****************************************!*\
+  !*** ./src/app/shared/pipes/fix-url.ts ***!
+  \*****************************************/
+/*! exports provided: FixUrlPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FixUrlPipe", function() { return FixUrlPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+/*
+ * Convert camelCase into snake-case.
+ */
+var FixUrlPipe = /** @class */ (function () {
+    function FixUrlPipe() {
+    }
+    FixUrlPipe.prototype.transform = function (value) {
+        if (value.substring(0, 4).toLowerCase() === 'http') {
+            return value;
+        }
+        else {
+            return '//' + value;
+        }
+    };
+    FixUrlPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appFixUrl'
+        })
+    ], FixUrlPipe);
+    return FixUrlPipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/ordinal.pipe.ts":
+/*!**********************************************!*\
+  !*** ./src/app/shared/pipes/ordinal.pipe.ts ***!
+  \**********************************************/
+/*! exports provided: OrdinalPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrdinalPipe", function() { return OrdinalPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ordinals = ['th', 'st', 'nd', 'rd'];
+/*
+ * Append ordinal to number (e.g. "1st" position)
+ * Usage:
+ *   value | ordinal:keepNumber
+ * Example:
+ *   {{ 23 |  ordinal}}
+ *   formats to: '23rd'
+ * Example:
+ *   {{ 23 |  ordinal:false}}
+ *   formats to: 'rd'
+*/
+var OrdinalPipe = /** @class */ (function () {
+    function OrdinalPipe() {
+    }
+    OrdinalPipe.prototype.transform = function (n, keepNumber) {
+        if (keepNumber === void 0) { keepNumber = true; }
+        var v = n % 100;
+        return (keepNumber ? n : '') + (ordinals[(v - 20) % 10] || ordinals[v] || ordinals[0]);
+    };
+    OrdinalPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appOrdinal'
+        })
+    ], OrdinalPipe);
+    return OrdinalPipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/pipes.module.ts":
+/*!**********************************************!*\
+  !*** ./src/app/shared/pipes/pipes.module.ts ***!
+  \**********************************************/
+/*! exports provided: PipesModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PipesModule", function() { return PipesModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _file_size_pipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./file-size.pipe */ "./src/app/shared/pipes/file-size.pipe.ts");
+/* harmony import */ var _default_image_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./default-image.pipe */ "./src/app/shared/pipes/default-image.pipe.ts");
+/* harmony import */ var _ordinal_pipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ordinal.pipe */ "./src/app/shared/pipes/ordinal.pipe.ts");
+/* harmony import */ var _truncate_pipe__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./truncate.pipe */ "./src/app/shared/pipes/truncate.pipe.ts");
+/* harmony import */ var _array_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./array.pipe */ "./src/app/shared/pipes/array.pipe.ts");
+/* harmony import */ var _camel_to_snake__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./camel-to-snake */ "./src/app/shared/pipes/camel-to-snake.ts");
+/* harmony import */ var _fix_url__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./fix-url */ "./src/app/shared/pipes/fix-url.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+// PIPEs
+
+
+
+
+
+
+
+var PipesModule = /** @class */ (function () {
+    function PipesModule() {
+    }
+    PipesModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [
+                _file_size_pipe__WEBPACK_IMPORTED_MODULE_1__["FileSizePipe"],
+                _default_image_pipe__WEBPACK_IMPORTED_MODULE_2__["DefaultImagePipe"],
+                _ordinal_pipe__WEBPACK_IMPORTED_MODULE_3__["OrdinalPipe"],
+                _truncate_pipe__WEBPACK_IMPORTED_MODULE_4__["TruncatePipe"],
+                _array_pipe__WEBPACK_IMPORTED_MODULE_5__["FilterPipe"],
+                _array_pipe__WEBPACK_IMPORTED_MODULE_5__["SortByPipe"],
+                _camel_to_snake__WEBPACK_IMPORTED_MODULE_6__["CamelToSnakePipe"],
+                _fix_url__WEBPACK_IMPORTED_MODULE_7__["FixUrlPipe"]
+            ],
+            exports: [
+                _file_size_pipe__WEBPACK_IMPORTED_MODULE_1__["FileSizePipe"],
+                _default_image_pipe__WEBPACK_IMPORTED_MODULE_2__["DefaultImagePipe"],
+                _ordinal_pipe__WEBPACK_IMPORTED_MODULE_3__["OrdinalPipe"],
+                _truncate_pipe__WEBPACK_IMPORTED_MODULE_4__["TruncatePipe"],
+                _array_pipe__WEBPACK_IMPORTED_MODULE_5__["FilterPipe"],
+                _array_pipe__WEBPACK_IMPORTED_MODULE_5__["SortByPipe"],
+                _camel_to_snake__WEBPACK_IMPORTED_MODULE_6__["CamelToSnakePipe"],
+                _fix_url__WEBPACK_IMPORTED_MODULE_7__["FixUrlPipe"]
+            ],
+        })
+    ], PipesModule);
+    return PipesModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/truncate.pipe.ts":
+/*!***********************************************!*\
+  !*** ./src/app/shared/pipes/truncate.pipe.ts ***!
+  \***********************************************/
+/*! exports provided: TruncatePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TruncatePipe", function() { return TruncatePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var TruncatePipe = /** @class */ (function () {
+    function TruncatePipe() {
+    }
+    TruncatePipe.prototype.transform = function (value, limit) {
+        return value.length > +limit ? value.substring(0, +limit) + '...' : value;
+    };
+    TruncatePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'appTruncate'
+        })
+    ], TruncatePipe);
+    return TruncatePipe;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/shared.module.ts":
 /*!*****************************************!*\
   !*** ./src/app/shared/shared.module.ts ***!
@@ -382,18 +1066,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SharedModule", function() { return SharedModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _components_header_header_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/header/header.component */ "./src/app/shared/components/header/header.component.ts");
-/* harmony import */ var _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/sidebar/sidebar.component */ "./src/app/shared/components/sidebar/sidebar.component.ts");
-/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primeng/sidebar */ "./node_modules/primeng/sidebar.js");
-/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var primeng_tabview__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primeng/tabview */ "./node_modules/primeng/tabview.js");
-/* harmony import */ var primeng_tabview__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primeng_tabview__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _components_header_header_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/header/header.component */ "./src/app/shared/components/header/header.component.ts");
+/* harmony import */ var _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/sidebar/sidebar.component */ "./src/app/shared/components/sidebar/sidebar.component.ts");
+/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primeng/sidebar */ "./node_modules/primeng/sidebar.js");
+/* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(primeng_sidebar__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var primeng_tabview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primeng/tabview */ "./node_modules/primeng/tabview.js");
+/* harmony import */ var primeng_tabview__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(primeng_tabview__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var primeng_dropdown__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primeng/dropdown */ "./node_modules/primeng/dropdown.js");
+/* harmony import */ var primeng_dropdown__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(primeng_dropdown__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var primeng_menubar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primeng/menubar */ "./node_modules/primeng/menubar.js");
+/* harmony import */ var primeng_menubar__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(primeng_menubar__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _error_error404_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./error/error404.component */ "./src/app/shared/error/error404.component.ts");
+/* harmony import */ var _error_error500_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./error/error500.component */ "./src/app/shared/error/error500.component.ts");
+/* harmony import */ var _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pipes/pipes.module */ "./src/app/shared/pipes/pipes.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
+
+
 
 
 
@@ -407,11 +1105,24 @@ var SharedModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                primeng_sidebar__WEBPACK_IMPORTED_MODULE_4__["SidebarModule"],
-                primeng_tabview__WEBPACK_IMPORTED_MODULE_5__["TabViewModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
+                primeng_sidebar__WEBPACK_IMPORTED_MODULE_5__["SidebarModule"],
+                primeng_tabview__WEBPACK_IMPORTED_MODULE_6__["TabViewModule"],
+                primeng_dropdown__WEBPACK_IMPORTED_MODULE_7__["DropdownModule"],
+                primeng_menubar__WEBPACK_IMPORTED_MODULE_8__["MenubarModule"],
+                _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_11__["PipesModule"]
             ],
-            declarations: [_components_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SidebarComponent"]],
-            exports: [_components_header_header_component__WEBPACK_IMPORTED_MODULE_2__["HeaderComponent"], _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_3__["SidebarComponent"]]
+            declarations: [
+                _error_error404_component__WEBPACK_IMPORTED_MODULE_9__["Error404Component"],
+                _error_error500_component__WEBPACK_IMPORTED_MODULE_10__["Error500Component"],
+                _components_header_header_component__WEBPACK_IMPORTED_MODULE_3__["HeaderComponent"],
+                _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"]
+            ],
+            exports: [
+                _components_header_header_component__WEBPACK_IMPORTED_MODULE_3__["HeaderComponent"],
+                _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"],
+                _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_11__["PipesModule"]
+            ]
         })
     ], SharedModule);
     return SharedModule;
