@@ -4,3 +4,14 @@ ul.navbar-nav,
 div.nav-bar {
     -webkit-app-region: no-drag;
 }
+
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    border-bottom: 1px solid #eee;
+    padding: 0 16px !important;
+}
+
+.ui-menubar.ui-widget.ui-widget-content.ui-corner-all {
+    border: 0;
+    background: transparent;
+}

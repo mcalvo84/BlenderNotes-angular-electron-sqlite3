@@ -1,16 +1,21 @@
+.app-sidebar-fixed {
+    width: 300px;
+    float: left;
+}
+
 :host >>> .ui-tabview-left > .ui-tabview-nav {
-    width: 40px;
+    width: 30px;
 }
 
 :host >>> .ui-tabview-left>.ui-tabview-panels {
-    width: calc(100% - 41px);;
+    width: calc(100% - 30px);;
     height: calc(100vh - 70px);
 }
 
 :host >>> .ui-tabview .ui-tabview-panels {
-    background-color: #3f3f3f;
+    background-color: #ddd;
     border: none;
-    color: #eee;
+    color: #333;
 }
 
 
@@ -18,8 +23,8 @@
 :host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active, 
 :host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active, 
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active {
-    background-color: #3f3f3f;
-    border: 1px solid #3f3f3f;
+    background-color: #ddd;
+    border: 1px solid #ddd;
     position: relative;
     left: 5px;
 }
@@ -29,14 +34,21 @@
 :host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover, 
 :host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover, 
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li:hover {
-    border: 1px solid #3f3f3f;
-    background-color: #3f3f3f;
+    border: 1px solid #ddd;
+    background-color: #ddd;
+}
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li a, 
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li a, 
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li a, 
+:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li a {
+    padding: 0 0.28em 0.5em;
+    color: #333;
 }
 
 :host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, 
 :host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, 
 :host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, 
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {
-    border: 1px solid #3f3f3f;
-    background-color: #3f3f3f;
+    border: 1px solid #ddd;
+    background-color: #ddd;
 }

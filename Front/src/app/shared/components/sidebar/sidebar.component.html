@@ -1,5 +1,5 @@
-<p-sidebar [(visible)]="display" [showCloseIcon]="false">
-
+<!-- <p-sidebar [(visible)]="display" [showCloseIcon]="false"> -->
+<div class="app-sidebar-fixed">
   <p-tabView orientation="left" [activeIndex]="index" (onChange)="handleChange($event)">
     <p-tabPanel 
     [header]="" 
@@ -9,11 +9,13 @@
         <h5>{{item.name}}</h5>
         <hr style="border-color: #aaa;" />
         <span *ngFor="let c of categoriesType[i+1]">
-          <button class="btn btn-sm btn-warning m-1" style="font-size: 0.9em;">
+          <button #categoryitem class="btn btn-sm btn-secondary m-1" style="font-size: 0.9em;" >
             {{c.name}}
           </button>
         </span>
     </p-tabPanel>
   </p-tabView>
+</div>
+<!-- </p-sidebar> -->
 
-</p-sidebar>
+<p-contextMenu [target]="categoryitem" [model]="rightClick"></p-contextMenu>

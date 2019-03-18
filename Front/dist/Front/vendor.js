@@ -70745,6 +70745,305 @@ exports.SharedModule = SharedModule;
 
 /***/ }),
 
+/***/ "./node_modules/primeng/components/contextmenu/contextmenu.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/primeng/components/contextmenu/contextmenu.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var common_1 = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+var domhandler_1 = __webpack_require__(/*! ../dom/domhandler */ "./node_modules/primeng/components/dom/domhandler.js");
+var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var ContextMenuSub = /** @class */ (function () {
+    function ContextMenuSub(domHandler, contextMenu) {
+        this.domHandler = domHandler;
+        this.contextMenu = contextMenu;
+    }
+    ContextMenuSub.prototype.onItemMouseEnter = function (event, item, menuitem) {
+        if (menuitem.disabled) {
+            return;
+        }
+        if (this.hideTimeout) {
+            clearTimeout(this.hideTimeout);
+            this.hideTimeout = null;
+        }
+        this.activeItem = item;
+        var nextElement = item.children[0].nextElementSibling;
+        if (nextElement) {
+            var sublist = nextElement.children[0];
+            sublist.style.zIndex = ++domhandler_1.DomHandler.zindex;
+            this.position(sublist, item);
+        }
+    };
+    ContextMenuSub.prototype.onItemMouseLeave = function (event, link) {
+        var _this = this;
+        this.hideTimeout = setTimeout(function () {
+            _this.activeItem = null;
+        }, 1000);
+    };
+    ContextMenuSub.prototype.itemClick = function (event, item) {
+        if (item.disabled) {
+            event.preventDefault();
+            return;
+        }
+        if (!item.url) {
+            event.preventDefault();
+        }
+        if (item.command) {
+            item.command({
+                originalEvent: event,
+                item: item
+            });
+        }
+    };
+    ContextMenuSub.prototype.listClick = function (event) {
+        this.activeItem = null;
+    };
+    ContextMenuSub.prototype.position = function (sublist, item) {
+        this.containerLeft = this.domHandler.getOffset(item.parentElement);
+        var viewport = this.domHandler.getViewport();
+        var sublistWidth = sublist.offsetParent ? sublist.offsetWidth : this.domHandler.getHiddenElementOuterWidth(sublist);
+        var itemOuterWidth = this.domHandler.getOuterWidth(item.children[0]);
+        sublist.style.top = '0px';
+        if ((parseInt(this.containerLeft.left) + itemOuterWidth + sublistWidth) > (viewport.width - this.calculateScrollbarWidth())) {
+            sublist.style.left = -sublistWidth + 'px';
+        }
+        else {
+            sublist.style.left = itemOuterWidth + 'px';
+        }
+    };
+    ContextMenuSub.prototype.calculateScrollbarWidth = function () {
+        var scrollDiv = document.createElement("div");
+        scrollDiv.className = "ui-scrollbar-measure";
+        document.body.appendChild(scrollDiv);
+        var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+        document.body.removeChild(scrollDiv);
+        return scrollbarWidth;
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ContextMenuSub.prototype, "item", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ContextMenuSub.prototype, "root", void 0);
+    ContextMenuSub = __decorate([
+        core_1.Component({
+            selector: 'p-contextMenuSub',
+            template: "\n        <ul [ngClass]=\"{'ui-widget-content ui-corner-all ui-submenu-list ui-shadow':!root}\" class=\"ui-menu-list\" (click)=\"listClick($event)\">\n            <ng-template ngFor let-child [ngForOf]=\"(root ? item : item.items)\">\n                <li *ngIf=\"child.separator\" class=\"ui-menu-separator ui-widget-content\" [ngClass]=\"{'ui-helper-hidden': child.visible === false}\">\n                <li *ngIf=\"!child.separator\" #item [ngClass]=\"{'ui-menuitem ui-corner-all':true,'ui-menuitem-active':item==activeItem,'ui-helper-hidden': child.visible === false}\"\n                    (mouseenter)=\"onItemMouseEnter($event,item,child)\" (mouseleave)=\"onItemMouseLeave($event,item)\">\n                    <a *ngIf=\"!child.routerLink\" [href]=\"child.url||'#'\" [attr.target]=\"child.target\" [attr.title]=\"child.title\" [attr.id]=\"child.id\" (click)=\"itemClick($event, child)\"\n                        [ngClass]=\"{'ui-menuitem-link ui-corner-all':true,'ui-state-disabled':child.disabled}\" [ngStyle]=\"child.style\" [class]=\"child.styleClass\">\n                        <span class=\"ui-submenu-icon pi pi-fw pi-caret-right\" *ngIf=\"child.items\"></span>\n                        <span class=\"ui-menuitem-icon\" *ngIf=\"child.icon\" [ngClass]=\"child.icon\"></span>\n                        <span class=\"ui-menuitem-text\">{{child.label}}</span>\n                    </a>\n                    <a *ngIf=\"child.routerLink\" [routerLink]=\"child.routerLink\" [queryParams]=\"child.queryParams\" [routerLinkActive]=\"'ui-state-active'\" \n                        [routerLinkActiveOptions]=\"child.routerLinkActiveOptions||{exact:false}\" [attr.target]=\"child.target\" [attr.title]=\"child.title\" [attr.id]=\"child.id\"\n                        (click)=\"itemClick($event, child)\" [ngClass]=\"{'ui-menuitem-link ui-corner-all':true,'ui-state-disabled':child.disabled}\" \n                        [ngStyle]=\"child.style\" [class]=\"child.styleClass\">\n                        <span class=\"ui-submenu-icon pi pi-fw pi-caret-right\" *ngIf=\"child.items\"></span>\n                        <span class=\"ui-menuitem-icon\" *ngIf=\"child.icon\" [ngClass]=\"child.icon\"></span>\n                        <span class=\"ui-menuitem-text\">{{child.label}}</span>\n                    </a>\n                    <p-contextMenuSub class=\"ui-submenu\" [item]=\"child\" *ngIf=\"child.items\"></p-contextMenuSub>\n                </li>\n            </ng-template>\n        </ul>\n    ",
+            providers: [domhandler_1.DomHandler]
+        }),
+        __param(1, core_1.Inject(core_1.forwardRef(function () { return ContextMenu; }))),
+        __metadata("design:paramtypes", [domhandler_1.DomHandler, ContextMenu])
+    ], ContextMenuSub);
+    return ContextMenuSub;
+}());
+exports.ContextMenuSub = ContextMenuSub;
+var ContextMenu = /** @class */ (function () {
+    function ContextMenu(el, domHandler, renderer, zone) {
+        this.el = el;
+        this.domHandler = domHandler;
+        this.renderer = renderer;
+        this.zone = zone;
+        this.autoZIndex = true;
+        this.baseZIndex = 0;
+    }
+    ContextMenu.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        if (this.global) {
+            this.rightClickListener = this.renderer.listen('document', 'contextmenu', function (event) {
+                _this.show(event);
+                event.preventDefault();
+            });
+        }
+        else if (this.target) {
+            this.rightClickListener = this.renderer.listen(this.target, 'contextmenu', function (event) {
+                _this.show(event);
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        }
+        if (this.appendTo) {
+            if (this.appendTo === 'body')
+                document.body.appendChild(this.containerViewChild.nativeElement);
+            else
+                this.domHandler.appendChild(this.containerViewChild.nativeElement, this.appendTo);
+        }
+    };
+    ContextMenu.prototype.show = function (event) {
+        this.position(event);
+        this.moveOnTop();
+        this.containerViewChild.nativeElement.style.display = 'block';
+        this.domHandler.fadeIn(this.containerViewChild.nativeElement, 250);
+        this.bindGlobalListeners();
+        if (event) {
+            event.preventDefault();
+        }
+    };
+    ContextMenu.prototype.hide = function () {
+        this.containerViewChild.nativeElement.style.display = 'none';
+        this.unbindGlobalListeners();
+    };
+    ContextMenu.prototype.moveOnTop = function () {
+        if (this.autoZIndex) {
+            this.containerViewChild.nativeElement.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
+        }
+    };
+    ContextMenu.prototype.toggle = function (event) {
+        if (this.containerViewChild.nativeElement.offsetParent)
+            this.hide();
+        else
+            this.show(event);
+    };
+    ContextMenu.prototype.position = function (event) {
+        if (event) {
+            var left = event.pageX + 1;
+            var top_1 = event.pageY + 1;
+            var width = this.containerViewChild.nativeElement.offsetParent ? this.containerViewChild.nativeElement.offsetWidth : this.domHandler.getHiddenElementOuterWidth(this.containerViewChild.nativeElement);
+            var height = this.containerViewChild.nativeElement.offsetParent ? this.containerViewChild.nativeElement.offsetHeight : this.domHandler.getHiddenElementOuterHeight(this.containerViewChild.nativeElement);
+            var viewport = this.domHandler.getViewport();
+            //flip
+            if (left + width - document.body.scrollLeft > viewport.width) {
+                left -= width;
+            }
+            //flip
+            if (top_1 + height - document.body.scrollTop > viewport.height) {
+                top_1 -= height;
+            }
+            //fit
+            if (left < document.body.scrollLeft) {
+                left = document.body.scrollLeft;
+            }
+            //fit
+            if (top_1 < document.body.scrollTop) {
+                top_1 = document.body.scrollTop;
+            }
+            this.containerViewChild.nativeElement.style.left = left + 'px';
+            this.containerViewChild.nativeElement.style.top = top_1 + 'px';
+        }
+    };
+    ContextMenu.prototype.bindGlobalListeners = function () {
+        var _this = this;
+        if (!this.documentClickListener) {
+            this.documentClickListener = this.renderer.listen('document', 'click', function (event) {
+                if (_this.containerViewChild.nativeElement.offsetParent && event.button !== 2) {
+                    _this.hide();
+                }
+            });
+        }
+        this.zone.runOutsideAngular(function () {
+            if (!_this.windowResizeListener) {
+                _this.windowResizeListener = _this.onWindowResize.bind(_this);
+                window.addEventListener('resize', _this.windowResizeListener);
+            }
+        });
+    };
+    ContextMenu.prototype.unbindGlobalListeners = function () {
+        if (this.documentClickListener) {
+            this.documentClickListener();
+            this.documentClickListener = null;
+        }
+        if (this.windowResizeListener) {
+            window.removeEventListener('resize', this.windowResizeListener);
+            this.windowResizeListener = null;
+        }
+    };
+    ContextMenu.prototype.onWindowResize = function (event) {
+        if (this.containerViewChild.nativeElement.offsetParent) {
+            this.hide();
+        }
+    };
+    ContextMenu.prototype.ngOnDestroy = function () {
+        this.unbindGlobalListeners();
+        if (this.rightClickListener) {
+            this.rightClickListener();
+        }
+        if (this.appendTo) {
+            this.el.nativeElement.appendChild(this.containerViewChild.nativeElement);
+        }
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], ContextMenu.prototype, "model", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ContextMenu.prototype, "global", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ContextMenu.prototype, "target", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ContextMenu.prototype, "style", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], ContextMenu.prototype, "styleClass", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ContextMenu.prototype, "appendTo", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ContextMenu.prototype, "autoZIndex", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ContextMenu.prototype, "baseZIndex", void 0);
+    __decorate([
+        core_1.ViewChild('container'),
+        __metadata("design:type", core_1.ElementRef)
+    ], ContextMenu.prototype, "containerViewChild", void 0);
+    ContextMenu = __decorate([
+        core_1.Component({
+            selector: 'p-contextMenu',
+            template: "\n        <div #container [ngClass]=\"'ui-contextmenu ui-widget ui-widget-content ui-corner-all ui-shadow'\" \n            [class]=\"styleClass\" [ngStyle]=\"style\">\n            <p-contextMenuSub [item]=\"model\" root=\"root\"></p-contextMenuSub>\n        </div>\n    ",
+            providers: [domhandler_1.DomHandler]
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef, domhandler_1.DomHandler, core_1.Renderer2, core_1.NgZone])
+    ], ContextMenu);
+    return ContextMenu;
+}());
+exports.ContextMenu = ContextMenu;
+var ContextMenuModule = /** @class */ (function () {
+    function ContextMenuModule() {
+    }
+    ContextMenuModule = __decorate([
+        core_1.NgModule({
+            imports: [common_1.CommonModule, router_1.RouterModule],
+            exports: [ContextMenu, router_1.RouterModule],
+            declarations: [ContextMenu, ContextMenuSub]
+        })
+    ], ContextMenuModule);
+    return ContextMenuModule;
+}());
+exports.ContextMenuModule = ContextMenuModule;
+//# sourceMappingURL=contextmenu.js.map
+
+/***/ }),
+
 /***/ "./node_modules/primeng/components/dom/domhandler.js":
 /*!***********************************************************!*\
   !*** ./node_modules/primeng/components/dom/domhandler.js ***!
@@ -71938,6 +72237,87 @@ exports.DropdownModule = DropdownModule;
 
 /***/ }),
 
+/***/ "./node_modules/primeng/components/inputtext/inputtext.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/primeng/components/inputtext/inputtext.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var common_1 = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+var InputText = /** @class */ (function () {
+    function InputText(el, ngModel) {
+        this.el = el;
+        this.ngModel = ngModel;
+    }
+    InputText.prototype.ngDoCheck = function () {
+        this.updateFilledState();
+    };
+    //To trigger change detection to manage ui-state-filled for material labels when there is no value binding
+    InputText.prototype.onInput = function (e) {
+        this.updateFilledState();
+    };
+    InputText.prototype.updateFilledState = function () {
+        this.filled = (this.el.nativeElement.value && this.el.nativeElement.value.length) ||
+            (this.ngModel && this.ngModel.model);
+    };
+    __decorate([
+        core_1.HostListener('input', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], InputText.prototype, "onInput", null);
+    InputText = __decorate([
+        core_1.Directive({
+            selector: '[pInputText]',
+            host: {
+                '[class.ui-inputtext]': 'true',
+                '[class.ui-corner-all]': 'true',
+                '[class.ui-state-default]': 'true',
+                '[class.ui-widget]': 'true',
+                '[class.ui-state-filled]': 'filled'
+            }
+        }),
+        __param(1, core_1.Optional()),
+        __metadata("design:paramtypes", [core_1.ElementRef, forms_1.NgModel])
+    ], InputText);
+    return InputText;
+}());
+exports.InputText = InputText;
+var InputTextModule = /** @class */ (function () {
+    function InputTextModule() {
+    }
+    InputTextModule = __decorate([
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
+            exports: [InputText],
+            declarations: [InputText]
+        })
+    ], InputTextModule);
+    return InputTextModule;
+}());
+exports.InputTextModule = InputTextModule;
+//# sourceMappingURL=inputtext.js.map
+
+/***/ }),
+
 /***/ "./node_modules/primeng/components/menubar/menubar.js":
 /*!************************************************************!*\
   !*** ./node_modules/primeng/components/menubar/menubar.js ***!
@@ -72160,6 +72540,223 @@ var MenubarModule = /** @class */ (function () {
 }());
 exports.MenubarModule = MenubarModule;
 //# sourceMappingURL=menubar.js.map
+
+/***/ }),
+
+/***/ "./node_modules/primeng/components/scrollpanel/scrollpanel.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/primeng/components/scrollpanel/scrollpanel.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var common_1 = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+var domhandler_1 = __webpack_require__(/*! ../dom/domhandler */ "./node_modules/primeng/components/dom/domhandler.js");
+var ScrollPanel = /** @class */ (function () {
+    function ScrollPanel(el, zone, domHandler) {
+        this.el = el;
+        this.zone = zone;
+        this.domHandler = domHandler;
+        this.timeoutFrame = function (fn) { return setTimeout(fn, 0); };
+    }
+    ScrollPanel.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        this.zone.runOutsideAngular(function () {
+            _this.moveBar();
+            _this.moveBar = _this.moveBar.bind(_this);
+            _this.onXBarMouseDown = _this.onXBarMouseDown.bind(_this);
+            _this.onYBarMouseDown = _this.onYBarMouseDown.bind(_this);
+            _this.onDocumentMouseMove = _this.onDocumentMouseMove.bind(_this);
+            _this.onDocumentMouseUp = _this.onDocumentMouseUp.bind(_this);
+            window.addEventListener('resize', _this.moveBar);
+            _this.contentViewChild.nativeElement.addEventListener('scroll', _this.moveBar);
+            _this.contentViewChild.nativeElement.addEventListener('mouseenter', _this.moveBar);
+            _this.xBarViewChild.nativeElement.addEventListener('mousedown', _this.onXBarMouseDown);
+            _this.yBarViewChild.nativeElement.addEventListener('mousedown', _this.onYBarMouseDown);
+            _this.calculateContainerHeight();
+            _this.initialized = true;
+        });
+    };
+    ScrollPanel.prototype.calculateContainerHeight = function () {
+        var container = this.containerViewChild.nativeElement;
+        var content = this.contentViewChild.nativeElement;
+        var xBar = this.xBarViewChild.nativeElement;
+        var containerStyles = getComputedStyle(container), xBarStyles = getComputedStyle(xBar), pureContainerHeight = this.domHandler.getHeight(container) - parseInt(xBarStyles['height'], 10);
+        if (containerStyles['max-height'] != "none" && pureContainerHeight == 0) {
+            if (content.offsetHeight + parseInt(xBarStyles['height'], 10) > parseInt(containerStyles['max-height'], 10)) {
+                container.style.height = containerStyles['max-height'];
+            }
+            else {
+                container.style.height = content.offsetHeight + parseFloat(containerStyles.paddingTop) + parseFloat(containerStyles.paddingBottom) + parseFloat(containerStyles.borderTopWidth) + parseFloat(containerStyles.borderBottomWidth) + "px";
+            }
+        }
+    };
+    ScrollPanel.prototype.moveBar = function () {
+        var _this = this;
+        var container = this.containerViewChild.nativeElement;
+        var content = this.contentViewChild.nativeElement;
+        /* horizontal scroll */
+        var xBar = this.xBarViewChild.nativeElement;
+        var totalWidth = content.scrollWidth;
+        var ownWidth = content.clientWidth;
+        var bottom = (container.clientHeight - xBar.clientHeight) * -1;
+        this.scrollXRatio = ownWidth / totalWidth;
+        /* vertical scroll */
+        var yBar = this.yBarViewChild.nativeElement;
+        var totalHeight = content.scrollHeight;
+        var ownHeight = content.clientHeight;
+        var right = (container.clientWidth - yBar.clientWidth) * -1;
+        this.scrollYRatio = ownHeight / totalHeight;
+        this.requestAnimationFrame(function () {
+            if (_this.scrollXRatio >= 1) {
+                _this.domHandler.addClass(xBar, 'ui-scrollpanel-hidden');
+            }
+            else {
+                _this.domHandler.removeClass(xBar, 'ui-scrollpanel-hidden');
+                xBar.style.cssText = 'width:' + Math.max(_this.scrollXRatio * 100, 10) + '%; left:' + (content.scrollLeft / totalWidth) * 100 + '%;bottom:' + bottom + 'px;';
+            }
+            if (_this.scrollYRatio >= 1) {
+                _this.domHandler.addClass(yBar, 'ui-scrollpanel-hidden');
+            }
+            else {
+                _this.domHandler.removeClass(yBar, 'ui-scrollpanel-hidden');
+                yBar.style.cssText = 'height:' + Math.max(_this.scrollYRatio * 100, 10) + '%; top: calc(' + (content.scrollTop / totalHeight) * 100 + '% - ' + xBar.clientHeight + 'px);right:' + right + 'px;';
+            }
+        });
+    };
+    ScrollPanel.prototype.onYBarMouseDown = function (e) {
+        this.isYBarClicked = true;
+        this.lastPageY = e.pageY;
+        this.domHandler.addClass(this.yBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        this.domHandler.addClass(document.body, 'ui-scrollpanel-grabbed');
+        document.addEventListener('mousemove', this.onDocumentMouseMove);
+        document.addEventListener('mouseup', this.onDocumentMouseUp);
+        e.preventDefault();
+    };
+    ScrollPanel.prototype.onXBarMouseDown = function (e) {
+        this.isXBarClicked = true;
+        this.lastPageX = e.pageX;
+        this.domHandler.addClass(this.xBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        this.domHandler.addClass(document.body, 'ui-scrollpanel-grabbed');
+        document.addEventListener('mousemove', this.onDocumentMouseMove);
+        document.addEventListener('mouseup', this.onDocumentMouseUp);
+        e.preventDefault();
+    };
+    ScrollPanel.prototype.onDocumentMouseMove = function (e) {
+        if (this.isXBarClicked) {
+            this.onMouseMoveForXBar(e);
+        }
+        else if (this.isYBarClicked) {
+            this.onMouseMoveForYBar(e);
+        }
+        else {
+            this.onMouseMoveForXBar(e);
+            this.onMouseMoveForYBar(e);
+        }
+    };
+    ScrollPanel.prototype.onMouseMoveForXBar = function (e) {
+        var _this = this;
+        var deltaX = e.pageX - this.lastPageX;
+        this.lastPageX = e.pageX;
+        this.requestAnimationFrame(function () {
+            _this.contentViewChild.nativeElement.scrollLeft += deltaX / _this.scrollXRatio;
+        });
+    };
+    ScrollPanel.prototype.onMouseMoveForYBar = function (e) {
+        var _this = this;
+        var deltaY = e.pageY - this.lastPageY;
+        this.lastPageY = e.pageY;
+        this.requestAnimationFrame(function () {
+            _this.contentViewChild.nativeElement.scrollTop += deltaY / _this.scrollYRatio;
+        });
+    };
+    ScrollPanel.prototype.onDocumentMouseUp = function (e) {
+        this.domHandler.removeClass(this.yBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        this.domHandler.removeClass(this.xBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        this.domHandler.removeClass(document.body, 'ui-scrollpanel-grabbed');
+        document.removeEventListener('mousemove', this.onDocumentMouseMove);
+        document.removeEventListener('mouseup', this.onDocumentMouseUp);
+        this.isXBarClicked = false;
+        this.isYBarClicked = false;
+    };
+    ScrollPanel.prototype.requestAnimationFrame = function (f) {
+        var frame = window.requestAnimationFrame || this.timeoutFrame;
+        frame(f);
+    };
+    ScrollPanel.prototype.ngOnDestroy = function () {
+        if (this.initialized) {
+            window.removeEventListener('resize', this.moveBar);
+            this.contentViewChild.nativeElement.removeEventListener('scroll', this.moveBar);
+            this.contentViewChild.nativeElement.removeEventListener('mouseenter', this.moveBar);
+            this.xBarViewChild.nativeElement.removeEventListener('mousedown', this.onXBarMouseDown);
+            this.yBarViewChild.nativeElement.removeEventListener('mousedown', this.onYBarMouseDown);
+        }
+    };
+    ScrollPanel.prototype.refresh = function () {
+        this.moveBar();
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ScrollPanel.prototype, "style", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], ScrollPanel.prototype, "styleClass", void 0);
+    __decorate([
+        core_1.ViewChild('container'),
+        __metadata("design:type", core_1.ElementRef)
+    ], ScrollPanel.prototype, "containerViewChild", void 0);
+    __decorate([
+        core_1.ViewChild('content'),
+        __metadata("design:type", core_1.ElementRef)
+    ], ScrollPanel.prototype, "contentViewChild", void 0);
+    __decorate([
+        core_1.ViewChild('xBar'),
+        __metadata("design:type", core_1.ElementRef)
+    ], ScrollPanel.prototype, "xBarViewChild", void 0);
+    __decorate([
+        core_1.ViewChild('yBar'),
+        __metadata("design:type", core_1.ElementRef)
+    ], ScrollPanel.prototype, "yBarViewChild", void 0);
+    ScrollPanel = __decorate([
+        core_1.Component({
+            selector: 'p-scrollPanel',
+            template: "\n        <div #container [ngClass]=\"'ui-scrollpanel ui-widget ui-widget-content ui-corner-all'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div class=\"ui-scrollpanel-wrapper\">\n                <div #content class=\"ui-scrollpanel-content\">\n                    <ng-content></ng-content>\n                </div>\n            </div>\n            <div #xBar class=\"ui-scrollpanel-bar ui-scrollpanel-bar-x\"></div>\n            <div #yBar class=\"ui-scrollpanel-bar ui-scrollpanel-bar-y\"></div>   \n        </div>\n    ",
+            providers: [domhandler_1.DomHandler]
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone, domhandler_1.DomHandler])
+    ], ScrollPanel);
+    return ScrollPanel;
+}());
+exports.ScrollPanel = ScrollPanel;
+var ScrollPanelModule = /** @class */ (function () {
+    function ScrollPanelModule() {
+    }
+    ScrollPanelModule = __decorate([
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
+            exports: [ScrollPanel],
+            declarations: [ScrollPanel]
+        })
+    ], ScrollPanelModule);
+    return ScrollPanelModule;
+}());
+exports.ScrollPanelModule = ScrollPanelModule;
+//# sourceMappingURL=scrollpanel.js.map
 
 /***/ }),
 
@@ -73338,6 +73935,24 @@ exports.ObjectUtils = ObjectUtils;
 
 /***/ }),
 
+/***/ "./node_modules/primeng/contextmenu.js":
+/*!*********************************************!*\
+  !*** ./node_modules/primeng/contextmenu.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* Shorthand */
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(/*! ./components/contextmenu/contextmenu */ "./node_modules/primeng/components/contextmenu/contextmenu.js"));
+
+/***/ }),
+
 /***/ "./node_modules/primeng/dropdown.js":
 /*!******************************************!*\
   !*** ./node_modules/primeng/dropdown.js ***!
@@ -73356,6 +73971,24 @@ __export(__webpack_require__(/*! ./components/dropdown/dropdown */ "./node_modul
 
 /***/ }),
 
+/***/ "./node_modules/primeng/inputtext.js":
+/*!*******************************************!*\
+  !*** ./node_modules/primeng/inputtext.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* Shorthand */
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(/*! ./components/inputtext/inputtext */ "./node_modules/primeng/components/inputtext/inputtext.js"));
+
+/***/ }),
+
 /***/ "./node_modules/primeng/menubar.js":
 /*!*****************************************!*\
   !*** ./node_modules/primeng/menubar.js ***!
@@ -73371,6 +74004,24 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(/*! ./components/menubar/menubar */ "./node_modules/primeng/components/menubar/menubar.js"));
+
+/***/ }),
+
+/***/ "./node_modules/primeng/scrollpanel.js":
+/*!*********************************************!*\
+  !*** ./node_modules/primeng/scrollpanel.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* Shorthand */
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(/*! ./components/scrollpanel/scrollpanel */ "./node_modules/primeng/components/scrollpanel/scrollpanel.js"));
 
 /***/ }),
 

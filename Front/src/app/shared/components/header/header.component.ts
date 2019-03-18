@@ -96,10 +96,10 @@ export class HeaderComponent implements OnInit {
               }
           ]
       },
-      {separator:true},
-      {
+      //{separator:true},
+      /* {
           label: 'Quit', icon: 'pi pi-fw pi-times'
-      }
+      } */
     ];
   }
 

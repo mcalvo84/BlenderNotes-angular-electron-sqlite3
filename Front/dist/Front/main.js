@@ -101,7 +101,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n\n\n<div class=\"container-fluid\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <router-outlet></router-outlet>\n</div>\n\n"
+module.exports = "<app-header></app-header>\n\n\n<div class=\"\" id=\"main-window\">\n  <app-sidebar></app-sidebar>\n  <router-outlet></router-outlet>\n</div>\n\n"
 
 /***/ }),
 
@@ -274,7 +274,7 @@ var CoreModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "button,\nul.navbar-nav,\n.navbar-brand,\ndiv.nav-bar {\n    -webkit-app-region: no-drag;\n}\n"
+module.exports = "button,\nul.navbar-nav,\n.navbar-brand,\ndiv.nav-bar {\n    -webkit-app-region: no-drag;\n}\n\n\nnav.navbar.navbar-expand-lg.navbar-light.bg-light {\n    border-bottom: 1px solid #eee;\n    padding: 0 16px !important;\n}\n\n\n.ui-menubar.ui-widget.ui-widget-content.ui-corner-all {\n    border: 0;\n    background: transparent;\n}"
 
 /***/ }),
 
@@ -285,7 +285,7 @@ module.exports = "button,\nul.navbar-nav,\n.navbar-brand,\ndiv.nav-bar {\n    -w
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\"  style=\"-webkit-app-region: drag\">\n  <a class=\"navbar-brand\" href=\"#\">BlogNotes CRUD</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n    <div class=\"nav-bar mr-auto\">\n        <p-menubar [model]=\"items\" [autoDisplay]=\"false\"></p-menubar>\n    </div>\n    <!-- <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"/api/posts\">Home</a>\n      </li>\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"/posts/add\">Posts <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Users</a>\n      </li>\n      <li class=\"nav-item\">\n        <p-dropdown [options]=\"blenderLinks\" [(ngModel)]=\"selectedBlenderLick\" placeholder=\"Blender links\" optionLabel=\"name\" [showClear]=\"true\"></p-dropdown>\n      </li>\n    </ul> -->\n    <span class=\"navbar-text\">\n      [ ADMIN ZONE ]\n      <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n    </span>\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\"  style=\"-webkit-app-region: drag\">\n  <a class=\"navbar-brand\" href=\"#\"><b>Blender Notes</b></a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n    <div class=\"nav-bar mr-auto\">\n        <p-menubar [model]=\"items\" [autoDisplay]=\"false\">\n        </p-menubar>\n    </div>\n    <span class=\"navbar-text\">\n        <span class=\"ui-float-label\">\n            <input id=\"float-input\" type=\"text\" size=\"30\" pInputText> \n            <label for=\"float-input\">Username</label>\n        </span>\n    </span>\n  </div>\n  <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n  <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n  <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n</nav>\n\n\n<!-- <div [ngClass]=\"{'ui-menubar ui-widget ui-widget-content ui-corner-all':true}\">\n  <div class=\"d-inline\">\n      <a class=\"navbar-brand\" href=\"#\">BlenderNotes CRUD</a>\n  </div>\n  <p-menubarSub [item]=\"items\" root=\"root\" [autoDisplay]=\"false\" [autoZIndex]=\"false\" [baseZIndex]=\"3001\">\n      <ng-content></ng-content>\n  </p-menubarSub>\n  <div class=\"d-inline mr-auto\"></div>\n  <div class=\"d-inline\">\n    <input type=\"text\" pInputText placeholder=\"Search\">\n    <button pButton label=\"Logout\" icon=\"fa fa-sign-out\" style=\"margin-left:.25em\"></button>\n  </div>\n  <div class=\"d-inline\">\n    <span class=\"navbar-text\">\n      [ ADMIN ZONE ]\n      <button class=\"btn btn-success mr-1 ml-2\" (click)=\"onMinimize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-warning mr-1\" (click)=\"onMaximize()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n      <button class=\"btn btn-danger\" id=\"closeApp\" (click)=\"onClose()\" style=\"border-radius: 100%;height: 15px;width: 15px;padding: 0;\"></button>\n    </span>\n  </div>\n</div> -->"
 
 /***/ }),
 
@@ -395,10 +395,6 @@ var HeaderComponent = /** @class */ (function () {
                     }
                 ]
             },
-            { separator: true },
-            {
-                label: 'Quit', icon: 'pi pi-fw pi-times'
-            }
         ];
     };
     HeaderComponent.prototype.onClose = function () {
@@ -435,7 +431,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host >>> .ui-tabview-left > .ui-tabview-nav {\n    width: 40px;\n}\n\n:host >>> .ui-tabview-left>.ui-tabview-panels {\n    width: calc(100% - 41px);;\n    height: calc(100vh - 70px);\n}\n\n:host >>> .ui-tabview .ui-tabview-panels {\n    background-color: #3f3f3f;\n    border: none;\n    color: #eee;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active {\n    background-color: #3f3f3f;\n    border: 1px solid #3f3f3f;\n    position: relative;\n    left: 5px;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li:hover {\n    border: 1px solid #3f3f3f;\n    background-color: #3f3f3f;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {\n    border: 1px solid #3f3f3f;\n    background-color: #3f3f3f;\n}\n"
+module.exports = ".app-sidebar-fixed {\n    width: 300px;\n    float: left;\n}\n\n:host >>> .ui-tabview-left > .ui-tabview-nav {\n    width: 30px;\n}\n\n:host >>> .ui-tabview-left>.ui-tabview-panels {\n    width: calc(100% - 30px);;\n    height: calc(100vh - 70px);\n}\n\n:host >>> .ui-tabview .ui-tabview-panels {\n    background-color: #ddd;\n    border: none;\n    color: #333;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active {\n    background-color: #ddd;\n    border: 1px solid #ddd;\n    position: relative;\n    left: 5px;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li:hover {\n    border: 1px solid #ddd;\n    background-color: #ddd;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li a, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li a, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li a, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li a {\n    padding: 0 0.28em 0.5em;\n    color: #333;\n}\n\n:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, \n:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {\n    border: 1px solid #ddd;\n    background-color: #ddd;\n}\n"
 
 /***/ }),
 
@@ -446,7 +442,7 @@ module.exports = ":host >>> .ui-tabview-left > .ui-tabview-nav {\n    width: 40p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p-sidebar [(visible)]=\"display\" [showCloseIcon]=\"false\">\n\n  <p-tabView orientation=\"left\" [activeIndex]=\"index\" (onChange)=\"handleChange($event)\">\n    <p-tabPanel \n    [header]=\"\" \n    *ngFor=\"let item of categoryTypes; let i = index\" \n    leftIcon=\"fa fa-check\" \n    [selected]=\"i == index\">\n        <h5>{{item.name}}</h5>\n        <hr style=\"border-color: #aaa;\" />\n        <span *ngFor=\"let c of categoriesType[i+1]\">\n          <button class=\"btn btn-sm btn-warning m-1\" style=\"font-size: 0.9em;\">\n            {{c.name}}\n          </button>\n        </span>\n    </p-tabPanel>\n  </p-tabView>\n\n</p-sidebar>"
+module.exports = "<!-- <p-sidebar [(visible)]=\"display\" [showCloseIcon]=\"false\"> -->\n<div class=\"app-sidebar-fixed\">\n  <p-tabView orientation=\"left\" [activeIndex]=\"index\" (onChange)=\"handleChange($event)\">\n    <p-tabPanel \n    [header]=\"\" \n    *ngFor=\"let item of categoryTypes; let i = index\" \n    leftIcon=\"fa fa-check\" \n    [selected]=\"i == index\">\n        <h5>{{item.name}}</h5>\n        <hr style=\"border-color: #aaa;\" />\n        <span *ngFor=\"let c of categoriesType[i+1]\">\n          <button #categoryitem class=\"btn btn-sm btn-secondary m-1\" style=\"font-size: 0.9em;\" >\n            {{c.name}}\n          </button>\n        </span>\n    </p-tabPanel>\n  </p-tabView>\n</div>\n<!-- </p-sidebar> -->\n\n<p-contextMenu [target]=\"categoryitem\" [model]=\"rightClick\"></p-contextMenu>"
 
 /***/ }),
 
@@ -1077,15 +1073,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primeng_dropdown__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(primeng_dropdown__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var primeng_menubar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primeng/menubar */ "./node_modules/primeng/menubar.js");
 /* harmony import */ var primeng_menubar__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(primeng_menubar__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _error_error404_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./error/error404.component */ "./src/app/shared/error/error404.component.ts");
-/* harmony import */ var _error_error500_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./error/error500.component */ "./src/app/shared/error/error500.component.ts");
-/* harmony import */ var _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pipes/pipes.module */ "./src/app/shared/pipes/pipes.module.ts");
+/* harmony import */ var primeng_scrollpanel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! primeng/scrollpanel */ "./node_modules/primeng/scrollpanel.js");
+/* harmony import */ var primeng_scrollpanel__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(primeng_scrollpanel__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var primeng_inputtext__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! primeng/inputtext */ "./node_modules/primeng/inputtext.js");
+/* harmony import */ var primeng_inputtext__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(primeng_inputtext__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var primeng_contextmenu__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! primeng/contextmenu */ "./node_modules/primeng/contextmenu.js");
+/* harmony import */ var primeng_contextmenu__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(primeng_contextmenu__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _error_error404_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./error/error404.component */ "./src/app/shared/error/error404.component.ts");
+/* harmony import */ var _error_error500_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./error/error500.component */ "./src/app/shared/error/error500.component.ts");
+/* harmony import */ var _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pipes/pipes.module */ "./src/app/shared/pipes/pipes.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -1110,18 +1115,21 @@ var SharedModule = /** @class */ (function () {
                 primeng_tabview__WEBPACK_IMPORTED_MODULE_6__["TabViewModule"],
                 primeng_dropdown__WEBPACK_IMPORTED_MODULE_7__["DropdownModule"],
                 primeng_menubar__WEBPACK_IMPORTED_MODULE_8__["MenubarModule"],
-                _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_11__["PipesModule"]
+                primeng_inputtext__WEBPACK_IMPORTED_MODULE_10__["InputTextModule"],
+                primeng_scrollpanel__WEBPACK_IMPORTED_MODULE_9__["ScrollPanelModule"],
+                primeng_contextmenu__WEBPACK_IMPORTED_MODULE_11__["ContextMenuModule"],
+                _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_14__["PipesModule"]
             ],
             declarations: [
-                _error_error404_component__WEBPACK_IMPORTED_MODULE_9__["Error404Component"],
-                _error_error500_component__WEBPACK_IMPORTED_MODULE_10__["Error500Component"],
+                _error_error404_component__WEBPACK_IMPORTED_MODULE_12__["Error404Component"],
+                _error_error500_component__WEBPACK_IMPORTED_MODULE_13__["Error500Component"],
                 _components_header_header_component__WEBPACK_IMPORTED_MODULE_3__["HeaderComponent"],
                 _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"]
             ],
             exports: [
                 _components_header_header_component__WEBPACK_IMPORTED_MODULE_3__["HeaderComponent"],
                 _components_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_4__["SidebarComponent"],
-                _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_11__["PipesModule"]
+                _pipes_pipes_module__WEBPACK_IMPORTED_MODULE_14__["PipesModule"]
             ]
         })
     ], SharedModule);
@@ -1192,7 +1200,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/everis/sites/blognotes/Front/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/mcalvoca/Proyectos/blognotes/Front/src/main.ts */"./src/main.ts");
 
 
 /***/ })
