@@ -62,4 +62,5 @@
     border: 1px solid #ddd;
     background-color: #ddd;
     transition: background-color 0.2s;
+    border-radius: 0;
 }
