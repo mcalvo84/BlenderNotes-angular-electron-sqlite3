@@ -26,7 +26,7 @@
     background-color: #ddd;
     border: 1px solid #ddd;
     position: relative;
-    left: 5px;
+    left: 3px;
 }
 
 
@@ -51,4 +51,15 @@
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {
     border: 1px solid #ddd;
     background-color: #ddd;
+}
+
+
+
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li, 
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li, 
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li, 
+:host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li {
+    border: 1px solid #ddd;
+    background-color: #ddd;
+    transition: background-color 0.2s;
 }
