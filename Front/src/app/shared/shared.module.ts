@@ -37,6 +37,15 @@ import { PipesModule } from './pipes/pipes.module';
   exports: [
     HeaderComponent,
     SidebarComponent,
+    CommonModule,
+    FormsModule,
+    SidebarModule,
+    TabViewModule,
+    DropdownModule,
+    MenubarModule,
+    InputTextModule,
+    ScrollPanelModule,
+    ContextMenuModule,
     PipesModule
   ]
 })

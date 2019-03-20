@@ -5,7 +5,7 @@ import { HomeComponent } from './home.component';
 
 // It keeps this format because the tabs use routes
 const routes: Routes = [
-    { path: '', component: HomeComponent}
+    { path: '', pathMatch: 'full', component: HomeComponent}
 ];
 
 @NgModule({

@@ -1,8 +1,9 @@
-<div class="row" style="width: calc(100% - 300px);float: right; overflow:auto;">
-        <div class="row" style="margin-left: 0; margin-right: 0;">
-                <div class="col-12 mt-2">
-                    <h1 onclick="electron.shell.openExternal('http://www.google.com')"><b>HOME</b></h1>
-                </div>
+<div style="width: calc(100% - 300px);float: right;overflow: hidden;position: relative;">
+<p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel">
+    <div class="row" style="margin-left: 0; margin-right: 0;">
+        <div class="col-12 mt-2">
+            <h1 onclick="electron.shell.openExternal('http://www.google.com')"><b>HOME</b></h1>
+        </div>
         <div *ngFor="let post of list" class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
@@ -23,20 +24,23 @@
                     <small><b>Updated:</b>{{post.updatedAt}}</small>
                 </div>
                 <div class="card-footer text-right">
-                    <a class="btn btn-danger" href="/posts/delete/{{post.id}}">
+                    <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]"><!-- (click)="onDeletePost(post.id)" -->
                         Delete Post
+                    </button>
+                    <a class="btn btn-secondary" (click)="onNavigatePostEdit(1)">
+                        Edit
                     </a>
-                    <a class="btn btn-secondary" href="/posts/edit/{{post.id}}">Edit</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mx-auto mt-4" *ngIf="list.length === 0">
+        <div class="col-md-6 mx-auto mt-4" ><!-- *ngIf="list.length === 0" -->
             <div class="card p-4">
                 <div class="card-body text-center">
                     <p>There are no posts saved yed.</p>
-                    <a href="/posts/add">Create One!</a>
+                    <a >Create One!</a><!-- (click)="onEditPost(0)" -->
                 </div>
             </div>
         </div>
     </div>
+</p-scrollPanel>
 </div>

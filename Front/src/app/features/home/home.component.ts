@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { PostsService } from '../posts/posts.service';
+import { Router } from '@angular/router';
 declare let electron: any;
 
 @Component({
@@ -12,7 +14,11 @@ export class HomeComponent implements OnInit {
   public ipc = electron.ipcRenderer;
   public list: {}[] = [];
 
-  constructor(private ref: ChangeDetectorRef) { }
+  constructor(
+    public postsService: PostsService,
+    private ref: ChangeDetectorRef,
+    public router: Router
+  ) { }
 
   ngOnInit() {
     let me = this;
@@ -32,6 +38,14 @@ export class HomeComponent implements OnInit {
       me.list = result;
       me.ref.detectChanges()
     });
+  }
+
+  onNavigatePostEdit(id) {
+    let me = this;
+    me.router.navigate(['/post/edit/', id]);
+    me.ref.markForCheck(); // detectChanges()
+    me.router.navigateByUrl('/post/edit/' + id);
+    me.ref.detectChanges()
   }
 
 }

@@ -9,9 +9,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { CoreModule } from './core/core.module';
+
+
+
+import { PostsComponent } from './features/posts/posts.component';
+import { EditPostComponent } from './features/posts/edit-post/edit-post.component';
+import { DetailPostComponent } from './features/posts/detail-post/detail-post.component';
+import { SummaryPostComponent } from './features/posts/summary-post/summary-post.component';
+import { HomeComponent } from './features/home/home.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    PostsComponent,
+    EditPostComponent,
+    DetailPostComponent,
+    SummaryPostComponent
   ],
   imports: [
     BrowserModule,

@@ -31,15 +31,17 @@ function createWindow() {
     height: 920,
     show: false,
     titleBarStyle: 'customButtonsOnHover', frame: false,
-    autoHidMenuBar: true
+    autoHidMenuBar: true,
+    icon: path.join(__dirname, 'Front/assets/icons/icon-96x96.png')
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
+  /* mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'Front/index.html'),
     protocol: 'file:',
     slashes: true
-  }))
+  })) */
+  mainWindow.loadFile(path.join(__dirname, 'Front/index.html'));
 
   mainWindow.once("ready-to-show", () => { mainWindow.show() })
 

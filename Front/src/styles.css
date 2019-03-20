@@ -73,3 +73,36 @@ body .ui-menubar {
     margin: 2px !important;
     width: 300px;
 }
+
+.app-main-scrollpanel .ui-scrollpanel-content {
+    height: calc(100vh - 53px) !important;
+}
+
+
+.app-main-scrollpanel .ui-scrollpanel-wrapper {
+    border-right: 9px solid transparent; 
+    overflow: hidden;
+}
+
+.cusapp-main-scrollpaneltom .ui-scrollpanel-bar {
+    background-color: #637173; 
+    opacity: 1; 
+    transition: background-color .3s; 
+}
+
+.app-main-scrollpanel .ui-scrollpanel-bar:hover {
+    background-color: #637173;
+}
+
+.app-main-scrollpanel .ui-scrollpanel-bar-y {
+    width: 9px;
+    position: absolute;
+    right: 2px !important;
+    opacity: 1;
+    background: #6c757d;
+    border-radius: 0;
+    z-index: 2000000;
+    cursor: pointer;
+    transition: opacity .15s linear;
+    border-top: 20px solid white;
+}
