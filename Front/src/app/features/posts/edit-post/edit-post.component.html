@@ -1,21 +1,26 @@
-<div class="card col-6 mr-auto ml-auto">
-  <div class="card-header text-center">
-    <!-- <a href="/posts/{{post.id}}" target="_blank"> -->
-    <input type="text" placeholder="Title" />
-    <!-- </a> -->
-  </div>
-  <div class="card-body">
-    <textarea>
-      asdfsdf
-    </textarea>
-  </div>
-  <div class="card-footer text-right">
-    <button class="btn btn-danger">
-      <!-- (click)="onDeletePost(post.id)" -->
-      Delete Post
-    </button>
-    <a class="btn btn-secondary"  (click)="onNavigatePosts()"> 
-      Save
-    </a>
+<div style="min-height: 600px; min-width: 900px;">
+  <div class="row">
+    <div class="card col-6 mr-auto ml-auto">
+      <div class="card-header text-center">
+        <!-- <a href="/posts/{{post.id}}" target="_blank"> -->
+        <input type="text" placeholder="Title" value="{{post?.title}}" />
+        <!-- </a> -->
+      </div>
+      <div class="card-body">
+        <textarea>
+          {{post?.body}}
+        </textarea>
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-danger">
+          <!-- (click)="onDeletePost(post.id)" -->
+          Delete Post
+        </button>
+        <a class="btn btn-secondary" > 
+          Save
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>

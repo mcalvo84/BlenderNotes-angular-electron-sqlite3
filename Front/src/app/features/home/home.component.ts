@@ -13,6 +13,14 @@ export class HomeComponent implements OnInit {
   public title = 'my app';
   public ipc = electron.ipcRenderer;
   public list: {}[] = [];
+  display = {
+    edit: false,
+    detail: false
+  };
+  actionId = {
+    edit: 0,
+    detail: 0
+  };
 
   constructor(
     public postsService: PostsService,
@@ -38,6 +46,30 @@ export class HomeComponent implements OnInit {
       me.list = result;
       me.ref.detectChanges()
     });
+  }
+
+  showDialog(dialog, id) {
+    console.log(dialog, id);
+    this.actionId[dialog] = id;
+    this.display[dialog] = true;
+
+    this.actionId = Object.assign({}, this.actionId);
+    this.display = Object.assign({}, this.display);
+
+    this.ref.detectChanges()
+
+    console.log(this.display, this.actionId);
+  }
+
+  onHide(dialog) {
+    console.log("salgo")
+    this.actionId[dialog] = 0;
+    this.display[dialog] = false;
+
+    this.actionId = Object.assign({}, this.actionId);
+    this.display = Object.assign({}, this.display);
+
+    this.ref.detectChanges()
   }
 
   onNavigatePostEdit(id) {

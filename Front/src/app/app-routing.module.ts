@@ -9,7 +9,8 @@ import { EditPostComponent } from './features/posts/edit-post/edit-post.componen
 
 const routes: Routes = [
   // { path: '', loadChildren: './features/features.module#FeaturesModule' },
-  { path: '', pathMatch: 'full', component: HomeComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent},
   { path: 'posts', component: PostsComponent},
   { path: 'post/detail/:id', component: DetailPostComponent},
   { path: 'post/edit/:id', component: EditPostComponent},

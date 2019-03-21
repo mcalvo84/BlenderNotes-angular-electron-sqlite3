@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header text-center">
                     <!-- <a href="/posts/{{post.id}}" target="_blank"> -->
-                    <h4 class="card-title" (click)="onClickPost(post.id)">
+                    <h4 class="card-title" (click)="showDialog('detail', post.id)">
                         {{post.title}}
                     </h4>
                     <!-- </a> -->
@@ -27,9 +27,9 @@
                     <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]"><!-- (click)="onDeletePost(post.id)" -->
                         Delete Post
                     </button>
-                    <a class="btn btn-secondary" (click)="onNavigatePostEdit(1)">
+                    <button class="btn btn-secondary" (click)="showDialog('edit', post.id)">
                         Edit
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -37,10 +37,29 @@
             <div class="card p-4">
                 <div class="card-body text-center">
                     <p>There are no posts saved yed.</p>
-                    <a >Create One!</a><!-- (click)="onEditPost(0)" -->
+                    <a (click)="showDialog('edit', 0)">Create One!</a><!-- (click)="onEditPost(0)" -->
                 </div>
             </div>
         </div>
     </div>
+
+{{display['edit']}} --- 
+    <p-dialog 
+    header="Editar Post" 
+    [(visible)]="display['edit']"  
+    [style]="{width: '900px', height: '700px'}" 
+    [contentStyle]="{'overflow':'visible'}"
+    (visibleChange)="onHide('edit')">
+        <app-edit-post [id]="actionId['edit']"></app-edit-post>
+    </p-dialog>
+{{display['detail']}}
+    <p-dialog 
+    header="Detalle Post"  
+    [(visible)]="display['detail']" 
+    [style]="{width: '900px', minWidth: '700px'}"
+    [contentStyle]="{'overflow':'visible'}"
+    (visibleChange)="onHide('detail')">
+        <app-detail-post [id]="actionId['detail']"></app-detail-post>
+    </p-dialog>
 </p-scrollPanel>
 </div>

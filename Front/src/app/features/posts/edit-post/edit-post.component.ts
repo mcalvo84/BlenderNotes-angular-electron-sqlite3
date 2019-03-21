@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, OnChanges } from '@angular/core';
 import { PostsService } from '../posts.service';
 import { Router } from '@angular/router';
 declare let electron: any;
@@ -8,10 +8,12 @@ declare let electron: any;
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css']
 })
-export class EditPostComponent implements OnInit {
+export class EditPostComponent implements OnInit, OnChanges {
+
+  @Input() id: number = 0;
 
   public ipc = electron.ipcRenderer;
-  post: any;
+  post: any = {};
 
   constructor(
     public postsService: PostsService,
@@ -20,18 +22,14 @@ export class EditPostComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let me = this;
-    me.ipc.send('postsGetPostById', 1)
-    me.ipc.on('postsGetPostByIdResultSent', function (evt, result) {
-      console.log('postsGetPostByIdResultSent', result);
-      me.post = result;
-      me.ref.detectChanges()
-    });
   }
 
-  onNavigatePosts() {
-    let me = this;
-    this.router.navigate(['/']);
-    me.ref.detectChanges()
+  ngOnChanges() {
+    this.ipc.send('postsGetPostById', this.id)
+    this.ipc.on('postsGetPostByIdResultSent', (evt, result) => {
+      console.log('postsGetPostByIdResultSent', result);
+      this.post = result[0];
+      this.ref.detectChanges()
+    });
   }
 }
