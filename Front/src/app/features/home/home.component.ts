@@ -53,8 +53,8 @@ export class HomeComponent implements OnInit {
     this.actionId[dialog] = id;
     this.display[dialog] = true;
 
-    this.actionId = Object.assign({}, this.actionId);
-    this.display = Object.assign({}, this.display);
+    // this.actionId = Object.assign({}, this.actionId);
+    // this.display = Object.assign({}, this.display);
 
     this.ref.detectChanges()
 
@@ -66,8 +66,8 @@ export class HomeComponent implements OnInit {
     this.actionId[dialog] = 0;
     this.display[dialog] = false;
 
-    this.actionId = Object.assign({}, this.actionId);
-    this.display = Object.assign({}, this.display);
+    // this.actionId = Object.assign({}, this.actionId);
+    // this.display = Object.assign({}, this.display);
 
     this.ref.detectChanges()
   }

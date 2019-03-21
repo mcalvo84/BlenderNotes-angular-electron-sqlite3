@@ -43,22 +43,26 @@
         </div>
     </div>
 
-{{display['edit']}} --- 
-    <p-dialog 
-    header="Editar Post" 
-    [(visible)]="display['edit']"  
-    [style]="{width: '900px', height: '700px'}" 
+{{display['edit']}} ---
+    <p-dialog
+    header="Editar Post"
+    [(visible)]="display['edit']"
+    [style]="{width: '900px', height: '700px'}"
     [contentStyle]="{'overflow':'visible'}"
-    (visibleChange)="onHide('edit')">
+    (visibleChange)="onHide('edit')"
+    appendTo="body"
+    [modal]="true">
         <app-edit-post [id]="actionId['edit']"></app-edit-post>
     </p-dialog>
 {{display['detail']}}
-    <p-dialog 
-    header="Detalle Post"  
-    [(visible)]="display['detail']" 
+    <p-dialog
+    header="Detalle Post"
+    [(visible)]="display['detail']"
     [style]="{width: '900px', minWidth: '700px'}"
     [contentStyle]="{'overflow':'visible'}"
-    (visibleChange)="onHide('detail')">
+    (visibleChange)="onHide('detail')"
+    appendTo="body"
+    [modal]="true">
         <app-detail-post [id]="actionId['detail']"></app-detail-post>
     </p-dialog>
 </p-scrollPanel>
