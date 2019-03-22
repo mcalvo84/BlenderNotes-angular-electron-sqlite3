@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input, OnChanges, EventEmitter } from '@angular/core';
 import { PostsService } from '../posts.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IpcService } from 'src/app/ipc.service';
+import { Subscription } from 'rxjs';
 declare let electron: any;
 
 @Component({
@@ -10,24 +12,31 @@ declare let electron: any;
 })
 export class EditPostComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() id = 0;
+  // @Input() id = 13;
 
   public ipc = electron.ipcRenderer;
   post: any = {};
-  getPostSuscription;
+  getPostSuscription: Subscription = new Subscription();
+  id = 0;
 
   constructor(
-    public postsService: PostsService,
+    private readonly _ipc: IpcService,
     private ref: ChangeDetectorRef,
-    public router: Router
-  ) { }
-
-  ngOnInit() {
-    this.getPostSuscription = this.ipc.on('postsGetPostByIdResultSent', (evt, result) => {
-      console.log('postsGetPostByIdResultSent', result);
-      this.post = result[0];
+    private route: ActivatedRoute
+  ) {
+    this.getPostSuscription = this._ipc.detailPostEmiter.subscribe(result => {
+      this.post = result;
       this.ref.detectChanges();
     });
+    this.id = this.route.snapshot.params.id;
+    if (this.id > 0) {
+      this._ipc.send('postsGetPostById', this.id);
+    } else {
+      this.ref.detectChanges();
+    }
+  }
+
+  ngOnInit() {
   }
 
   ngOnDestroy() {
@@ -35,6 +44,5 @@ export class EditPostComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    this.ipc.send('postsGetPostById', this.id);
   }
 }

@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header text-center">
                     <!-- <a href="/posts/{{post.id}}" target="_blank"> -->
-                    <h4 class="card-title" (click)="showDialog('detail', post.id)">
+                    <h4 class="card-title"  [routerLink]="['/posts/detail/', post.id]">
                         {{post.title}}
                     </h4>
                     <!-- </a> -->
@@ -27,8 +27,8 @@
                     <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]"><!-- (click)="onDeletePost(post.id)" -->
                         Delete Post
                     </button>
-                    <button class="btn btn-secondary" (click)="showDialog('edit', post.id)">
-                        Edit
+                    <button class="btn btn-secondary"  [routerLink]="['/posts/edit/', post.id]">
+                        Edit {{ post.id}}
                     </button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-{{display['edit']}} ---
+<!-- {{display['edit']}} ---
     <p-dialog
     header="Editar Post"
     [(visible)]="display['edit']"
@@ -64,6 +64,6 @@
     appendTo="body"
     [modal]="true">
         <app-detail-post [id]="actionId['detail']"></app-detail-post>
-    </p-dialog>
+    </p-dialog> -->
 </p-scrollPanel>
 </div>

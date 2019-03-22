@@ -1,37 +1,16 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-declare let electron: any;
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  public title = 'my app';
-  public ipc = electron.ipcRenderer;
-  public list: {}[] = [];
+  public title = 'Blender Notes';
 
-  constructor(private ref: ChangeDetectorRef) { }
+  constructor() { }
 
-  ngOnInit() {
-    let me = this;
-    me.ipc.send("postsGetPosts")
-    me.ipc.on("postsGetPostsResultSent", function (evt, result) {
-      console.log("postsGetPostsResultSent1", result)
-      me.list = result;
-      me.ref.detectChanges()
-    });
-  }
-
-  onClickPost(id) {
-    let me = this;
-    me.ipc.send("postsGetPostById", id)
-    me.ipc.on("postsGetPostByIdResultSent", function (evt, result) {
-      console.log("postsGetPostByIdResultSent", result)
-      me.list = result;
-      me.ref.detectChanges()
-    });
-  }
+  ngOnInit() { }
 
 }

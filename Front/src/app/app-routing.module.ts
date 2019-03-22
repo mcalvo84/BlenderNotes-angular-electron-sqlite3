@@ -12,14 +12,14 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
   { path: 'posts', component: PostsComponent},
-  { path: 'post/detail/:id', component: DetailPostComponent},
-  { path: 'post/edit/:id', component: EditPostComponent},
+  { path: 'posts/detail/:id', component: DetailPostComponent},
+  { path: 'posts/edit/:id', component: EditPostComponent},
   { path: 'error', component: Error500Component },
   { path: '**', component: Error404Component }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: false })],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

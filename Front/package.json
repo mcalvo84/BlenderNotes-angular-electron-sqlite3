@@ -1,7 +1,7 @@
 {
   "name": "blender-notes",
   "version": "0.0.0",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -46,6 +46,7 @@
     "@angular/cli": "~6.1.5",
     "@angular/compiler-cli": "^6.1.0",
     "@angular/language-service": "^6.1.0",
+    "@types/electron": "^1.6.10",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",

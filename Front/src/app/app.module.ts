@@ -17,6 +17,7 @@ import { EditPostComponent } from './features/posts/edit-post/edit-post.componen
 import { DetailPostComponent } from './features/posts/detail-post/detail-post.component';
 import { SummaryPostComponent } from './features/posts/summary-post/summary-post.component';
 import { HomeComponent } from './features/home/home.component';
+import { FeaturesService } from './features/features.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { HomeComponent } from './features/home/home.component';
     BrowserAnimationsModule,
     CoreModule
   ],
-  providers: [],
+  providers: [FeaturesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

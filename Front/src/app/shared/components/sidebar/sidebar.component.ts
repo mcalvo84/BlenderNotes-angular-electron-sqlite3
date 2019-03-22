@@ -16,36 +16,32 @@ export class SidebarComponent implements OnInit {
 
   constructor(private ref: ChangeDetectorRef) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     let me = this;
 
-    me.ipc.send("catGetCategoryTypes")
-    me.ipc.on("catGetCategoryTypesResultSent", function (evt, result) {
-      console.log("catGetCategoryTypes", result)
+    me.ipc.send('catGetCategoryTypes')
+    me.ipc.on('catGetCategoryTypesResultSent', function (evt, result) {
       me.categoryTypes = result;
       me.ref.detectChanges()
     });
 
-    me.ipc.send("catGetCategoriesByType", 1)
-    me.ipc.on("catGetCategoriesByTypeResultSent", function (evt, result) {
-      console.log("catGetCategoriesByType", result)
+    me.ipc.send('catGetCategoriesByType', 1)
+    me.ipc.on('catGetCategoriesByTypeResultSent', function (evt, result) {
       me.categoriesType = result;
-      console.log(result)
       me.ref.detectChanges()
     });
 
-    me.ipc.send("catGetCategories", 1)
-    me.ipc.on("catGetCategoriesResultSent", function (evt, result) {
+    me.ipc.send('catGetCategories', 1)
+    me.ipc.on('catGetCategoriesResultSent', function (evt, result) {
       result.map(item => {
         if (!me.categoriesType[item.TagTypeId]) {
           me.categoriesType[item.TagTypeId] = []
         }
-        me.categoriesType[item.TagTypeId].push(item)        
+        me.categoriesType[item.TagTypeId].push(item)
       });
-      console.log(me.categoriesType)
       me.ref.detectChanges()
     });
-    
+
   }
 
   handleChange(e) {
