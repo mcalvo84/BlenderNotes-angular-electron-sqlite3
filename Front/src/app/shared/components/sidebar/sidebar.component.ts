@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { IpcService } from 'src/app/ipc.service';
+import { Subscription } from 'rxjs';
 declare let electron: any;
 
 @Component({
@@ -14,40 +16,40 @@ export class SidebarComponent implements OnInit {
   display = false;
   index = 0;
 
-  constructor(private ref: ChangeDetectorRef) { }
+  getCategoryListSuscription: Subscription = new Subscription();
+
+  constructor(public readonly _ipc: IpcService, public ref: ChangeDetectorRef) {
+  }
 
   ngOnInit() {
-    let me = this;
-
-    me.ipc.send('catGetCategoryTypes')
-    me.ipc.on('catGetCategoryTypesResultSent', function (evt, result) {
-      me.categoryTypes = result;
-      me.ref.detectChanges()
-    });
-
-    me.ipc.send('catGetCategoriesByType', 1)
-    me.ipc.on('catGetCategoriesByTypeResultSent', function (evt, result) {
-      me.categoriesType = result;
-      me.ref.detectChanges()
-    });
-
-    me.ipc.send('catGetCategories', 1)
-    me.ipc.on('catGetCategoriesResultSent', function (evt, result) {
-      result.map(item => {
-        if (!me.categoriesType[item.TagTypeId]) {
-          me.categoriesType[item.TagTypeId] = []
-        }
-        me.categoriesType[item.TagTypeId].push(item)
-      });
-      me.ref.detectChanges()
-    });
-
+    this.getCategoryListSuscription = this._ipc.categoriesListEmitter.subscribe(result => {
+      this.ref.detectChanges();
+    })
+    this._ipc.send('catGetCategoriesList');
   }
 
   handleChange(e) {
-    let me = this;
-    me.index = e.index;
-    me.ref.detectChanges()
+    this.index = e.index;
+    this.ref.detectChanges()
+  }
+
+  onClickCategory(item) {
+    item.selected = !item.selected;
+    this.ref.detectChanges();
+    this._ipc.send('postsGetPosts', this.getSelectedCategories());
+    console.log(this._ipc.categoriesType)
+  }
+
+  private getSelectedCategories() {
+    let resultArray = [];
+    Object.keys(this._ipc.categoriesType).forEach(key => {
+      this._ipc.categoriesType[key].forEach(category => {
+        if (category.selected) {
+          resultArray.push(category.id)
+        }
+      });
+    });
+    return resultArray;
   }
 
 }
