@@ -96,10 +96,42 @@ export class HeaderComponent implements OnInit {
               }
           ]
       },
-      //{separator:true},
-      /* {
+      {separator:true},
+      {
+        label: 'Blogroll',
+        icon: 'pi pi-fw pi-file',
+        items: [{
+            label: 'Blender.org',
+            command: (event) => {
+              electron.shell.openExternal('http://www.blender.org')
+            }
+          },{
+            label: 'Dev Talk',
+            command: (event) => {
+              electron.shell.openExternal('http://www.blender.org')
+            }
+          },{
+            label: 'Right Click',
+            command: (event) => {
+              electron.shell.openExternal('http://www.blender.org')
+            }
+          },{
+            label: 'Blender Cloud',
+            command: (event) => {
+              electron.shell.openExternal('http://www.blender.org')
+            }
+          },{
+            label: 'Blender Hoy',
+            command: (event) => {
+              electron.shell.openExternal('http://www.blender.org')
+            }
+          },
+        ]
+      },
+      {separator:true},
+      {
           label: 'Quit', icon: 'pi pi-fw pi-times'
-      } */
+      }
     ];
   }
 

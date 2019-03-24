@@ -10,6 +10,7 @@ import {MenubarModule} from 'primeng/menubar';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {InputTextModule} from 'primeng/inputtext';
 import {DialogModule} from 'primeng/dialog';
+import {CardModule} from 'primeng/card';
 import {MenuItem} from 'primeng/api';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { Error404Component } from './error/error404.component';
@@ -26,6 +27,7 @@ import { PipesModule } from './pipes/pipes.module';
     MenubarModule,
     InputTextModule,
     DialogModule,
+    CardModule,
     ScrollPanelModule,
     ContextMenuModule,
     PipesModule
@@ -47,6 +49,7 @@ import { PipesModule } from './pipes/pipes.module';
     MenubarModule,
     InputTextModule,
     DialogModule,
+    CardModule,
     ScrollPanelModule,
     ContextMenuModule,
     PipesModule

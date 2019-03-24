@@ -46,15 +46,10 @@ export class IpcService {
     });
 
     this._ipc.on('postsGetAbaliableFilersForPostsResultSent', (evt: Electron.IpcMessageEvent, result: any[]) => {
-
-      console.log("es categoriesType ?? : ", this.categoriesType);
       this.categoreisFileterdAvaliable = result.map(item => item.tagID);
-      console.log("categoreisFileterdAvaliable", this.categoreisFileterdAvaliable)
-
       Object.keys(this.categoriesType).forEach(key => {
         this.categoriesType[key].forEach(category => {
           category.disabled = !this.categoreisFileterdAvaliable.includes(category.id);
-          console.log('disabled??', this.categoreisFileterdAvaliable.includes(category.id))
           /* if (this.categoreisFileterdAvaliable.includes(category.id)) {
             category.disabled = false;
           } else {
@@ -62,17 +57,26 @@ export class IpcService {
           } */
         });
       });
-      console.log("final disableds: ", this.categoriesType);
-
       // TODO
       if (this.categoreisFileterdAvaliable.length === 0) {
+        let somethingSelected = false;
         Object.keys(this.categoriesType).forEach(key => {
           this.categoriesType[key].forEach(category => {
-            category.disabled = false;
+            if (category.selected) {
+              somethingSelected = true;
+            }
+          });
+        });
+        Object.keys(this.categoriesType).forEach(key => {
+          this.categoriesType[key].forEach(category => {
+            if (!category.selected) {
+              category.disabled = somethingSelected;
+            } else {
+              category.disabled = !somethingSelected;
+            }
           });
         });
       }
-
       this.postsGetAbaliableFilersForPostsEmitter.emit(result);
     });
 

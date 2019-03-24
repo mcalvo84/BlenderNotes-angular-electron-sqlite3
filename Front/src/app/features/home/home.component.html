@@ -1,17 +1,34 @@
-<div style="width: calc(100% - 300px);float: right;overflow: hidden;position: relative;">
-<p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel">
-    <div class="row" style="margin-left: 0; margin-right: 0;">
-        <div class="col-12 mt-2">
+
+<!-- <p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel"> -->
+    <div class="row" style="overflow: auto;">
+        <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;">
             <h1 onclick="electron.shell.openExternal('http://www.google.com')"><b>HOME</b></h1>
         </div>
-        <div *ngFor="let post of list" class="col-md-6">
-            <div class="card">
+        <div *ngFor="let post of list" class="col-md-4 mb-2">
+
+
+            <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
+                <p-header>
+                    <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
+                </p-header>
+                <div>{{post.body}}</div>
+                <p-footer>
+                    <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]">
+                        Delete Post
+                    </button>
+                    <button class="btn btn-secondary"  [routerLink]="['/posts/edit/', post.id]">
+                        Edit
+                    </button>
+                </p-footer>
+            </p-card>
+
+
+
+            <!-- <div class="card">
                 <div class="card-header text-center">
-                    <!-- <a href="/posts/{{post.id}}" target="_blank"> -->
                     <h4 class="card-title"  [routerLink]="['/posts/detail/', post.id]">
                         {{post.title}}
                     </h4>
-                    <!-- </a> -->
                 </div>
                 <div class="card-body">
                     <img src="{{post.mainImage}}" style="width: 100%;" />
@@ -25,14 +42,14 @@
                     <small><b>Updated:</b>{{post.updatedAt}}</small>
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]"><!-- (click)="onDeletePost(post.id)" -->
+                    <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]">
                         Delete Post
                     </button>
                     <button class="btn btn-secondary"  [routerLink]="['/posts/edit/', post.id]">
                         Edit {{ post.id}}
                     </button>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="col-md-6 mx-auto mt-4" ><!-- *ngIf="list.length === 0" -->
             <div class="card p-4">
@@ -66,5 +83,4 @@
     [modal]="true">
         <app-detail-post [id]="actionId['detail']"></app-detail-post>
     </p-dialog> -->
-</p-scrollPanel>
-</div>
+<!-- </p-scrollPanel> -->

@@ -15,3 +15,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     border: 0;
     background: transparent;
 }
+
+:host >>> li.ui-menu-separator.ui-widget-content {
+  display: inline;
+  border-right: 1px solid #666;
+}

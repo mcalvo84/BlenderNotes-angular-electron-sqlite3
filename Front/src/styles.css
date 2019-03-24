@@ -1,6 +1,6 @@
 * {
     outline: none !important;
-    box-shadow: none !important;
+    /* box-shadow: none !important; */
 }
 
 * * {
@@ -80,14 +80,14 @@ body .ui-menubar {
 
 
 .app-main-scrollpanel .ui-scrollpanel-wrapper {
-    border-right: 9px solid transparent; 
+    border-right: 9px solid transparent;
     overflow: hidden;
 }
 
 .cusapp-main-scrollpaneltom .ui-scrollpanel-bar {
-    background-color: #637173; 
-    opacity: 1; 
-    transition: background-color .3s; 
+    background-color: #637173;
+    opacity: 1;
+    transition: background-color .3s;
 }
 
 .app-main-scrollpanel .ui-scrollpanel-bar:hover {
@@ -105,4 +105,36 @@ body .ui-menubar {
     cursor: pointer;
     transition: opacity .15s linear;
     border-top: 20px solid white;
+}
+
+/* */
+.flex-container {
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: strech;
+}
+
+.flex-flow-row {
+  flex-flow: row nowrap;
+}
+
+.flex-flow-column {
+  flex-flow: column nowrap;
+}
+
+.flex-width-content {
+  order: 1;
+  flex: 0 1 auto;
+  align-self: auto;
+  min-width: 0;
+  min-height:  auto;
+}
+
+.flex-width-auto {
+  order: 2;
+  flex: 1 1 auto;
+  align-self: auto;
+  min-width: 0;
+  min-height:  auto;
 }
