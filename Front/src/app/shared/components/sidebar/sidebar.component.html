@@ -11,7 +11,7 @@
         <span *ngFor="let c of _ipc.categoriesType[item.name]">
           <button
           #categoryitem
-          [ngClass]="{'btn-secondary': !c.selected, 'btn-success': c.selected }"
+          [ngClass]="{'btn-secondary': !c.selected && !c.disabled, 'btn-success': c.selected && !c.disabled, 'btn-disabled btn-plain': c.disabled }"
           (click)="onClickCategory(c)"
           class="btn btn-sm  m-1"
           style="font-size: 0.9em;" >

@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
   index = 0;
 
   getCategoryListSuscription: Subscription = new Subscription();
+  postsGetAbaliableFilersForPostsSuscription: Subscription = new Subscription();
 
   constructor(public readonly _ipc: IpcService, public ref: ChangeDetectorRef) {
   }
@@ -24,6 +25,10 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     this.getCategoryListSuscription = this._ipc.categoriesListEmitter.subscribe(result => {
       this.ref.detectChanges();
+    })
+    this.postsGetAbaliableFilersForPostsSuscription = this._ipc.postsGetAbaliableFilersForPostsEmitter.subscribe(result => {
+      this.ref.detectChanges();
+      console.log(this._ipc.categoreisFileterdAvaliable)
     })
     this._ipc.send('catGetCategoriesList');
   }
@@ -37,6 +42,7 @@ export class SidebarComponent implements OnInit {
     item.selected = !item.selected;
     this.ref.detectChanges();
     this._ipc.send('postsGetPosts', this.getSelectedCategories());
+    this._ipc.send('postsGetAbaliableFilersForPosts', this.getSelectedCategories());
     console.log(this._ipc.categoriesType)
   }
 
