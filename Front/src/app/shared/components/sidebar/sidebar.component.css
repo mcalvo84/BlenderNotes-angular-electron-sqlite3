@@ -13,54 +13,65 @@
 }
 
 :host >>> .ui-tabview .ui-tabview-panels {
-    background-color: #ddd;
+    background-color: #eee;
     border: none;
     color: #333;
 }
 
 
-:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active, 
-:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active, 
-:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active, 
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active,
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active,
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active,
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active {
-    background-color: #ddd;
-    border: 1px solid #ddd;
+    background-color: #eee;
+    border: 1px solid #eee;
     position: relative;
     left: 3px;
 }
 
 
-:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li:hover, 
-:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover, 
-:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover, 
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li:hover,
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li:hover,
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li:hover,
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li:hover {
-    border: 1px solid #ddd;
-    background-color: #ddd;
+    border: 1px solid #eee;
+    background-color: #eee;
 }
-:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li a, 
-:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li a, 
-:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li a, 
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li a,
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li a,
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li a,
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li a {
     padding: 0 0.28em 0.5em;
     color: #333;
 }
 
-:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, 
-:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, 
-:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, 
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover,
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover,
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover,
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {
-    border: 1px solid #ddd;
-    background-color: #ddd;
+    border: 1px solid #eee;
+    background-color: #eee;
 }
 
 
 
-:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li, 
-:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li, 
-:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li, 
+:host >>> .ui-tabview.ui-tabview-top .ui-tabview-nav li,
+:host >>> .ui-tabview.ui-tabview-bottom .ui-tabview-nav li,
+:host >>> .ui-tabview.ui-tabview-left .ui-tabview-nav li,
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li {
-    border: 1px solid #ddd;
-    background-color: #ddd;
+    border: 1px solid #eee;
+    background-color: #eee;
     transition: background-color 0.2s;
     border-radius: 0;
+}
+
+
+:host >>> p-accordion *:not(.app-btn-category) {
+  background: transparent !important;
+  color: #333 !important;
+  border-width: 0 !important;
+}
+
+:host >>> p-accordion *.ui-accordion-header{
+  border-bottom-width: 1px !important;
 }

@@ -11,6 +11,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {InputTextModule} from 'primeng/inputtext';
 import {DialogModule} from 'primeng/dialog';
 import {CardModule} from 'primeng/card';
+import {AccordionModule} from 'primeng/accordion';
 import {MenuItem} from 'primeng/api';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { Error404Component } from './error/error404.component';
@@ -28,6 +29,7 @@ import { PipesModule } from './pipes/pipes.module';
     InputTextModule,
     DialogModule,
     CardModule,
+    AccordionModule,
     ScrollPanelModule,
     ContextMenuModule,
     PipesModule
@@ -50,6 +52,7 @@ import { PipesModule } from './pipes/pipes.module';
     InputTextModule,
     DialogModule,
     CardModule,
+    AccordionModule,
     ScrollPanelModule,
     ContextMenuModule,
     PipesModule

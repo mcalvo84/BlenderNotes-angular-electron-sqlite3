@@ -60,7 +60,7 @@ body .ui-menubar {
     height: calc(100% - 45px);
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
-    background-color: #ddd !important;
+    background-color: #eee !important;
     border-color: #ddd !important;
     color: #333 !important;;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
@@ -97,14 +97,12 @@ body .ui-menubar {
 .app-main-scrollpanel .ui-scrollpanel-bar-y {
     width: 9px;
     position: absolute;
-    right: 2px !important;
+    left: 291px !important;
     opacity: 1;
     background: #6c757d;
     border-radius: 0;
-    z-index: 2000000;
     cursor: pointer;
     transition: opacity .15s linear;
-    border-top: 20px solid white;
 }
 
 /* */
@@ -121,6 +119,10 @@ body .ui-menubar {
 
 .flex-flow-column {
   flex-flow: column nowrap;
+}
+
+.flex-1 {
+  flex: 1;
 }
 
 .flex-width-content {

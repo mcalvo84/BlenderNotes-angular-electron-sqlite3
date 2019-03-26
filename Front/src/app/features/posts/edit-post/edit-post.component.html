@@ -1,3 +1,8 @@
+<div class="row" style="overflow: auto;">
+  <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;">
+      <h1><b><a [routerLink]="['/']">HOME</a> / Edit :: {{post?.title}}</b></h1>
+  </div>
+</div>
 <div style="min-height: 600px; min-width: 900px;">
   <div class="row">
     <div class="card col-6 mr-auto ml-auto">
@@ -16,7 +21,7 @@
           <!-- (click)="onDeletePost(post.id)" -->
           Delete Post
         </button>
-        <a class="btn btn-secondary" > 
+        <a class="btn btn-secondary" >
           Save
         </a>
       </div>

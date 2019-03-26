@@ -1,12 +1,22 @@
-<div style="min-height: 600px; min-width: 900px;">
-    <div class="row">
-      <div class="col-12">
-          <h1 style="font-size:18px !important;">{{post?.title}}</h1>
-          <hr />
-          <p>
-            {{post?.body}}
-          </p>
-      </div>
-  
-    </div>
+<div class="row" style="overflow: auto;">
+  <div
+    class="col-12 container-fluid mb-2 pt-2"
+    style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;"
+  >
+    <h1>
+      <b><a [routerLink]="['/']">HOME</a> / {{ post?.title }}</b>
+    </h1>
   </div>
+</div>
+<div class="row">
+  <div class="col-3">
+      <img [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" style="width: 100%;">
+  </div>
+  <div class="col-9">
+    <h1 style="font-size:18px !important;">{{ post?.title }}</h1>
+    <hr />
+    <p>
+      {{ post?.body }}
+    </p>
+  </div>
+</div>

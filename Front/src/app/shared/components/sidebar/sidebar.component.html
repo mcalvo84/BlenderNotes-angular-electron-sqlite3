@@ -1,5 +1,5 @@
 <!-- <p-sidebar [(visible)]="display" [showCloseIcon]="false"> -->
-<div class="app-sidebar-fixed">
+<!-- <div class="app-sidebar-fixed">
   <p-tabView orientation="left" [activeIndex]="index" (onChange)="handleChange($event)">
     <p-tabPanel
     [header]=""
@@ -20,7 +20,25 @@
         </span>
     </p-tabPanel>
   </p-tabView>
-</div>
+</div> -->
 <!-- </p-sidebar> -->
 
 <!-- <p-contextMenu [target]="categoryitem" [model]="rightClick"></p-contextMenu> -->
+<p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel">
+<p-accordion [multiple]="true"  (onClose)="ref.detectChanges()" (onOpen)="ref.detectChanges()">
+  <div *ngFor="let item of _ipc.categoryTypes; let i = index">
+      <p-accordionTab header="{{item?.name}}">
+          <span *ngFor="let c of _ipc.categoriesType[item?.name]">
+              <button
+              #categoryitem
+              [ngClass]="{'btn-secondary': !c.selected && !c.disabled, 'btn-success': c.selected && !c.disabled, 'btn-disabled btn-plain': c.disabled }"
+              (click)="onClickCategory(c)"
+              class="btn btn-sm  m-1 app-btn-category"
+              style="font-size: 0.9em;" >
+                {{c.name}}
+              </button>
+            </span>
+      </p-accordionTab>
+  </div>
+</p-accordion>
+</p-scrollPanel>
