@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FeedService } from './feed.service';
 import { Feed } from 'src/app/core/models/feed';
 
@@ -13,6 +13,7 @@ export class FeedsComponent implements OnInit {
   feedReady = false;
 
   constructor(
+    private ref: ChangeDetectorRef,
     private feedService: FeedService
   ) { }
 
@@ -22,6 +23,7 @@ export class FeedsComponent implements OnInit {
       console.log(resp)
       this.feedReady = true;
       this.feeds = resp; //this.feedService.extractFeeds(resp);
+      this.ref.detectChanges();
     })
   }
 
