@@ -8,6 +8,7 @@ import { TruncatePipe } from './truncate.pipe';
 import { FilterPipe, SortByPipe } from './array.pipe';
 import { CamelToSnakePipe } from './camel-to-snake';
 import { FixUrlPipe } from './fix-url';
+import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { FixUrlPipe } from './fix-url';
         FilterPipe,
         SortByPipe,
         CamelToSnakePipe,
-        FixUrlPipe
+        FixUrlPipe,
+        StripHtmlTagsPipe
     ],
     exports: [
         FileSizePipe,
@@ -28,7 +30,8 @@ import { FixUrlPipe } from './fix-url';
         FilterPipe,
         SortByPipe,
         CamelToSnakePipe,
-        FixUrlPipe
+        FixUrlPipe,
+        StripHtmlTagsPipe
     ],
 })
 export class PipesModule {

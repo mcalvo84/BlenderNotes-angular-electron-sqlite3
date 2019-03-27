@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
@@ -38,11 +39,13 @@ import { PipesModule } from './pipes/pipes.module';
     Error404Component,
     Error500Component,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    SpinnerComponent
   ],
   exports: [
     HeaderComponent,
     SidebarComponent,
+    SpinnerComponent,
     CommonModule,
     FormsModule,
     SidebarModule,

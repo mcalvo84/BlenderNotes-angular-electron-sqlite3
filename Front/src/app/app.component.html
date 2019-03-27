@@ -9,13 +9,13 @@
         <app-header></app-header>
     </div>
     <div class="flex-width-auto" style="box-shadow: 0 0px 10px -2px rgba(0,0,0,0.3) inset;">
-      <div class="flex-container flex-flow-row" style="position: absolute; height: 100%;">
-        <div class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;">
-            <div style="width: 300px;height: 100%;">
+      <div class="flex-container flex-flow-row" style="position: absolute; height: 100%;padding-bottom: 75px;">
+        <div class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;overflow: auto;">
+            <div style="width: 300px;height: 99%;">
               <app-sidebar></app-sidebar>
             </div>
         </div>
-        <div class="flex-width-auto" style="box-shadow: 0 3px 3px 0px rgba(0,0,0,0.5) inset">
+        <div class="flex-width-auto" style="box-shadow: 0 3px 3px 0px rgba(0,0,0,0.5) inset;overflow: auto;">
             <div class="container-fluid">
                 <router-outlet></router-outlet>
             </div>

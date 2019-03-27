@@ -1,12 +1,10 @@
 
 <!-- <p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel"> -->
-    <div class="row" style="overflow: auto;">
+    <div class="row">
         <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;">
             <h1><b>HOME</b></h1>
         </div>
-        <div *ngFor="let post of list" class="col-md-3 mb-2">
-
-
+        <div *ngFor="let post of list" class="col-6 col-md-4 col-lg-3 mb-2">
             <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
                 <p-header>
                     <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
@@ -21,66 +19,24 @@
                     </button>
                 </p-footer>
             </p-card>
-
-
-
-            <!-- <div class="card">
-                <div class="card-header text-center">
-                    <h4 class="card-title"  [routerLink]="['/posts/detail/', post.id]">
-                        {{post.title}}
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <img src="{{post.mainImage}}" style="width: 100%;" />
-                    <p class="m-2">
-                        {{post.body}}
-                    </p>
-                </div>
-                <div class="card-footer">
-                    <small><b>Created: </b>{{post.createdAt}}</small>
-                    <br />
-                    <small><b>Updated:</b>{{post.updatedAt}}</small>
-                </div>
-                <div class="card-footer text-right">
-                    <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]">
-                        Delete Post
-                    </button>
-                    <button class="btn btn-secondary"  [routerLink]="['/posts/edit/', post.id]">
-                        Edit {{ post.id}}
-                    </button>
-                </div>
-            </div> -->
         </div>
-        <div class="col-md-6 mx-auto mt-4" ><!-- *ngIf="list.length === 0" -->
-            <div class="card p-4">
-                <div class="card-body text-center">
-                    <p>There are no posts saved yed.</p>
-                    <a (click)="showDialog('edit', 0)">Create One!</a><!-- (click)="onEditPost(0)" -->
-                </div>
-            </div>
-        </div>
+        <app-feeds></app-feeds>
     </div>
 
-<!-- {{display['edit']}} ---
-    <p-dialog
-    header="Editar Post"
-    [(visible)]="display['edit']"
-    [style]="{width: '900px', height: '700px'}"
-    [contentStyle]="{'overflow':'visible'}"
-    (visibleChange)="onHide('edit')"
-    appendTo="body"
-    [modal]="true">
-        <app-edit-post [id]="actionId['edit']"></app-edit-post>
-    </p-dialog>
-{{display['detail']}}
-    <p-dialog
-    header="Detalle Post"
-    [(visible)]="display['detail']"
-    [style]="{width: '900px', minWidth: '700px'}"
-    [contentStyle]="{'overflow':'visible'}"
-    (visibleChange)="onHide('detail')"
-    appendTo="body"
-    [modal]="true">
-        <app-detail-post [id]="actionId['detail']"></app-detail-post>
-    </p-dialog> -->
-<!-- </p-scrollPanel> -->
+    <div style="
+    background-color: #33a933;
+    border-radius: 100%;
+    height: 3rem;
+    width: 3rem;
+    font-size: 2rem !important;
+    line-height: 3rem;
+    text-align: center;
+    box-shadow: 0 0 12px 0px #055d07;
+    font-weight: bold;
+    position: absolute;
+    bottom: 85px;
+    right: 25px;
+    color: #d5ffd6;">
+        +
+    </div>
+    

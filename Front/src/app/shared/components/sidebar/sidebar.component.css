@@ -61,7 +61,6 @@
 :host >>> .ui-tabview.ui-tabview-right .ui-tabview-nav li {
     border: 1px solid #eee;
     background-color: #eee;
-    transition: background-color 0.2s;
     border-radius: 0;
 }
 
