@@ -1,0 +1,13 @@
+:host >>> p-inputswitch {
+    vertical-align: inherit;
+}
+
+:host >>> p-inputswitch div.ui-inputswitch {
+    zoom: 0.7;
+    top: 5px;
+}
+
+:host >>> p-inputswitch .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider,
+:host >>> p-inputswitch .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider:hover {
+    background-color: #5e95c5;
+}

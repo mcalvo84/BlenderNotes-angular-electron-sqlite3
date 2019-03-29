@@ -12,6 +12,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {InputTextModule} from 'primeng/inputtext';
 import {DialogModule} from 'primeng/dialog';
 import {CardModule} from 'primeng/card';
+import {InputSwitchModule} from 'primeng/inputswitch';
 import {AccordionModule} from 'primeng/accordion';
 import {MenuItem} from 'primeng/api';
 import {ContextMenuModule} from 'primeng/contextmenu';
@@ -30,6 +31,7 @@ import { PipesModule } from './pipes/pipes.module';
     InputTextModule,
     DialogModule,
     CardModule,
+    InputSwitchModule,
     AccordionModule,
     ScrollPanelModule,
     ContextMenuModule,
@@ -55,6 +57,7 @@ import { PipesModule } from './pipes/pipes.module';
     InputTextModule,
     DialogModule,
     CardModule,
+    InputSwitchModule,
     AccordionModule,
     ScrollPanelModule,
     ContextMenuModule,

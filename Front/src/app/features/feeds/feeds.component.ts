@@ -14,7 +14,7 @@ export class FeedsComponent implements OnInit {
 
   constructor(
     private ref: ChangeDetectorRef,
-    private feedService: FeedService
+    public feedService: FeedService
   ) { }
 
   ngOnInit() {

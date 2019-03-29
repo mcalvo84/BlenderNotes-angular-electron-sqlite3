@@ -1,6 +1,13 @@
-<div class="card-feed-entry" (click)="openLinkInBrowser()">
-  <div><b>{{feed.title}}</b></div>
-  <div>{{feed.author}} - {{feed.pubDate | date:'dd-MM-yyyy'}}</div>
-  <div>{{feed.description | stripHtmlTags}}</div>
+<div class="card-feed-entry row" style="box-shadow: 0px 0px 3px;border: 1px solid #ddd;border-radius: 2px;" (click)="openLinkInBrowser()">
+  <div class="col-6" style="padding-left: 0; overflow: hidden;">
+    <img src="{{ feed?.enclosure?.link }}" style="width: 100%;" />
+  </div>
+  <div class="col-6" style="background: rgba(255, 255, 255, 0.8);">
+    <div class="mt-1 mb-2"><b>{{feed.title}}</b></div>
+    <div>{{feed.author}} - {{feed.pubDate | date:'dd-MM-yyyy'}}</div>
+    <div>{{feed.description | stripHtmlTags}}</div>
+    <div style="bottom: 10px;right: 16px;background: white;margin: 10px 0;text-align: right;">
+      <button class="btn btn-success">Add to Unpublished</button>
+    </div>
+  </div>
 </div>
-<hr />

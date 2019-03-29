@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FeedService } from './features/feeds/feed.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 
   public title = 'Blender Notes';
+  public filtroExclusivoCheck = true;
 
-  constructor() { }
+  constructor(public feedService: FeedService) { }
 
   ngOnInit() { }
+
+  filtroExclusivoCheckOnChange(e) {
+    this.filtroExclusivoCheck = e.checked;
+  }
 
 }

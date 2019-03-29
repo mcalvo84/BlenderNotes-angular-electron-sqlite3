@@ -4,20 +4,20 @@
         <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;">
             <h1><b>HOME</b></h1>
         </div>
-        <div *ngFor="let post of list" class="col-6 col-md-4 col-lg-3 mb-2">
+        <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
             <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
-                <p-header>
+                <p-header >
                     <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
                 </p-header>
-                <div>{{post.body}}</div>
-                <p-footer>
+                <div>{{post.body | slice:0:250}}</div>
+                <!-- <p-footer>
                     <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]">
                         Delete Post
                     </button>
                     <button class="btn btn-secondary"  [routerLink]="['/posts/edit/', post.id]">
                         Edit
                     </button>
-                </p-footer>
+                </p-footer> -->
             </p-card>
         </div>
     </div>
@@ -33,7 +33,7 @@
     box-shadow: 0 0 12px 0px #055d07;
     font-weight: bold;
     position: absolute;
-    bottom: 85px;
+    bottom: 25px;
     right: 25px;
     color: #d5ffd6;">
         +

@@ -1,7 +1,8 @@
-<div class="row" *ngIf="feedReady"  style="height 400px; overflow: auto;">
-  <div class="col-12">
-    <span class="center">BeCompany news</span>
+<div class="row" *ngIf="feedReady"  style="overflow: auto;">
+  <div class="col-12 pt-2 pb-2" style="background: #ddd">
+    <span class="center"><b>{{ feeds?.feed?.title }}</b></span>
     <span class="pointer-cursor"><span >refresh</span></span>
+    <i class="fa fa-window-close pull-right" (click)="feedService.show = false;"></i>
   </div>
   <div class="col-12" *ngFor="let feed of feeds.items">
     <app-feed-card [feed]="feed" ></app-feed-card>

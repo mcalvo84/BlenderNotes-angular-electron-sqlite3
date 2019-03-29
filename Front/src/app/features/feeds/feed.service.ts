@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class FeedService {
 
   private rssToJsonServiceBaseUrl: string = 'https://rss2json.com/api.json?rss_url=';
+  public show = false;
 
   constructor(
     private http: HttpClient

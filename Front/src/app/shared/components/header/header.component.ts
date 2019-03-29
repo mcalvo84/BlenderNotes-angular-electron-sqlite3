@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { FeedService } from 'src/app/features/feeds/feed.service';
 declare let electron: any;
 
 @Component({
@@ -13,8 +14,9 @@ export class HeaderComponent implements OnInit {
   blenderLinks = [];
   selectedBlenderLick: any;
   items: MenuItem[];
+  items2: MenuItem[];
 
-  constructor() { }
+  constructor(public feedService: FeedService) { }
 
   ngOnInit() {
 
@@ -49,60 +51,17 @@ export class HeaderComponent implements OnInit {
               {label: 'Delete', icon: 'pi pi-fw pi-trash'},
               {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
           ]
-      },
+      }
+    ];
+
+    this.items2 = [
       {
-          label: 'Help',
-          icon: 'pi pi-fw pi-question',
-          items: [
-              {
-                  label: 'Contents'
-              },
-              {
-                  label: 'Search',
-                  icon: 'pi pi-fw pi-search',
-                  items: [
-                      {
-                          label: 'Text',
-                          items: [
-                              {
-                                  label: 'Workspace'
-                              }
-                          ]
-                      },
-                      {
-                          label: 'File'
-                      }
-              ]}
-          ]
-      },
-      {
-          label: 'Actions',
-          icon: 'pi pi-fw pi-cog',
-          items: [
-              {
-                  label: 'Edit',
-                  icon: 'pi pi-fw pi-pencil',
-                  items: [
-                      {label: 'Save', icon: 'pi pi-fw pi-save'},
-                      {label: 'Update', icon: 'pi pi-fw pi-save'},
-                  ]
-              },
-              {
-                  label: 'Other',
-                  icon: 'pi pi-fw pi-tags',
-                  items: [
-                      {label: 'Delete', icon: 'pi pi-fw pi-minus'}
-                  ]
-              }
-          ]
-      },
-      {separator:true},
-      {
-        label: 'Blogroll',
+        label: 'Blender',
         icon: 'pi pi-fw pi-file',
         items: [{
             label: 'Blender.org',
             command: (event) => {
+              //this.feedService.show = true;
               electron.shell.openExternal('http://www.blender.org')
             }
           },{
@@ -128,9 +87,17 @@ export class HeaderComponent implements OnInit {
           },
         ]
       },
-      {separator:true},
       {
-          label: 'Quit', icon: 'pi pi-fw pi-times'
+        label: 'Blogroll',
+        icon: 'pi pi-fw pi-file',
+        items: [{
+            label: 'Blender Nation',
+            command: (event) => {
+              this.feedService.show = true;
+              //electron.shell.openExternal('http://www.blender.org')
+            }
+          }
+        ]
       }
     ];
   }
