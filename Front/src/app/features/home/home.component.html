@@ -1,7 +1,7 @@
 
 <!-- <p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel"> -->
     <div class="row">
-        <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;">
+        <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;">
             <h1><b>HOME</b></h1>
         </div>
         <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
@@ -10,19 +10,27 @@
                     <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
                 </p-header>
                 <div>{{post.body | slice:0:250}}</div>
-                <!-- <p-footer>
-                    <button class="btn btn-danger" [routerLink]="['/posts/edit/', 1]">
-                        Delete Post
-                    </button>
-                    <button class="btn btn-secondary"  [routerLink]="['/posts/edit/', post.id]">
-                        Edit
-                    </button>
-                </p-footer> -->
+            </p-card>
+        </div>
+        <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
+            <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
+                <p-header >
+                    <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
+                </p-header>
+                <div>{{post.body | slice:0:250}}</div>
+            </p-card>
+        </div>
+        <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
+            <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
+                <p-header >
+                    <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
+                </p-header>
+                <div>{{post.body | slice:0:250}}</div>
             </p-card>
         </div>
     </div>
 
-    <div style="
+<!--     <div style="
     background-color: #33a933;
     border-radius: 100%;
     height: 3rem;
@@ -37,5 +45,5 @@
     right: 25px;
     color: #d5ffd6;">
         +
-    </div>
+    </div> -->
     

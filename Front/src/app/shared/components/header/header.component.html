@@ -15,10 +15,10 @@
       <input id="float-input" type="text" size="20" placeholder="Search" pInputText>
     </span>
   </div>
-  <div>
-    <button class="btn btn-success mr-1 ml-2" (click)="onMinimize()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>
-    <button class="btn btn-warning mr-1" (click)="onMaximize()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>
-    <button class="btn btn-danger" id="closeApp" (click)="onClose()" style="border-radius: 100%;height: 15px;width: 15px;padding: 0;"></button>
+  <div class="ml-2">
+    <button class="btn btn-success mr-1 ml-2" (click)="onMinimize()" style="border-radius: 0;height: 15px;width: 15px;padding: 0;background: transparent;border: 0;border-bottom: 3px solid #444;"></button>
+    <button class="btn btn-warning mr-1" (click)="onMaximize()" style="border-radius: 0;height: 15px;width: 15px;padding: 0;background: transparent;border: 3px solid #444;"></button>
+    <button class="btn btn-danger" id="closeApp" (click)="onClose()" style="border-radius: 0;height: 15px;width: 15px;padding: 0;background: #444;border: 3px solid #444;"></button>
   </div>
 </nav>
 

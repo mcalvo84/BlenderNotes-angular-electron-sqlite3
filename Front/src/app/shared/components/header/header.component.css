@@ -20,3 +20,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
   display: inline;
   border-right: 1px solid #666;
 }
+
+:host >>> .ui-menubar .ui-menubar-root-list > .ui-menuitem > .ui-menuitem-link {
+    padding: 0.714em 0.857em;
+    background: #eaeaea;
+    margin-left: 5px;
+}
