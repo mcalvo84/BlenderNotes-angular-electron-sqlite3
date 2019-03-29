@@ -40,9 +40,9 @@ function postsGetPosts(knex, ipcMain, mainWindow) {
             "having counter = " + listTags.length +
           ") " +
         ") " +
-        "and Posts.published = 0";
+        "and Posts.published = 1";
     } else {
-      query = query + "where Posts.published = 0";
+      query = query + "where Posts.published = 1";
     }
     console.log(query, listTags);
 
@@ -68,7 +68,7 @@ function getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow) {
       "    having counter = " + listTags.length  +
       "  )  " +
       ")  " +
-      "and Posts.published = 0 ";
+      "and Posts.published = 1 ";
 
     knex.raw(query).then(function(result) {
       mainWindow.webContents.send("postsGetAbaliableFilersForPostsResultSent", result);
@@ -86,11 +86,54 @@ function postsGetPostById(knex, ipcMain, mainWindow) {
   })
 };
 
+function addSimplePost(knex, ipcMain, mainWindow) {
+  ipcMain.on("addSimplePost", function(evt, post) {
+    knex.insert({
+      title: post.title,
+      body: post.description,
+      BlogrollId: null,
+      ImageId: null,
+      UserId: null
+    })
+    .returning('id')
+    .into('Posts')
+    .then(function (id) {
+      mainWindow.webContents.send("addSimplePostResultSent", id[0]);
+    });
+  });
+}
+
+function addImageSimplePost(knex, ipcMain, mainWindow) {
+  ipcMain.on("addImageSimplePost", function(evt, imgSrc) {
+    knex.insert({
+      url: imgSrc
+    })
+    .returning('id')
+    .into('Images')
+    .then(function (id) {
+      mainWindow.webContents.send("addImageSimplePostResultSent", id[0]);
+    });
+  });
+}
+
+function updatePostImage(knex, ipcMain, mainWindow) {
+  ipcMain.on("updatePostImage", function(evt, ids) {
+    var query =
+      "UPDATE Posts SET ImageId = " + ids.imgID + " WHERE id = " + ids.postID;
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("updatePostImageResultSent", result);
+    });
+  });
+}
+
 
   module.exports = {
       init: (knex, ipcMain, mainWindow) => {
         postsGetPosts(knex, ipcMain, mainWindow);
         postsGetPostById(knex, ipcMain, mainWindow);
-        getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow)
+        getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow);
+        addSimplePost(knex, ipcMain, mainWindow);
+        addImageSimplePost(knex, ipcMain, mainWindow);
+        updatePostImage(knex, ipcMain, mainWindow);
       }
   }

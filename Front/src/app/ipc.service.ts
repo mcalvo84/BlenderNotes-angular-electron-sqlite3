@@ -16,9 +16,14 @@ export class IpcService {
   public postsGetAbaliableFilersForPostsEmitter = new EventEmitter;
   public categoreisFileterdAvaliable: any[] = [];
 
-    /* POSTS */
-  public listOfPostsEmiter = new EventEmitter;
-  public detailPostEmiter = new EventEmitter;
+  /* POSTS */
+public listOfPostsEmiter = new EventEmitter;
+public detailPostEmiter = new EventEmitter;
+
+/* SAVING POSTS */
+public addSimplePostEmitter = new EventEmitter;
+public addImageSimplePostEmitter = new EventEmitter;
+public updatePostImageEmitter = new EventEmitter;
 
 
   constructor() {
@@ -88,6 +93,18 @@ export class IpcService {
     this._ipc.on('postsGetPostByIdResultSent', (evt: Electron.IpcMessageEvent, result) => {
       this.detailPostEmiter.emit(result[0]);
     });
+
+    /* SAVING POSTS */
+    this._ipc.on('addSimplePostResultSent', (evt: Electron.IpcMessageEvent, result) => {
+      this.addSimplePostEmitter.emit(result);
+    });
+    this._ipc.on('addImageSimplePostResultSent', (evt: Electron.IpcMessageEvent, result) => {
+      this.addImageSimplePostEmitter.emit(result);
+    });
+    this._ipc.on('updatePostImageResultSent', (evt: Electron.IpcMessageEvent, result) => {
+      this.updatePostImageEmitter.emit(result);
+    });
+
 
   }
 
