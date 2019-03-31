@@ -9,7 +9,7 @@
 
 :host >>> p-inputswitch .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider,
 :host >>> p-inputswitch .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider:hover {
-    background-color: #5e95c5;
+    background-color: #444;
 }
 
 :host >>> p-inputswitch .ui-inputswitch .ui-inputswitch-slider:before {

@@ -3,6 +3,7 @@ import { PostsService } from '../posts/posts.service';
 import { Router } from '@angular/router';
 import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 declare let electron: any;
 // const { ipcRenderer } = require('electron');
 
@@ -17,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public title = 'my app';
   public ipc = electron.ipcRenderer;
   public list: {}[] = [];
+  public listUnpublished: {}[] = [];
   display = {
     edit: false,
     detail: false
@@ -26,13 +28,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     detail: 0
   };
   getPostSuscription: Subscription = new Subscription();
+  home: MenuItem;
 
   constructor(private readonly _ipc: IpcService, private ref: ChangeDetectorRef) {
+
+    this.home = {icon: 'pi pi-home', routerLink: '/'};
+
     this.getPostSuscription = this._ipc.listOfPostsEmiter.subscribe(result => {
       this.list = result;
       this.ref.detectChanges();
     })
-    this._ipc.send('postsGetPosts');
+    this._ipc.send('postsGetPosts', [], 1, 4); 
+
+    this.getPostSuscription = this._ipc.listOfPostsUnpublishedEmiter.subscribe(result => {
+      this.listUnpublished = result;
+      this.ref.detectChanges();
+    })
+    this._ipc.send('postsGetUnpublishedPosts', [], 0, 4); 
   }
 
   ngOnInit() {

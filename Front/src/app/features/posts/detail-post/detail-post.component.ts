@@ -3,6 +3,7 @@ import { PostsService } from '../posts.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 declare let electron: any;
 
 @Component({
@@ -19,7 +20,9 @@ export class DetailPostComponent implements OnInit, OnDestroy, OnChanges {
   post: any = {};
   getPostSuscription: Subscription = new Subscription();
   id = 0;
-
+  items: MenuItem[];
+  home: MenuItem;
+  
   constructor(
     private readonly _ipc: IpcService,
     private ref: ChangeDetectorRef,
@@ -27,6 +30,15 @@ export class DetailPostComponent implements OnInit, OnDestroy, OnChanges {
   ) {
     this.getPostSuscription = this._ipc.detailPostEmiter.subscribe(result => {
       this.post = result;
+      
+      this.post.original = (this.post.original == '') ? 'https://www.google.com/search?q=' + this.post.original : this.post.original;
+
+      this.items = [
+        {label: this.post.title},
+        {label:'', url: this.post.original, icon: 'pi pi-external-link'}
+      ];
+      this.home = {icon: 'pi pi-home', routerLink: '/'};
+
       this.ref.detectChanges();
     });
     this.id = this.route.snapshot.params.id;

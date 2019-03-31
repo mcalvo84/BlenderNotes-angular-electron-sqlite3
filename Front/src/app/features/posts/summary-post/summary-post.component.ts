@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-summary-post',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./summary-post.component.css']
 })
 export class SummaryPostComponent implements OnInit {
+  @Input() post: any;
 
   constructor() { }
 

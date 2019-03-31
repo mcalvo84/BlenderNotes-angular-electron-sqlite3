@@ -29,27 +29,31 @@ export class HeaderComponent implements OnInit {
     ];
     this.items = [
       {
-          label: 'File',
+          label: 'Archivo',
           icon: 'pi pi-fw pi-file',
           items: [{
                   label: 'New',
                   icon: 'pi pi-fw pi-plus',
                   items: [
-                      {label: 'Project'},
-                      {label: 'Other'},
+                      {label: 'Artículos'},
+                      {label: 'Borradores'},
+                      {label: 'Grupo de tags'},
+                      {label: 'Tag'}
                   ]
               },
-              {label: 'Open'},
               {separator:true},
-              {label: 'Quit'}
+              {label: 'Salir'}
           ]
       },
       {
-          label: 'Edit',
+          label: 'Ver',
           icon: 'pi pi-fw pi-pencil',
           items: [
-              {label: 'Delete', icon: 'pi pi-fw pi-trash'},
-              {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
+              {label: 'Inicio', icon: 'pi pi-fw pi-trash'},
+              {label: 'Posts', icon: 'pi pi-fw pi-refresh'},
+              {label: 'Borradores', icon: 'pi pi-fw pi-refresh'},
+              {separator:true},
+              {label: 'Configuración'}
           ]
       }
     ];

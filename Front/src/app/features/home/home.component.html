@@ -1,49 +1,19 @@
-
-<!-- <p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel"> -->
-    <div class="row">
-        <div class="col-12 container-fluid mb-2 pt-2" style="background: #f8f9fa;border-bottom: 1px solid #ddd;">
-            <h1><b>HOME</b></h1>
-        </div>
-        <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
-            <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
-                <p-header >
-                    <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
-                </p-header>
-                <div>{{post.body | slice:0:250}}</div>
-            </p-card>
-        </div>
-        <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
-            <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
-                <p-header >
-                    <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
-                </p-header>
-                <div>{{post.body | slice:0:250}}</div>
-            </p-card>
-        </div>
-        <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-2">
-            <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
-                <p-header >
-                    <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
-                </p-header>
-                <div>{{post.body | slice:0:250}}</div>
-            </p-card>
-        </div>
+<div class="row">
+    <div class="col-12 container-fluid mb-2 p-0" style="border-bottom: 1px solid #ddd;">
+        <p-breadcrumb [home]="home"></p-breadcrumb>
     </div>
-
-<!--     <div style="
-    background-color: #33a933;
-    border-radius: 100%;
-    height: 3rem;
-    width: 3rem;
-    font-size: 2rem !important;
-    line-height: 3rem;
-    text-align: center;
-    box-shadow: 0 0 12px 0px #055d07;
-    font-weight: bold;
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    color: #d5ffd6;">
-        +
-    </div> -->
-    
+</div>
+<div class="row">
+    <h1 class="col-12"><b>Ultimos Artículos</b></h1>
+    <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-2">
+        <app-summary-post [post]="post"></app-summary-post>
+    </div>
+    <div class="col-12"><span class="pull-right">Ver todos &gt; </span></div>
+</div>
+<div class="row mt-4">
+    <h1 class="col-12"><b>Ultimos Borradores</b></h1>
+    <div *ngFor="let post of listUnpublished" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-2">
+        <app-summary-post [post]="post"></app-summary-post>
+    </div>
+    <div class="col-12"><span class="pull-right">Ver todos &gt; </span></div>
+</div>

@@ -20,7 +20,7 @@
 
 
 function postsGetPosts(knex, ipcMain, mainWindow) {
-  ipcMain.on("postsGetPosts", function(evt, listTags) {
+  ipcMain.on("postsGetPosts", function(evt, listTags, published = 1, max = 5, offset = 0) {
     var query =
       "" +
       "select distinct Posts.id, Posts.title, Posts.body, Images.url as mainImage from Posts " +
@@ -40,14 +40,49 @@ function postsGetPosts(knex, ipcMain, mainWindow) {
             "having counter = " + listTags.length +
           ") " +
         ") " +
-        "and Posts.published = 1";
+        "and Posts.published = " + published;
     } else {
-      query = query + "where Posts.published = 1";
+      query = query + "where Posts.published = " + published;
     }
+    query = query + " ORDER BY Posts.id DESC LIMIT " + offset + ", " + max;
     console.log(query, listTags);
 
     knex.raw(query).then(function(result) {
       mainWindow.webContents.send("postsGetPostsResultSent", result);
+    });
+  });
+}
+
+function postsGetUnpublishedPosts(knex, ipcMain, mainWindow) {
+  ipcMain.on("postsGetUnpublishedPosts", function(evt, listTags, published = 1, max = 5, offset = 0) {
+    var query =
+      "" +
+      "select distinct Posts.id, Posts.title, Posts.body, Images.url as mainImage from Posts " +
+      "left join Posts_Tags on Posts_Tags.postID = Posts.id " +
+      "left join Tags on Posts_Tags.tagID = Tags.id " +
+      "left join TagTypes on TagTypes.id = Tags.TagTypeId " +
+      "left join Images on Images.id = Posts.ImageId ";
+
+    if (listTags && listTags.length > 0) {
+      query = query +
+        "where Posts.id in (" +
+          "select postID as id from ( " +
+            "select postID, count(Posts_Tags.postID) as counter " +
+            "from Posts_Tags  " +
+            "where Posts_Tags.tagID in (" + listTags.toString() + ") " +
+            "group by Posts_Tags.postID " +
+            "having counter = " + listTags.length +
+          ") " +
+        ") " +
+        "and Posts.published = " + published;
+    } else {
+      query = query + "where Posts.published = " + published;
+    }
+    query = query + " ORDER BY Posts.id DESC LIMIT " + offset + ", " + max;
+    console.log(query, listTags);
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("postsGetUnpublishedPostsResultSent", result);
     });
   });
 }
@@ -130,6 +165,7 @@ function updatePostImage(knex, ipcMain, mainWindow) {
   module.exports = {
       init: (knex, ipcMain, mainWindow) => {
         postsGetPosts(knex, ipcMain, mainWindow);
+        postsGetUnpublishedPosts(knex, ipcMain, mainWindow);
         postsGetPostById(knex, ipcMain, mainWindow);
         getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow);
         addSimplePost(knex, ipcMain, mainWindow);

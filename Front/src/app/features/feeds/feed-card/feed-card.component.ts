@@ -17,22 +17,25 @@ export class FeedCardComponent implements OnInit {
     private readonly _ipc: IpcService,
     private ref: ChangeDetectorRef
   ) {
-    zip(
+    this.addSimplePostSuscription = zip(
       this._ipc.addSimplePostEmitter,
       this._ipc.addImageSimplePostEmitter
-    ).subscribe(() => {
-      // this._ipc.send('addSimplePost', feed),
+    ).subscribe((data) => {
+      console.log(data);
+      this._ipc.send('updatePostImage', {imgID: data[1], postID: data[0]});
     })
 
-    this.addSimplePostSuscription = this._ipc.addSimplePostEmitter.subscribe(result => {
-      console.log(result)
-    });
-    this.addImageSimplePostSuscription = this._ipc.addImageSimplePostEmitter.subscribe(result => {
-      console.log(result)
+    this.addImageSimplePostSuscription = this._ipc.updatePostImageEmitter.subscribe(result => {
+      //console.log(result)
     });
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.addSimplePostSuscription.unsubscribe();
+    this.addImageSimplePostSuscription.unsubscribe();
   }
 
   openLinkInBrowser() {

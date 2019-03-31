@@ -74,3 +74,15 @@
 :host >>> p-accordion *.ui-accordion-header{
   border-bottom-width: 1px !important;
 }
+
+:host >>> p-accordion .btn-secondary {
+    color: #fff;
+    background-color: #444;
+    border-color: #444;
+}
+
+:host >>> p-accordion .btn-secondary:hover {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+}

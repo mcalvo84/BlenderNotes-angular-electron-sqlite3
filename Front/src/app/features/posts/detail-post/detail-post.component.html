@@ -1,22 +1,15 @@
-<div class="row" style="overflow: auto;">
-  <div
-    class="col-12 container-fluid mb-2 pt-2"
-    style="background: #f8f9fa;border-bottom: 1px solid #ddd;box-shadow: 0 3px 3px -3px gray inset;"
-  >
-    <h1>
-      <b><a [routerLink]="['/']">HOME</a> / {{ post?.title }}</b>
-    </h1>
+<div class="row">
+  <div class="col-12 container-fluid mb-2 p-0" style="border-bottom: 1px solid #ddd;">
+    <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
   </div>
 </div>
-<div class="row">
+<div class="row" style="overflow: auto;">
   <div class="col-3">
       <img [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" style="width: 100%;">
   </div>
   <div class="col-9">
     <h1 style="font-size:18px !important;">{{ post?.title }}</h1>
     <hr />
-    <p>
-      {{ post?.body }}
-    </p>
+    <p [innerHtml]="post.body | slice:0:250"></p>
   </div>
 </div>

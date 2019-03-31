@@ -23,6 +23,7 @@ import { FeaturesService } from './features/features.service';
 import { FeedsComponent } from './features/feeds/feeds.component';
 import { FeedService } from './features/feeds/feed.service';
 import { FeedCardComponent } from './features/feeds/feed-card/feed-card.component';
+import { UsersComponent } from './features/users/users.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FeedCardComponent } from './features/feeds/feed-card/feed-card.componen
     DetailPostComponent,
     SummaryPostComponent,
     FeedsComponent,
-    FeedCardComponent
+    FeedCardComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

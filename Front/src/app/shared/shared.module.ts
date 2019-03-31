@@ -14,6 +14,8 @@ import {DialogModule} from 'primeng/dialog';
 import {CardModule} from 'primeng/card';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {AccordionModule} from 'primeng/accordion';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {CheckboxModule} from 'primeng/checkbox'
 import {MenuItem} from 'primeng/api';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { Error404Component } from './error/error404.component';
@@ -31,6 +33,8 @@ import { PipesModule } from './pipes/pipes.module';
     InputTextModule,
     DialogModule,
     CardModule,
+    BreadcrumbModule,
+    CheckboxModule,
     InputSwitchModule,
     AccordionModule,
     ScrollPanelModule,
@@ -57,6 +61,8 @@ import { PipesModule } from './pipes/pipes.module';
     InputTextModule,
     DialogModule,
     CardModule,
+    BreadcrumbModule,
+    CheckboxModule,
     InputSwitchModule,
     AccordionModule,
     ScrollPanelModule,
