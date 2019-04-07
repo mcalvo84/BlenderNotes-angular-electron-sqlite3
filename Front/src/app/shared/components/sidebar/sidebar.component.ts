@@ -3,6 +3,11 @@ import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
 declare let electron: any;
 
+// REDUX
+import { Store, Action } from '@ngrx/store';
+import { IFeaturesState } from 'src/app/features/features.reducer';
+import { FilterPostsByTags } from 'src/app/features/features.actions';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -19,7 +24,13 @@ export class SidebarComponent implements OnInit {
   getCategoryListSuscription: Subscription = new Subscription();
   postsGetAbaliableFilersForPostsSuscription: Subscription = new Subscription();
 
-  constructor(public readonly _ipc: IpcService, public ref: ChangeDetectorRef) {
+  constructor(
+    private store: Store<{feature: IFeaturesState}>,
+    public readonly _ipc: IpcService, 
+    public ref: ChangeDetectorRef) {
+      this.store.subscribe( state => {
+        console.log("SIDEBAR >> ", JSON.stringify(state));
+      })
   }
 
   ngOnInit() {
@@ -28,7 +39,7 @@ export class SidebarComponent implements OnInit {
     })
     this.postsGetAbaliableFilersForPostsSuscription = this._ipc.postsGetAbaliableFilersForPostsEmitter.subscribe(result => {
       this.ref.detectChanges();
-      console.log(this._ipc.categoreisFileterdAvaliable)
+      //console.log(this._ipc.categoreisFileterdAvaliable)
     })
     this._ipc.send('catGetCategoriesList');
   }
@@ -39,11 +50,16 @@ export class SidebarComponent implements OnInit {
   }
 
   onClickCategory(item) {
+    let selectedTags = this.getSelectedCategories();
     item.selected = !item.selected;
     this.ref.detectChanges();
     this._ipc.send('postsGetPosts', this.getSelectedCategories());
     this._ipc.send('postsGetAbaliableFilersForPosts', this.getSelectedCategories());
-    console.log(this._ipc.categoriesType)
+    //console.log(this._ipc.categoriesType)
+    // REDUX
+    console.log('REDUX :: FilterPostsByTags()', this.getSelectedCategories());
+    let action = new FilterPostsByTags(this.getSelectedCategories());
+    this.store.dispatch( action );
   }
 
   private getSelectedCategories() {

@@ -49,9 +49,9 @@ function createWindow() {
   //mainWindow.webContents.openDevTools()
 
 
-  let Categories = require('./categories.api')
-  let Posts = require('./posts.api')
-  let Users = require('./users.api')
+  let Categories = require('./db/categories.api')
+  let Posts = require('./db/posts.api')
+  let Users = require('./db/users.api')
   Categories.init(knex, ipcMain, mainWindow);
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
