@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-electron": "ng build --base-href . && cp src/electron/* dist",
+    "build-electron": "ng build --base-href . && cp -r src/electron/* dist",
     "build-electron-win": "ng build --base-href . && copy src\\electron\\* dist",
     "electron": "npm run build-electron && electron dist",
     "electron-win": "npm run build-electron-win && electron dist",

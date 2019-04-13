@@ -10,7 +10,8 @@
     </div>
     <div class="flex-width-auto" style="box-shadow: 0 0px 10px -2px rgba(0,0,0,0.3) inset; position: relative;">
       <div class="flex-container flex-flow-row" style="position: absolute; height: 100%;">
-        <div class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;overflow: auto;">
+        <div class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;overflow: auto;"
+        *ngIf="stateService.data.display == 'home'">
             <div style="width: 300px;height: 99%;">
               <app-sidebar></app-sidebar>
             </div>
@@ -21,7 +22,7 @@
             </div>
         </div>
       </div>
-      <div class="app-reader-rss" 
+      <div class="app-reader-rss"
       *ngIf="feedService.show"
       style="
         position: absolute;
@@ -44,13 +45,23 @@
     </div>
     <div class="flex-width-content" style="position: relative; z-index: 9000;order:2;">
         <div style="height: 22px;background: rgba(250,250,250,0.8);border-top: 1px solid #ddd; padding-left: 3px;">
-            <p-inputSwitch styleClass="secondary" (onChange)="filtroExclusivoCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>
-            <b style="vertical-align: inherit;" class="ml-1">Filtro exclusivo</b>
+
+            <p-inputSwitch *ngIf="stateService.data.display == 'home'" styleClass="secondary" (onChange)="filtroExclusivoCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>
+            <b *ngIf="stateService.data.display == 'home'" style="vertical-align: inherit;" class="ml-1">Filtro exclusivo</b>
+
             <p class="pull-right m-0 text-sm" style="color: #666;">
-              <span class="mr-2">Creado: 19/01/2019</span>
-              <span class="mr-2">Actualizado: 19/01/2019</span>
-              <span class="mr-2">Elementos: 25</span>
-              <span class="mr-2">Páginas: 12</span>
+              <span class="mr-2" *ngIf="stateService.data.display == 'detail'">
+                Creado: 19/01/2019
+              </span>
+              <span class="mr-2" *ngIf="stateService.data.display == 'detail'">
+                Actualizado: 19/01/2019
+              </span>
+              <span class="mr-2" *ngIf="stateService.data.display == 'posts'">
+                Elementos: 25
+              </span>
+              <span class="mr-2" *ngIf="stateService.data.display == 'posts'">
+                Páginas: 12
+              </span>
             </p>
         </div>
     </div>

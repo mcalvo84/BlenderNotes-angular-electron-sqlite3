@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
+import { PostsService } from 'src/app/core/api/posts.service';
 declare let electron: any;
 
 @Component({
@@ -19,7 +20,10 @@ export class SidebarComponent implements OnInit {
   getCategoryListSuscription: Subscription = new Subscription();
   postsGetAbaliableFilersForPostsSuscription: Subscription = new Subscription();
 
-  constructor(public readonly _ipc: IpcService, public ref: ChangeDetectorRef) {
+  constructor(
+    private postsService: PostsService,
+    public readonly _ipc: IpcService,
+    public ref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -41,7 +45,8 @@ export class SidebarComponent implements OnInit {
   onClickCategory(item) {
     item.selected = !item.selected;
     this.ref.detectChanges();
-    this._ipc.send('postsGetPosts', this.getSelectedCategories());
+    this.postsService.send('[posts][get][list]', this.getSelectedCategories(), 1, 4);
+    this.postsService.send('[posts][get][list]', this.getSelectedCategories(), 0, 4);
     this._ipc.send('postsGetAbaliableFilersForPosts', this.getSelectedCategories());
     console.log(this._ipc.categoriesType)
   }

@@ -20,9 +20,16 @@ export class PostsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ipc.send('postsGetPosts')
-    this.ipc.on('postsGetPostsResultSent', (evt, result) => {
-      //console.log('postsGetPostsResultSent1', result);
+    this.ipc.send('[posts][get][list]');
+    this.ipc.on('[posts][result][list][published]', (evt, result) => {
+      this.list = result;
+      this.ref.detectChanges();
+    });
+    this.ipc.on('[posts][result][list][unpublished]', (evt, result) => {
+      this.list = result;
+      this.ref.detectChanges();
+    });
+    this.ipc.on('[posts][result][list]', (evt, result) => {
       this.list = result;
       this.ref.detectChanges();
     });

@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
-import { PostsService } from '../posts.service';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+
 import { Router, ActivatedRoute } from '@angular/router';
-import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
+import { StateService } from 'src/app/core/state.service';
+import { PostsService } from 'src/app/core/api/posts.service';
 declare let electron: any;
 
 @Component({
@@ -12,38 +13,37 @@ declare let electron: any;
   styleUrls: ['./detail-post.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DetailPostComponent implements OnInit, OnDestroy, OnChanges {
+export class DetailPostComponent implements OnInit, OnDestroy {
 
-  // @Input() id = 13;
-
-  public ipc = electron.ipcRenderer;
-  post: any = {};
-  getPostSuscription: Subscription = new Subscription();
+  private stateSuscription: Subscription = new Subscription();
+  private stateItems = ['', 'detailPost'];
   id = 0;
   items: MenuItem[];
   home: MenuItem;
-  
+
   constructor(
-    private readonly _ipc: IpcService,
+    private postsService: PostsService,
+    public stateService: StateService,
     private ref: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
-    this.getPostSuscription = this._ipc.detailPostEmiter.subscribe(result => {
-      this.post = result;
-      
-      this.post.original = (this.post.original == '') ? 'https://www.google.com/search?q=' + this.post.original : this.post.original;
+    // Layout settings
+    this.stateService.data.display = 'detail';
+    this.stateService.emitChange('display');
 
-      this.items = [
-        {label: this.post.title},
-        {label:'', url: this.post.original, icon: 'pi pi-external-link'}
-      ];
-      this.home = {icon: 'pi pi-home', routerLink: '/'};
-
-      this.ref.detectChanges();
+    // Detect state changes
+    this.stateSuscription =
+    this.stateService.changeEmitter.subscribe(element => {
+      if (this.stateItems.indexOf(element)) {
+        this.buildBreadcrumbs();
+        this.ref.detectChanges();
+      }
     });
+
+    // Get detail of post or create new one
     this.id = this.route.snapshot.params.id;
     if (this.id > 0) {
-      this._ipc.send('postsGetPostById', this.id);
+      this.postsService.send('[posts][get][byID]', this.id);
     } else {
       this.ref.detectChanges();
     }
@@ -53,10 +53,20 @@ export class DetailPostComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.getPostSuscription.unsubscribe();
+    this.stateSuscription.unsubscribe();
   }
 
-  ngOnChanges() {
+  private buildBreadcrumbs() {
+    if (this.stateService.data.detailPost.original === '') {
+      this.stateService.data.detailPost.original =
+        'https://www.google.com/search?q=' +
+        this.stateService.data.detailPost.original;
+    }
+    this.items = [
+      {label: this.stateService.data.detailPost.title},
+      {label: '', url: this.stateService.data.detailPost.original, icon: 'pi pi-external-link'}
+    ];
+    this.home = {icon: 'pi pi-home', routerLink: '/'};
   }
 
 }

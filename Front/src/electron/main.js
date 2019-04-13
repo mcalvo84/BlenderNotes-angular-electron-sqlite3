@@ -1,8 +1,14 @@
-
+// Base
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
+// API
+let Categories = require('./api/categories.api')
+let Posts = require('./api/posts.api')
+let Users = require('./api/users.api')
+
+// Settings
 let maximizedWindow = false;
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -17,15 +23,6 @@ let knex = require("knex")({
 
 function createWindow() {
   // Create the browser window.
-  /*
-  titleBarStyle?: ('default' | 'hidden' | 'hiddenInset' | 'customButtonsOnHover');
-    type?: string;
-    icon?: (NativeImage) | (string);
-    title?: string;
-    kiosk?: boolean;
-    skipTaskbar?: boolean;
-    autoHideMenuBar?: boolean;
-    */
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 920,
@@ -36,31 +33,24 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  /* mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'Front/index.html'),
-    protocol: 'file:',
-    slashes: true
-  })) */
   mainWindow.loadFile(path.join(__dirname, 'Front/index.html'));
 
   mainWindow.once("ready-to-show", () => { mainWindow.show() })
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
-
-  let Categories = require('./categories.api')
-  let Posts = require('./posts.api')
-  let Users = require('./users.api')
+  // API
   Categories.init(knex, ipcMain, mainWindow);
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
 
-
+  // Close
   ipcMain.on('close-app', function() {
     mainWindow.close()
   })
 
+  // Maximize
   ipcMain.on('maximize-app', function() {
     if (!maximizedWindow) {
       mainWindow.maximize()
@@ -70,6 +60,7 @@ function createWindow() {
     maximizedWindow = !maximizedWindow;
   })
 
+  // Minimize
   ipcMain.on('minimize-app', function() {
     mainWindow.minimize()
   })

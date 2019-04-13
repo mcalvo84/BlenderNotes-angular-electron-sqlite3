@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { PostsService } from '../posts/posts.service';
-import { Router } from '@angular/router';
-import { IpcService } from 'src/app/ipc.service';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
+import { PostsService } from 'src/app/core/api/posts.service';
+import { StateService } from 'src/app/core/state.service';
 declare let electron: any;
 // const { ipcRenderer } = require('electron');
 
@@ -15,64 +14,50 @@ declare let electron: any;
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  public title = 'my app';
-  public ipc = electron.ipcRenderer;
-  public list: {}[] = [];
-  public listUnpublished: {}[] = [];
-  display = {
-    edit: false,
-    detail: false
-  };
-  actionId = {
-    edit: 0,
-    detail: 0
-  };
-  getPostSuscription: Subscription = new Subscription();
+  private stateSuscription: Subscription = new Subscription();
+  private stateItems = ['publishedPostList', 'unpublishedPostList'];
+  display = { edit: false,  detail: false };
+  actionId = { edit: 0, detail: 0 };
   home: MenuItem;
 
-  constructor(private readonly _ipc: IpcService, private ref: ChangeDetectorRef) {
+  constructor(
+    private postsService: PostsService,
+    private ref: ChangeDetectorRef,
+    public stateService: StateService
+  ) {
+    // Layout settings
+    this.stateService.data.display = 'home';
+    this.stateService.emitChange('display');
 
-    this.home = {icon: 'pi pi-home', routerLink: '/'};
+    // Detect state changes
+    this.stateSuscription =
+    this.stateService.changeEmitter.subscribe(element => {
+      if (this.stateItems.indexOf(element)) {
+        this.home = {icon: 'pi pi-home', routerLink: '/'};
+        this.ref.detectChanges();
+      }
+    });
 
-    this.getPostSuscription = this._ipc.listOfPostsEmiter.subscribe(result => {
-      this.list = result;
-      this.ref.detectChanges();
-    })
-    this._ipc.send('postsGetPosts', [], 1, 4); 
-
-    this.getPostSuscription = this._ipc.listOfPostsUnpublishedEmiter.subscribe(result => {
-      this.listUnpublished = result;
-      this.ref.detectChanges();
-    })
-    this._ipc.send('postsGetUnpublishedPosts', [], 0, 4); 
+    // Get lists of post
+    this.postsService.send('[posts][get][list]', [], 1, 4);
+    this.postsService.send('[posts][get][list]', [], 0, 4);
   }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
-   this.getPostSuscription.unsubscribe();
+   this.stateSuscription.unsubscribe();
   }
 
   showDialog(dialog, id) {
     this.actionId[dialog] = id;
     this.display[dialog] = true;
-
-    // this.actionId = Object.assign({}, this.actionId);
-    // this.display = Object.assign({}, this.display);
-
-   // this.ref.detectChanges()
-
   }
 
   onHide(dialog) {
     this.actionId[dialog] = 0;
     this.display[dialog] = false;
-
-    // this.actionId = Object.assign({}, this.actionId);
-    // this.display = Object.assign({}, this.display);
-
-  //  this.ref.detectChanges()
   }
 
 }

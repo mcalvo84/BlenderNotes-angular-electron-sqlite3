@@ -17,7 +17,7 @@ export class IpcService {
   public postsGetAbaliableFilersForPostsEmitter = new EventEmitter;
   public categoreisFileterdAvaliable: any[] = [];
 
-  /* POSTS */
+//   /* POSTS */
 public listOfPostsEmiter = new EventEmitter;
 public listOfPostsUnpublishedEmiter = new EventEmitter;
 public detailPostEmiter = new EventEmitter;
@@ -32,7 +32,6 @@ public updatePostImageEmitter = new EventEmitter;
     /* CATEGORIES */
     this._ipc.on('catGetCategoriesListResultSent', (evt: Electron.IpcMessageEvent, result) => {
       result.forEach((item, i) => {
-        console.log("index", i);
         this.mainCategories.push((i == 0));
         if (!this.categoriesType[item.ttname]) {
           this.categoriesType[item.ttname] = [];
@@ -89,18 +88,6 @@ public updatePostImageEmitter = new EventEmitter;
       this.postsGetAbaliableFilersForPostsEmitter.emit(result);
     });
 
-    /* POSTS */
-    this._ipc.on('postsGetPostsResultSent', (evt: Electron.IpcMessageEvent, result: any[]) => {
-      this.listOfPostsEmiter.emit(result);
-    });
-    this._ipc.on('postsGetUnpublishedPostsResultSent', (evt: Electron.IpcMessageEvent, result: any[]) => {
-      this.listOfPostsUnpublishedEmiter.emit(result);
-    });
-
-    this._ipc.on('postsGetPostByIdResultSent', (evt: Electron.IpcMessageEvent, result) => {
-      this.detailPostEmiter.emit(result[0]);
-    });
-
     /* SAVING POSTS */
     this._ipc.on('addSimplePostResultSent', (evt: Electron.IpcMessageEvent, result) => {
       this.addSimplePostEmitter.emit(result);
@@ -127,9 +114,6 @@ public updatePostImageEmitter = new EventEmitter;
       return;
     }
     this._ipc.send(channel, ...args);
-  }
-
-  public getPosts() {
   }
 
 }

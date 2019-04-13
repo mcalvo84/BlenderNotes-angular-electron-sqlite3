@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input, OnChanges, EventEmitter } from '@angular/core';
-import { PostsService } from '../posts.service';
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
+import { StateService } from 'src/app/core/state.service';
+import { PostsService } from 'src/app/core/api/posts.service';
 declare let electron: any;
 
 @Component({
@@ -12,25 +14,31 @@ declare let electron: any;
 })
 export class EditPostComponent implements OnInit, OnDestroy, OnChanges {
 
-  // @Input() id = 13;
-
-  public ipc = electron.ipcRenderer;
-  post: any = {};
-  getPostSuscription: Subscription = new Subscription();
+  private stateSuscription: Subscription = new Subscription();
+  private stateItems = ['detailPost'];
   id = 0;
 
   constructor(
-    private readonly _ipc: IpcService,
+    private postsService: PostsService,
+    public stateService: StateService,
     private ref: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
-    this.getPostSuscription = this._ipc.detailPostEmiter.subscribe(result => {
-      this.post = result;
-      this.ref.detectChanges();
+    // Detect state changes
+      console.log('antes de suscribirme');
+    this.stateSuscription =
+    this.stateService.changeEmitter.subscribe(element => {
+      console.log('stateService.changeEmitter.subscribe', element, this.stateItems);
+      if (this.stateItems.indexOf(element)) {
+        console.log(this.stateService.data.detailPost);
+        this.ref.detectChanges();
+      }
     });
+
+    // Get detail of post or create new one
     this.id = this.route.snapshot.params.id;
     if (this.id > 0) {
-      this._ipc.send('postsGetPostById', this.id);
+      this.postsService.send('[posts][get][byID]', this.id);
     } else {
       this.ref.detectChanges();
     }
@@ -40,7 +48,7 @@ export class EditPostComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.getPostSuscription.unsubscribe();
+    this.stateSuscription.unsubscribe();
   }
 
   ngOnChanges() {

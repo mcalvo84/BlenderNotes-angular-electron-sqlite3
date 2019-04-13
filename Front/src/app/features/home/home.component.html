@@ -3,17 +3,17 @@
         <p-breadcrumb [home]="home"></p-breadcrumb>
     </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="stateService.data.publishedPostList.length > 0">
     <h1 class="col-12"><b>Ultimos Artículos</b></h1>
-    <div *ngFor="let post of list" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-2">
+    <div *ngFor="let post of stateService.data.publishedPostList" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-2">
         <app-summary-post [post]="post"></app-summary-post>
     </div>
-    <div class="col-12"><span class="pull-right">Ver todos &gt; </span></div>
+    <div class="col-12"><button style="background: #444" class="pull-right btn btn-sm mt-2 mb-2 app-btn-category btn-secondary">Ver todos</button></div>
 </div>
-<div class="row mt-4">
+<div class="row mt-4" *ngIf="stateService.data.unpublishedPostList.length > 0">
     <h1 class="col-12"><b>Ultimos Borradores</b></h1>
-    <div *ngFor="let post of listUnpublished" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-2">
+    <div *ngFor="let post of stateService.data.unpublishedPostList" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 mt-2">
         <app-summary-post [post]="post"></app-summary-post>
     </div>
-    <div class="col-12"><span class="pull-right">Ver todos &gt; </span></div>
+    <div class="col-12"><button style="background: #444" class="pull-right btn btn-sm mt-2 mb-2 app-btn-category btn-secondary">Ver todos</button></div>
 </div>

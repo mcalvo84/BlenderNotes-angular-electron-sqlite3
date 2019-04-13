@@ -5,11 +5,11 @@
 </div>
 <div class="row" style="overflow: auto;">
   <div class="col-3">
-      <img [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" style="width: 100%;">
+      <img [src]="stateService.data.detailPost.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" style="width: 100%;">
   </div>
   <div class="col-9">
-    <h1 style="font-size:18px !important;">{{ post?.title }}</h1>
+    <h1 style="font-size:18px !important;">{{ stateService.data.detailPost?.title }}</h1>
     <hr />
-    <p [innerHtml]="post.body | slice:0:250"></p>
+    <p [innerHtml]="stateService.data.detailPost.body | slice:0:250"></p>
   </div>
 </div>
