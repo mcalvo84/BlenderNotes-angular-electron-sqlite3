@@ -6,8 +6,11 @@ export interface IFeaturesState {
   PostList?: IPostExt[];
   publishedPostList?: IPostExt[];
   unpublishedPostList?: IPostExt[];
-  detailPost?: any;
+  detailPost?: IPostExt;
+  detailPostTags?: any[];
+  detailPostNotes?: any[];
   filterMode?: boolean;
+  allTags?: {tid: number, tname: string, ttid: 1, ttname: string}[];
   selectedTags?: number[];
   avaliableTags?: number[];
 }
@@ -22,12 +25,23 @@ export class StateService {
 
   constructor() {
     this.data = {};
+
+    // Layout
     this.data.display = 'home';
+    this.data.filterMode = true;
+
+    // Post lists
     this.data.PostList = [];
     this.data.publishedPostList = [];
     this.data.unpublishedPostList = [];
+
+    // Post detail
     this.data.detailPost = null;
-    this.data.filterMode = true;
+    this.data.detailPostTags = [];
+    this.data.detailPostNotes = [];
+
+    // Tags
+    this.data.allTags = [];
     this.data.selectedTags = [];
     this.data.avaliableTags = [];
   }

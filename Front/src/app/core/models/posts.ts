@@ -13,6 +13,10 @@ export interface IPost {
 
 export interface IPostExt extends IPost {
   mainImage?: string;
+  authorName?: string;
+  blogrollName?: string;
+  blogrollUrl?: string;
+
 }
 
 export class PostModel implements IPostExt {
@@ -24,9 +28,13 @@ export class PostModel implements IPostExt {
   updatedAt: string;
   BlogrollId: number;
   ImageId: number;
-  mainImage: string;
   UserId: number;
   original: string;
+
+  mainImage: string;
+  authorName: string;
+  blogrollName: string;
+  blogrollUrl: string;
 
   constructor() {
     this.id = 0;

@@ -34,6 +34,8 @@ function catGetCategoriesByType(knex, ipcMain, mainWindow) {
   });
 }
 
+
+/******************************* */
 function catGetCategoriesList(knex, ipcMain, mainWindow) {
   ipcMain.on("catGetCategoriesList", function() {
     var query =
@@ -47,6 +49,34 @@ function catGetCategoriesList(knex, ipcMain, mainWindow) {
     });
   });
 }
+function catGetCategoriesList1(knex, ipcMain, mainWindow) {
+  ipcMain.on("[tags][get][allTags]", function() {
+    var query =
+      "select T.id as tid, T.name as tname,  TT.id as ttid, TT.name as ttname from  Tags as T " +
+      "left join TagTypes as TT on TT.id = T.TagTypeId " +
+      "order by ttid asc , tid asc";
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("[tags][result][allTags]", result);
+    });
+  });
+}
+/****************************** */
+
+function GetTagsFromPost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[tags][get][fromPost]", function (evt, id) {
+    var query =
+      'select Tags.id, Tags.name, TagTypes.id as categoryId, TagTypes.name as categoryName from Posts_Tags ' +
+      'left join Tags on Posts_Tags.tagID = Tags.id ' +
+      'left join TagTypes on Tags.TagTypeId = TagTypes.id ' +
+      'where Posts_Tags.postID = ' + id +
+      'order by  TagTypes.id ASC ';
+
+      knex.raw(query).then(function(result) {
+        mainWindow.webContents.send("[tags][result][fromPost]", result);
+      });
+    })
+}
 
 module.exports = {
   init: (knex, ipcMain, mainWindow) => {
@@ -54,5 +84,7 @@ module.exports = {
     catGetCategories(knex, ipcMain, mainWindow);
     catGetCategoriesByType(knex, ipcMain, mainWindow);
     catGetCategoriesList(knex, ipcMain, mainWindow);
+    catGetCategoriesList1(knex, ipcMain, mainWindow);
+    GetTagsFromPost(knex, ipcMain, mainWindow);
   }
 };

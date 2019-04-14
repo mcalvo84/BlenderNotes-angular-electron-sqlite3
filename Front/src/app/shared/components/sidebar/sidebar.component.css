@@ -86,3 +86,33 @@
     background-color: #666;
     border-color: #666;
 }
+
+
+:host >>> p-accordion  .ui-accordion-toggle-icon {
+  display: none;
+}
+:host >>> p-accordion p-accordionTab.app-tag-panel span.ui-accordion-header-text:before {
+  content: "\f02b";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  margin-left: 4px;
+}
+
+:host >>> p-accordion p-accordionTab.app-blogroll-panel span.ui-accordion-header-text:before {
+  content: "\f1ea";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  margin-left: 4px;
+}
+
+:host >>> p-accordion p-accordionTab.app-youtube-panel span.ui-accordion-header-text:before {
+  content: "\f16a";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  margin-left: 4px;
+}
+
+
+button.btn-disabled {
+  color: #888;
+}

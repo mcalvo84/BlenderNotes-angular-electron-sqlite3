@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { StateService } from 'src/app/core/state.service';
 import { PostsService } from 'src/app/core/api/posts.service';
+import { NotesService } from 'src/app/core/api/notes.service';
+import { TagsService } from 'src/app/core/api/tags.service';
 declare let electron: any;
 
 @Component({
@@ -23,6 +25,8 @@ export class DetailPostComponent implements OnInit, OnDestroy {
 
   constructor(
     private postsService: PostsService,
+    private tagsService: TagsService,
+    private notesService: NotesService,
     public stateService: StateService,
     private ref: ChangeDetectorRef,
     private route: ActivatedRoute
@@ -44,6 +48,8 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
     if (this.id > 0) {
       this.postsService.send('[posts][get][byID]', this.id);
+      this.tagsService.send('[tags][get][fromPost]', this.id);
+      this.notesService.send('[notes][get][fromPost]', this.id);
     } else {
       this.ref.detectChanges();
     }

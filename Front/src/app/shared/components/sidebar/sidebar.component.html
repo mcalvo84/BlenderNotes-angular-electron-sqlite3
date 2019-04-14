@@ -1,35 +1,7 @@
-<!-- <p-sidebar [(visible)]="display" [showCloseIcon]="false"> -->
-<!-- <div class="app-sidebar-fixed">
-  <p-tabView orientation="left" [activeIndex]="index" (onChange)="handleChange($event)">
-    <p-tabPanel
-    [header]=""
-    *ngFor="let item of _ipc.categoryTypes; let i = index"
-    leftIcon="fa fa-check"
-    [selected]="i == index">
-        <h5>{{item.name}}</h5>
-        <hr style="border-color: #aaa;" />
-        <span *ngFor="let c of _ipc.categoriesType[item.name]">
-          <button
-          #categoryitem
-          [ngClass]="{'btn-secondary': !c.selected && !c.disabled, 'btn-success': c.selected && !c.disabled, 'btn-disabled btn-plain': c.disabled }"
-          (click)="onClickCategory(c)"
-          class="btn btn-sm  m-1"
-          style="font-size: 0.9em;" >
-            {{c.name}}
-          </button>
-        </span>
-    </p-tabPanel>
-  </p-tabView>
-</div> -->
-<!-- </p-sidebar> -->
 
-<!-- <p-contextMenu [target]="categoryitem" [model]="rightClick"></p-contextMenu> -->
-<!-- <p-scrollPanel [style]="{width: '100%', height: '100%'}" styleClass="app-main-scrollpanel"> -->
 <p-accordion [multiple]="true"  (onClose)="ref.detectChanges()" (onOpen)="ref.detectChanges()">
   <div *ngFor="let item of _ipc.categoryTypes; let i = index">
-      <p-accordionTab header="{{item?.name}}" [selected]="_ipc.mainCategories[i]">
-          <p-inputSwitch styleClass="secondary" [(ngModel)]="_ipc.mainCategories[i]"></p-inputSwitch>
-
+      <p-accordionTab header="{{item?.name}}" [selected]="_ipc.mainCategories[i]" class="app-tag-panel">
           <span *ngFor="let c of _ipc.categoriesType[item?.name]">
               <button
               #categoryitem
@@ -41,6 +13,52 @@
               </button>
             </span>
       </p-accordionTab>
+    </div>
+    <div>
+      <hr style="border-top-width: 1px !important;" />
+      <p-accordionTab header="Blogs de origen" [selected]="_ipc.mainCategories[i]" class="app-blogroll-panel">
+          <span>
+              <button
+              #categoryitem
+              class="btn btn-sm  m-1 app-btn-category btn-secondary"
+              style="font-size: 0.9em !important;" >
+                Blender Nation
+              </button>
+              <button
+              #categoryitem
+              class="btn btn-sm  m-1 app-btn-category btn-secondary"
+              style="font-size: 0.9em !important;" >
+                Blender 3D Architect
+              </button>
+              <button
+              #categoryitem
+              class="btn btn-sm  m-1 app-btn-category btn-secondary"
+              style="font-size: 0.9em !important;" >
+                CG Masters
+              </button>
+              <button
+              #categoryitem
+              class="btn btn-sm  m-1 app-btn-category btn-secondary"
+              style="font-size: 0.9em !important;" >
+                CG Cookie
+              </button>
+            </span>
+      </p-accordionTab>
+      <p-accordionTab header="Canales de youtube" [selected]="_ipc.mainCategories[i]" class="app-youtube-panel">
+          <span>
+              <button
+              #categoryitem
+              class="btn btn-sm  m-1 app-btn-category btn-secondary"
+              style="font-size: 0.9em !important;" >
+                Blender Nation
+              </button>
+              <button
+              #categoryitem
+              class="btn btn-sm  m-1 app-btn-category btn-secondary"
+              style="font-size: 0.9em !important;" >
+                CG Masters
+              </button>
+            </span>
+      </p-accordionTab>
   </div>
 </p-accordion>
-<!-- </p-scrollPanel> -->

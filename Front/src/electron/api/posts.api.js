@@ -1,9 +1,5 @@
 /**
  * Get list of posts
- *
- * @param {*} knex
- * @param {*} ipcMain
- * @param {*} mainWindow
  */
 function GetPosts(knex, ipcMain, mainWindow) {
   ipcMain.on('[posts][get][list]', function(evt, listTags, published = 1, max = 5, offset = 0) {
@@ -30,7 +26,6 @@ function GetPosts(knex, ipcMain, mainWindow) {
       query = query + 'where Posts.published = ' + published;
     }
     query = query + ' ORDER BY Posts.id DESC LIMIT ' + offset + ', ' + max;
-    console.log(query, listTags);
 
     knex.raw(query).then(function(result) {
       let key = '[posts][result][list]';
@@ -42,6 +37,7 @@ function GetPosts(knex, ipcMain, mainWindow) {
   });
 }
 
+/************************************** */
 function getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow) {
   ipcMain.on('postsGetAbaliableFilersForPosts', function(evt, listTags) {
     var query =
@@ -65,14 +61,49 @@ function getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow) {
     });
   });
 }
+function getAbaliableTagsForFilteredPosts2(knex, ipcMain, mainWindow) {
+  ipcMain.on('[tags][get][sharedtags]', function(evt, listTags) {
+    var query =
+      'select Posts_Tags.tagID ' +
+      'from Posts  ' +
+      'left join Posts_Tags on Posts_Tags.postID = Posts.id  ' +
+      'where Posts.id in ( ' +
+      '  select postID as id  ' +
+      '  from (  ' +
+      '    select postID, count(Posts_Tags.postID) as counter  ' +
+      '    from Posts_Tags   ' +
+      '    where Posts_Tags.tagID in (' + listTags.toString() + ')  ' +
+      '    group by Posts_Tags.postID  ' +
+      '    having counter = ' + listTags.length  +
+      '  )  ' +
+      ')  ' +
+      'and Posts.published = 1 ';
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send('[tags][result][sharedtags]', result);
+    });
+  });
+}
+/****************************** */
 
 
 function GetPostById(knex, ipcMain, mainWindow) {
   ipcMain.on("[posts][get][byID]", function (evt, id) {
-    let result = knex.select("*").from("Posts").where("id", id)
-    result.then(function (rows) {
-      mainWindow.webContents.send("[posts][result][byID]", rows);
-    })
+
+    var query =
+    'select Posts.*, Images.url as mainImage, Users.userName as authorName, Blogrolls.name as blogrollName, Blogrolls.url as blogrollUrl from Posts ' +
+    'left join Blogrolls on Posts.BlogrollId = Blogrolls.id ' +
+    'left join Images on Posts.ImageId = Images.id ' +
+    'left join Users on Posts.UserId = Users.id ' +
+    'where Posts.id = ' + id;
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("[posts][result][byID]", result);
+    });
+    // let result = knex.select("*").from("Posts").where("id", id)
+    // result.then(function (rows) {
+    //   mainWindow.webContents.send("[posts][result][byID]", rows);
+    // })
   })
 };
 
@@ -122,6 +153,7 @@ function updatePostImage(knex, ipcMain, mainWindow) {
         GetPosts(knex, ipcMain, mainWindow);
         GetPostById(knex, ipcMain, mainWindow);
         getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow);
+        getAbaliableTagsForFilteredPosts2(knex, ipcMain, mainWindow);
         addSimplePost(knex, ipcMain, mainWindow);
         addImageSimplePost(knex, ipcMain, mainWindow);
         updatePostImage(knex, ipcMain, mainWindow);

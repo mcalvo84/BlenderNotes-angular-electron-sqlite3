@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
 import { PostsService } from 'src/app/core/api/posts.service';
+import { TagsService } from 'src/app/core/api/tags.service';
 declare let electron: any;
 
 @Component({
@@ -17,11 +18,16 @@ export class SidebarComponent implements OnInit {
   display = false;
   index = 0;
 
+
+  private stateSuscription: Subscription = new Subscription();
+  private stateItems = ['', 'sidebar'];
+
   getCategoryListSuscription: Subscription = new Subscription();
   postsGetAbaliableFilersForPostsSuscription: Subscription = new Subscription();
 
   constructor(
     private postsService: PostsService,
+    private tagsService: TagsService,
     public readonly _ipc: IpcService,
     public ref: ChangeDetectorRef) {
   }
@@ -35,6 +41,7 @@ export class SidebarComponent implements OnInit {
       console.log(this._ipc.categoreisFileterdAvaliable)
     })
     this._ipc.send('catGetCategoriesList');
+    this.tagsService.send('[tags][get][allTags]');
   }
 
   handleChange(e) {
@@ -48,6 +55,7 @@ export class SidebarComponent implements OnInit {
     this.postsService.send('[posts][get][list]', this.getSelectedCategories(), 1, 4);
     this.postsService.send('[posts][get][list]', this.getSelectedCategories(), 0, 4);
     this._ipc.send('postsGetAbaliableFilersForPosts', this.getSelectedCategories());
+    this.postsService.send('[tags][get][sharedTags]', this.getSelectedCategories());
     console.log(this._ipc.categoriesType)
   }
 

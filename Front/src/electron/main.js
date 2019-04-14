@@ -7,6 +7,7 @@ const url = require('url')
 let Categories = require('./api/categories.api')
 let Posts = require('./api/posts.api')
 let Users = require('./api/users.api')
+let Notes = require('./api/notes.api')
 
 // Settings
 let maximizedWindow = false;
@@ -44,6 +45,7 @@ function createWindow() {
   Categories.init(knex, ipcMain, mainWindow);
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
+  Notes.init(knex, ipcMain, mainWindow);
 
   // Close
   ipcMain.on('close-app', function() {
