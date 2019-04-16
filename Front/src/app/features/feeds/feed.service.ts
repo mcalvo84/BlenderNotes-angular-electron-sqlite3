@@ -20,7 +20,7 @@ export class FeedService {
   }
 
   extractFeeds(res): Feed {
-    console.log(res)
+    //console.log(res)
     return  <Feed>null
     //let feed = res.json();
     //return feed || { };

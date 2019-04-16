@@ -15,7 +15,7 @@ export class UsersGuard implements CanActivate {
     canActivate() {
         // If the user is not logged in we'll send them back to the home page
         if (!this.authService.currentUser) {
-            console.log('No estás logueado');
+            //console.log('No estás logueado');
             this.router.navigate(['/users']);
             return false;
         }

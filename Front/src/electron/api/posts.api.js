@@ -37,55 +37,6 @@ function GetPosts(knex, ipcMain, mainWindow) {
   });
 }
 
-/************************************** */
-function getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow) {
-  ipcMain.on('postsGetAbaliableFilersForPosts', function(evt, listTags) {
-    var query =
-      'select Posts_Tags.tagID ' +
-      'from Posts  ' +
-      'left join Posts_Tags on Posts_Tags.postID = Posts.id  ' +
-      'where Posts.id in ( ' +
-      '  select postID as id  ' +
-      '  from (  ' +
-      '    select postID, count(Posts_Tags.postID) as counter  ' +
-      '    from Posts_Tags   ' +
-      '    where Posts_Tags.tagID in (' + listTags.toString() + ')  ' +
-      '    group by Posts_Tags.postID  ' +
-      '    having counter = ' + listTags.length  +
-      '  )  ' +
-      ')  ' +
-      'and Posts.published = 1 ';
-
-    knex.raw(query).then(function(result) {
-      mainWindow.webContents.send('postsGetAbaliableFilersForPostsResultSent', result);
-    });
-  });
-}
-function getAbaliableTagsForFilteredPosts2(knex, ipcMain, mainWindow) {
-  ipcMain.on('[tags][get][sharedtags]', function(evt, listTags) {
-    var query =
-      'select Posts_Tags.tagID ' +
-      'from Posts  ' +
-      'left join Posts_Tags on Posts_Tags.postID = Posts.id  ' +
-      'where Posts.id in ( ' +
-      '  select postID as id  ' +
-      '  from (  ' +
-      '    select postID, count(Posts_Tags.postID) as counter  ' +
-      '    from Posts_Tags   ' +
-      '    where Posts_Tags.tagID in (' + listTags.toString() + ')  ' +
-      '    group by Posts_Tags.postID  ' +
-      '    having counter = ' + listTags.length  +
-      '  )  ' +
-      ')  ' +
-      'and Posts.published = 1 ';
-
-    knex.raw(query).then(function(result) {
-      mainWindow.webContents.send('[tags][result][sharedtags]', result);
-    });
-  });
-}
-/****************************** */
-
 
 function GetPostById(knex, ipcMain, mainWindow) {
   ipcMain.on("[posts][get][byID]", function (evt, id) {
@@ -152,8 +103,6 @@ function updatePostImage(knex, ipcMain, mainWindow) {
       init: (knex, ipcMain, mainWindow) => {
         GetPosts(knex, ipcMain, mainWindow);
         GetPostById(knex, ipcMain, mainWindow);
-        getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow);
-        getAbaliableTagsForFilteredPosts2(knex, ipcMain, mainWindow);
         addSimplePost(knex, ipcMain, mainWindow);
         addImageSimplePost(knex, ipcMain, mainWindow);
         updatePostImage(knex, ipcMain, mainWindow);

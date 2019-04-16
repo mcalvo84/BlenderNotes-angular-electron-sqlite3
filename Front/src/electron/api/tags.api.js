@@ -10,8 +10,6 @@ function catGetCategoryTypes(knex, ipcMain, mainWindow) {
 function catGetCategories(knex, ipcMain, mainWindow) {
   ipcMain.on("catGetCategories", function() {
     let result = knex.select("*").from("Tags");
-    //console.log("result DEL catGetCategories :: ", result)
-    //console.log("-----------------------")
     result.then(function(rows) {
       mainWindow.webContents.send("catGetCategoriesResultSent", rows);
     });
@@ -20,36 +18,20 @@ function catGetCategories(knex, ipcMain, mainWindow) {
 
 function catGetCategoriesByType(knex, ipcMain, mainWindow) {
   ipcMain.on("catGetCategoriesByType", function(evt, id) {
-    //console.log("ID DEL TIPO :: ", id)
     let result = knex
       .select("*")
       .from("Tags")
       .where("TagTypeId", id);
-    //console.log("result DEL TIPO :: ", result)
-    //console.log("-----------------------")
     result.then(function(rows) {
-      //console.log(result)
       mainWindow.webContents.send("catGetCategoriesByTypeResultSent", rows);
     });
   });
 }
 
-
-/******************************* */
+/**
+ * - Use for get all tags with theirs super categories
+ */
 function catGetCategoriesList(knex, ipcMain, mainWindow) {
-  ipcMain.on("catGetCategoriesList", function() {
-    var query =
-      "" +
-      "select T.id as tid, T.name as tname,  TT.id as ttid, TT.name as ttname from  Tags as T " +
-      "left join TagTypes as TT on TT.id = T.TagTypeId " +
-      "order by ttid asc , tid asc";
-
-    knex.raw(query).then(function(result) {
-      mainWindow.webContents.send("catGetCategoriesListResultSent", result);
-    });
-  });
-}
-function catGetCategoriesList1(knex, ipcMain, mainWindow) {
   ipcMain.on("[tags][get][allTags]", function() {
     var query =
       "select T.id as tid, T.name as tname,  TT.id as ttid, TT.name as ttname from  Tags as T " +
@@ -61,7 +43,34 @@ function catGetCategoriesList1(knex, ipcMain, mainWindow) {
     });
   });
 }
-/****************************** */
+
+/**
+ * - When user select a tag on sidebar in OR mode
+ * - Use for get categories in which the user can still filtering and founding results
+ */
+function getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow) {
+  ipcMain.on('[tags][get][OR]', function(evt, listTags) {
+    var query =
+      'select Posts_Tags.tagID ' +
+      'from Posts  ' +
+      'left join Posts_Tags on Posts_Tags.postID = Posts.id  ' +
+      'where Posts.id in ( ' +
+      '  select postID as id  ' +
+      '  from (  ' +
+      '    select postID, count(Posts_Tags.postID) as counter  ' +
+      '    from Posts_Tags   ' +
+      '    where Posts_Tags.tagID in (' + listTags.toString() + ')  ' +
+      '    group by Posts_Tags.postID  ' +
+      '    having counter = ' + listTags.length  +
+      '  )  ' +
+      ')  ' +
+      'and Posts.published = 1 ';
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send('[tags][result][OR]', result);
+    });
+  });
+}
 
 function GetTagsFromPost(knex, ipcMain, mainWindow) {
   ipcMain.on("[tags][get][fromPost]", function (evt, id) {
@@ -69,7 +78,7 @@ function GetTagsFromPost(knex, ipcMain, mainWindow) {
       'select Tags.id, Tags.name, TagTypes.id as categoryId, TagTypes.name as categoryName from Posts_Tags ' +
       'left join Tags on Posts_Tags.tagID = Tags.id ' +
       'left join TagTypes on Tags.TagTypeId = TagTypes.id ' +
-      'where Posts_Tags.postID = ' + id +
+      'where Posts_Tags.postID = ' + id + ' ' +
       'order by  TagTypes.id ASC ';
 
       knex.raw(query).then(function(result) {
@@ -84,7 +93,7 @@ module.exports = {
     catGetCategories(knex, ipcMain, mainWindow);
     catGetCategoriesByType(knex, ipcMain, mainWindow);
     catGetCategoriesList(knex, ipcMain, mainWindow);
-    catGetCategoriesList1(knex, ipcMain, mainWindow);
     GetTagsFromPost(knex, ipcMain, mainWindow);
+    getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow);
   }
 };

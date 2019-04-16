@@ -21,7 +21,7 @@ export class FeedCardComponent implements OnInit {
       this._ipc.addSimplePostEmitter,
       this._ipc.addImageSimplePostEmitter
     ).subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this._ipc.send('updatePostImage', {imgID: data[1], postID: data[0]});
     })
 

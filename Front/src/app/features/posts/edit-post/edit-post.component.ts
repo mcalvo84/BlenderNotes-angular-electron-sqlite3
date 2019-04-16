@@ -25,12 +25,12 @@ export class EditPostComponent implements OnInit, OnDestroy, OnChanges {
     private route: ActivatedRoute
   ) {
     // Detect state changes
-      console.log('antes de suscribirme');
+      //console.log('antes de suscribirme');
     this.stateSuscription =
     this.stateService.changeEmitter.subscribe(element => {
-      console.log('stateService.changeEmitter.subscribe', element, this.stateItems);
+      //console.log('stateService.changeEmitter.subscribe', element, this.stateItems);
       if (this.stateItems.indexOf(element)) {
-        console.log(this.stateService.data.detailPost);
+        //console.log(this.stateService.data.detailPost);
         this.ref.detectChanges();
       }
     });

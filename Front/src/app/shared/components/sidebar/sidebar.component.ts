@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { IpcService } from 'src/app/ipc.service';
 import { Subscription } from 'rxjs';
 import { PostsService } from 'src/app/core/api/posts.service';
 import { TagsService } from 'src/app/core/api/tags.service';
+import { StateService } from 'src/app/core/state.service';
 declare let electron: any;
 
 @Component({
@@ -10,15 +11,9 @@ declare let electron: any;
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
-  public ipc = electron.ipcRenderer;
-  public categoryTypes: {}[] = [];
-  public categoriesType = {};
-  display = false;
-  index = 0;
-
-
+  public openTagsCategory: boolean[] = [];
   private stateSuscription: Subscription = new Subscription();
   private stateItems = ['', 'sidebar'];
 
@@ -26,27 +21,31 @@ export class SidebarComponent implements OnInit {
   postsGetAbaliableFilersForPostsSuscription: Subscription = new Subscription();
 
   constructor(
+    public stateService: StateService,
     private postsService: PostsService,
     private tagsService: TagsService,
-    public readonly _ipc: IpcService,
     public ref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.getCategoryListSuscription = this._ipc.categoriesListEmitter.subscribe(result => {
-      this.ref.detectChanges();
-    })
-    this.postsGetAbaliableFilersForPostsSuscription = this._ipc.postsGetAbaliableFilersForPostsEmitter.subscribe(result => {
-      this.ref.detectChanges();
-      console.log(this._ipc.categoreisFileterdAvaliable)
-    })
-    this._ipc.send('catGetCategoriesList');
+    // Detect state changes
+    this.stateSuscription =
+    this.stateService.changeEmitter.subscribe(element => {
+      if (this.stateItems.indexOf(element)) {
+        this.ref.detectChanges();
+      }
+    });
+
+    // Load Tags
     this.tagsService.send('[tags][get][allTags]');
   }
 
+  ngOnDestroy() {
+    this.stateSuscription.unsubscribe();
+  }
+
   handleChange(e) {
-    this.index = e.index;
-    this.ref.detectChanges()
+    this.ref.detectChanges();
   }
 
   onClickCategory(item) {
@@ -54,17 +53,15 @@ export class SidebarComponent implements OnInit {
     this.ref.detectChanges();
     this.postsService.send('[posts][get][list]', this.getSelectedCategories(), 1, 4);
     this.postsService.send('[posts][get][list]', this.getSelectedCategories(), 0, 4);
-    this._ipc.send('postsGetAbaliableFilersForPosts', this.getSelectedCategories());
-    this.postsService.send('[tags][get][sharedTags]', this.getSelectedCategories());
-    console.log(this._ipc.categoriesType)
+    this.tagsService.send('[tags][get][OR]', this.getSelectedCategories());
   }
 
   private getSelectedCategories() {
     let resultArray = [];
-    Object.keys(this._ipc.categoriesType).forEach(key => {
-      this._ipc.categoriesType[key].forEach(category => {
+    Object.keys(this.stateService.data.tagsByCat).forEach(key => {
+      this.stateService.data.tagsByCat[key].forEach(category => {
         if (category.selected) {
-          resultArray.push(category.id)
+          resultArray.push(category.id);
         }
       });
     });

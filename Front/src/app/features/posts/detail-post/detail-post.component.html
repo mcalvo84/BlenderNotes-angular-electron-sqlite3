@@ -6,6 +6,8 @@
 <div class="row" style="overflow: auto;">
   <div class="col-3">
       <img [src]="stateService.data.detailPost.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" style="width: 100%;">
+      <hr />
+      <app-sidebar></app-sidebar>
   </div>
   <div class="col-9">
     <h1 style="font-size:18px !important;">{{ stateService.data.detailPost?.title }}</h1>

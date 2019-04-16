@@ -112,7 +112,15 @@
   margin-left: 4px;
 }
 
-
+button {
+  width: 29%;
+  word-break: inherit;
+  text-overflow: ellipsis;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+}
 button.btn-disabled {
   color: #888;
 }

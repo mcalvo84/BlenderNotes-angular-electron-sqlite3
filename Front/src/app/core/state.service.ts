@@ -10,9 +10,10 @@ export interface IFeaturesState {
   detailPostTags?: any[];
   detailPostNotes?: any[];
   filterMode?: boolean;
-  allTags?: {tid: number, tname: string, ttid: 1, ttname: string}[];
   selectedTags?: number[];
   avaliableTags?: number[];
+  tagTypes?: any;
+  tagsByCat?: any;
 }
 
 @Injectable({
@@ -41,9 +42,11 @@ export class StateService {
     this.data.detailPostNotes = [];
 
     // Tags
-    this.data.allTags = [];
     this.data.selectedTags = [];
     this.data.avaliableTags = [];
+    this.data.tagTypes = [];
+    this.data.tagsByCat = {};
+
   }
 
   emitChange(stateItems) {

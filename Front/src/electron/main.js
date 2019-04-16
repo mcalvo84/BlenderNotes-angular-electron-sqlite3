@@ -4,7 +4,7 @@ const path = require('path')
 const url = require('url')
 
 // API
-let Categories = require('./api/categories.api')
+let Tags = require('./api/tags.api')
 let Posts = require('./api/posts.api')
 let Users = require('./api/users.api')
 let Notes = require('./api/notes.api')
@@ -42,7 +42,7 @@ function createWindow() {
   mainWindow.webContents.openDevTools()
 
   // API
-  Categories.init(knex, ipcMain, mainWindow);
+  Tags.init(knex, ipcMain, mainWindow);
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
   Notes.init(knex, ipcMain, mainWindow);

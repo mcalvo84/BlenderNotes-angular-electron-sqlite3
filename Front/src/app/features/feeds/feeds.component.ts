@@ -20,7 +20,7 @@ export class FeedsComponent implements OnInit {
   ngOnInit() {
     this.feedService.getFeedContent('https://www.blendernation.com/feed/')
     .subscribe((resp: Feed) => {
-      console.log(resp)
+      //console.log(resp)
       this.feedReady = true;
       this.feeds = resp; //this.feedService.extractFeeds(resp);
       this.ref.detectChanges();

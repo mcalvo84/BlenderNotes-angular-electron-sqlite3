@@ -9,6 +9,7 @@ import { FilterPipe, SortByPipe } from './array.pipe';
 import { CamelToSnakePipe } from './camel-to-snake';
 import { FixUrlPipe } from './fix-url';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
+import { NameShorterPipe } from './name-shorter';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
         SortByPipe,
         CamelToSnakePipe,
         FixUrlPipe,
-        StripHtmlTagsPipe
+        StripHtmlTagsPipe,
+        NameShorterPipe
     ],
     exports: [
         FileSizePipe,
@@ -31,7 +33,8 @@ import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
         SortByPipe,
         CamelToSnakePipe,
         FixUrlPipe,
-        StripHtmlTagsPipe
+        StripHtmlTagsPipe,
+        NameShorterPipe
     ],
 })
 export class PipesModule {
