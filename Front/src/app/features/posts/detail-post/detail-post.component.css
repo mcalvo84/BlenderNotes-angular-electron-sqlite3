@@ -1,0 +1,99 @@
+#app-post-title {
+  width: 100%;
+  font-size:18px !important;
+  border-width: 0 0 0 thin;
+  padding-left: 10px;
+}
+
+.app-post-original {
+  width: 100%;
+  font-size: 13px !important;
+  border-width: 0 0 0 thin;
+  padding-left: 10px;
+}
+
+
+:host >>> p-accordion .ui-accordion-content-wrapper,
+:host >>> p-accordion .ui-accordion-content,
+:host >>> p-accordion .ui-accordion-header * {
+  background: transparent !important;
+  color: #333 !important;
+  border-width: 0 !important;
+}
+:host >>> p-accordion .ui-accordion-content{
+  padding: 0;
+}
+:host >>> p-accordion .ui-accordion-header a {
+  padding-left: 0;
+}
+
+:host >>> p-listbox .ui-listbox.ui-widget-content {
+  border: 0;
+}
+
+:host >>> p-listbox .ui-widget-header {
+  display: none;
+}
+
+:host >>> p-listbox .ui-listbox .ui-listbox-list .ui-listbox-item.ui-state-highlight {
+  background-color: transparent;
+}
+
+:host >>> p-listbox .ui-listbox-item.ui-state-highlight .ui-chkbox .ui-chkbox-box.ui-state-active {
+  border-color: #444;
+  background-color: #444;
+}
+:host >>> p-listbox .ui-listbox-item.ui-state-highlight .ui-chkbox .ui-chkbox-box.ui-state-active .ui-chkbox-icon:before {
+  color: #ffffff;
+}
+:host >>> p-listbox .ui-listbox .ui-listbox-list .ui-listbox-item.ui-state-highlight span {
+  color: #333;
+}
+
+:host >>> p-selectbutton .ui-selectbutton .ui-button.ui-state-active,
+:host >>> p-selectbutton .ui-selectbutton .ui-button.ui-state-active:hover {
+  background-color: #444;
+  border-color: #444;
+  color: #ffffff;
+}
+
+/* :host >>> p-accordion *.ui-accordion-header{
+  border-bottom-width: 1px !important;
+} */
+
+/* :host >>> p-accordion .btn-secondary {
+    color: #fff;
+    background-color: #444;
+    border-color: #444;
+}
+
+:host >>> p-accordion .btn-secondary:hover {
+    color: #fff;
+    background-color: #666;
+    border-color: #666;
+} */
+
+
+/* :host >>> p-accordion  .ui-accordion-toggle-icon {
+  display: none;
+} */
+/* :host >>> p-accordion p-accordionTab.app-tag-panel span.ui-accordion-header-text:before {
+  content: "\f02b";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  margin-left: 4px;
+}
+
+:host >>> p-accordion p-accordionTab.app-blogroll-panel span.ui-accordion-header-text:before {
+  content: "\f1ea";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  margin-left: 4px;
+}
+
+:host >>> p-accordion p-accordionTab.app-youtube-panel span.ui-accordion-header-text:before {
+  content: "\f16a";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  margin-left: 4px;
+} */

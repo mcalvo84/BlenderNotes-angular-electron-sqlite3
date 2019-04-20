@@ -1,17 +1,76 @@
 <div class="row">
-  <div class="col-12 container-fluid mb-2 p-0" style="border-bottom: 1px solid #ddd;">
+  <div class="col-12 container-fluid mb-2 p-0" style="border-bottom: 1px solid #ddd;" >
     <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
   </div>
 </div>
-<div class="row" style="overflow: auto;">
-  <div class="col-3">
-      <img [src]="stateService.data.detailPost.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" style="width: 100%;">
+
+<form *ngIf="formReady" id="app-detail-post" [formGroup]="form" [ngClass]="{ 'app-edit-mode': true }" style="margin-top: 8px;">
+  <div class="row" style="overflow: auto;">
+    <div class="col-3" formGroupName="tags" id="app-detail-post-tags">
+      <img style="width: 100%;" [src]="stateService.data.detailPost.mainImage | appDefaultImage: 'assets/gallery/nodes-001.jpg'" />
       <hr />
-      <app-sidebar></app-sidebar>
+      <p-accordion (onClose)="ref.detectChanges()" (onOpen)="ref.detectChanges()">
+        <div *ngFor="let item of stateService.data.tagTypes; let i = index">
+          <p-accordionTab header="{{item?.name}}" class="app-tag-panel">
+
+              <!-- <p class="mt-2 app-post-original"><b>{{item?.name}}</b></p>
+              <p-multiSelect
+              [style]="{'width':'100%'}"
+              [panelStyle]="{minWidth:'200px'}"
+              (onPanelShow)="ref.detectChanges(); consolelog('onPanelShow')"
+              (onPanelHide)="ref.detectChanges(); consolelog('onPanelHide')"
+              (onClick)="ref.detectChanges(); consolelog('onClick')"
+              (onChange)="ref.detectChanges(); consolelog('onChange')"
+              [options]="tagMultiselectValues[item?.name]"
+              [formControlName]="item?.name">
+              </p-multiSelect> -->
+            <p-listbox
+            multiple="multiple" checkbox="checkbox" filter="filter"
+            [listStyle]="{'max-height':'250px'}"
+            [style]="{'width':'100%'}"
+            (onChange)="ref.detectChanges(); consolelog('onChange')"
+            [options]="tagMultiselectValues[item?.name]"
+            [formControlName]="item?.name">
+            </p-listbox>
+          </p-accordionTab>
+        </div>
+      </p-accordion>
+      <!-- <app-sidebar></app-sidebar> -->
+    </div>
+    <div class="col-9">
+      <!-- <h1 style="font-size:18px !important;">
+        {{ stateService.data.detailPost?.title }}
+      </h1> -->
+      <input id="app-post-title" type="text" pInputText formControlName="title" />
+      <hr />
+      <p *ngIf="false" [innerHtml]="stateService.data.detailPost.body"></p>
+      <p-editor id="app-post-body" formControlName="body" [style]="{'height':'320px'}"></p-editor>
+      <hr />
+      <div class="row mt-2 mb-4">
+          <div class="col-6">
+            <p class="mt-2 app-post-original"><b>Post original</b></p>
+            <input class="app-post-original" type="text" size="30" pInputText formControlName="original" >
+          </div>
+          <div class="col-6">
+              <p class="mt-2 app-post-original"><b>Estado</b></p>
+              <!-- <p-checkbox [formControl]="form.controls['published']"></p-checkbox> <span>{{ (published.value == 0) ? ' Borrador' : ' Publicado' }}</span> -->
+              <p-selectButton [options]="publishedOptions" [formControl]="form.controls['published']" (onChange)="ref.detectChanges()" ></p-selectButton>
+          </div>
+      </div>
+      <hr />
+      <div class="row mt-2 mb-4">
+          <div class="col-6">
+            <p class="mt-2 app-post-original"><b>Videos</b></p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/WRlTyTU4w7o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="col-6">
+              <p class="mt-2 app-post-original"><b>Descargables</b></p>
+              <p>
+                <i class="fa fa-file-archive-o fa-lg" aria-hidden="true"></i>
+                <span class="pl-2" style="font-size: 13px;">Addon</span>
+              </p>
+          </div>
+      </div>
+    </div>
   </div>
-  <div class="col-9">
-    <h1 style="font-size:18px !important;">{{ stateService.data.detailPost?.title }}</h1>
-    <hr />
-    <p [innerHtml]="stateService.data.detailPost.body | slice:0:250"></p>
-  </div>
-</div>
+</form>

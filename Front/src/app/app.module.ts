@@ -15,7 +15,6 @@ import { CoreModule } from './core/core.module';
 
 
 import { PostsComponent } from './features/posts/posts.component';
-import { EditPostComponent } from './features/posts/edit-post/edit-post.component';
 import { DetailPostComponent } from './features/posts/detail-post/detail-post.component';
 import { SummaryPostComponent } from './features/posts/summary-post/summary-post.component';
 import { HomeComponent } from './features/home/home.component';
@@ -30,7 +29,6 @@ import { UsersComponent } from './features/users/users.component';
     AppComponent,
     HomeComponent,
     PostsComponent,
-    EditPostComponent,
     DetailPostComponent,
     SummaryPostComponent,
     FeedsComponent,

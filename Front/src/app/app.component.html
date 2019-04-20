@@ -10,19 +10,19 @@
     </div>
     <div class="flex-width-auto" style="box-shadow: 0 0px 10px -2px rgba(0,0,0,0.3) inset; position: relative;">
       <div class="flex-container flex-flow-row" style="position: absolute; height: 100%;">
-        <div class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;overflow: auto;"
+        <div id="app-sidebar" class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;overflow: auto;"
         *ngIf="stateService.data.display == 'home'">
             <div style="width: 300px;height: 99%;">
               <app-sidebar></app-sidebar>
             </div>
         </div>
-        <div class="flex-width-auto" style="box-shadow: 0 3px 3px 0px rgba(0,0,0,0.5) inset;overflow: auto;">
+        <div id="app-main" class="flex-width-auto" style="box-shadow: 0 3px 3px 0px rgba(0,0,0,0.5) inset;overflow: auto;">
             <div class="container-fluid">
                 <router-outlet></router-outlet>
             </div>
         </div>
       </div>
-      <div class="app-reader-rss"
+      <div id="app-reader-rss" class="app-reader-rss"
       *ngIf="feedService.show"
       style="
         position: absolute;
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-width-content" style="position: relative; z-index: 9000;order:2;">
+    <div id="app-statusbar" class="flex-width-content" style="position: relative; z-index: 9000;order:2;">
         <div style="height: 22px;background: rgba(250,250,250,0.8);border-top: 1px solid #ddd; padding-left: 3px;">
 
             <p-inputSwitch *ngIf="stateService.data.display == 'home'" styleClass="secondary" (onChange)="filtroExclusivoCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>

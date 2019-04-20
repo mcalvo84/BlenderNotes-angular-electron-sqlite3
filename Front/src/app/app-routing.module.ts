@@ -5,7 +5,6 @@ import { Error404Component } from './shared/error/error404.component';
 import { HomeComponent } from './features/home/home.component';
 import { PostsComponent } from './features/posts/posts.component';
 import { DetailPostComponent } from './features/posts/detail-post/detail-post.component';
-import { EditPostComponent } from './features/posts/edit-post/edit-post.component';
 import { UsersComponent } from './features/users/users.component';
 import { UsersGuard } from './features/users/users-guard.service';
 
@@ -15,7 +14,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent,  canActivate: [UsersGuard]},
   { path: 'posts', component: PostsComponent,  canActivate: [UsersGuard]},
   { path: 'posts/detail/:id', component: DetailPostComponent,  canActivate: [UsersGuard]},
-  { path: 'posts/edit/:id', component: EditPostComponent,  canActivate: [UsersGuard]},
   { path: 'users', component: UsersComponent},
   { path: 'error', component: Error500Component },
   { path: '**', component: Error404Component }
