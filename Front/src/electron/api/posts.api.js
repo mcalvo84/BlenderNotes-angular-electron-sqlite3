@@ -1,3 +1,7 @@
+
+var http = require('http');
+var fs   = require('fs');
+
 /**
  * Get list of posts
  */
@@ -65,7 +69,8 @@ function addSimplePost(knex, ipcMain, mainWindow) {
       body: post.description,
       BlogrollId: null,
       ImageId: null,
-      UserId: null
+      UserId: null,
+      original: post.link
     })
     .returning('id')
     .into('Posts')
@@ -75,10 +80,49 @@ function addSimplePost(knex, ipcMain, mainWindow) {
   });
 }
 
+function updateSimplePost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[post][update][simple]", function(evt, post, id) {
+    knex.update({
+      title: post.title,
+      body: post.body,
+      original: post.original,
+      published: post.published,
+      updatedAt: formatDate(new Date())
+    })
+    .where({id})
+    .returning('id')
+    .into('Posts')
+    .then(function (id) {
+      mainWindow.webContents.send("[posts][result][update][simple]", id[0]);
+    });
+/*     var query =
+    "UPDATE Posts " +
+    "SET " +
+      "title='"+ post.title +"' " +
+      "body='"+ post.body +"' " +
+      "original='"+ post.original +"' " +
+      "published="+ post.published +" " +
+      "updatedAt='"+ formatDate(new Date()) +"' " +
+    "WHERE  Posts.id = " +  id;
+
+    console.log(query)
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("[posts][result][update][simple]", result);
+    }); */
+  });
+}
+
 function addImageSimplePost(knex, ipcMain, mainWindow) {
   ipcMain.on("addImageSimplePost", function(evt, imgSrc) {
+    let splitPath = imgSrc.split("/");
+    var file = fs.createWriteStream("./DATA/Images/MainImages/" + splitPath[splitPath.length - 1]); // splitPath[splitPath.length - 1]
+    var request = http.get(imgSrc.replace("https:", "http:"), function(response) {
+      response.pipe(file);
+    });
+
     knex.insert({
-      url: imgSrc
+      url: "./DATA/Images/MainImages/" + splitPath[splitPath.length - 1] // imgSrc // "./DATA/Images/MainImages/created_file.jpg"
     })
     .returning('id')
     .into('Images')
@@ -98,6 +142,23 @@ function updatePostImage(knex, ipcMain, mainWindow) {
   });
 }
 
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+      hours = d.getHours();
+      minutes = d.getMinutes();
+      seconds = d.getSeconds();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  if (hours.length < 2) hours = '0' + hours;
+  if (minutes.length < 2) minutes = '0' + minutes;
+  if (seconds.length < 2) seconds = '0' + seconds;
+
+  return [year, month, day ].join('-') + ' ' + [ hours, minutes, seconds ].join(':');
+}
 
   module.exports = {
       init: (knex, ipcMain, mainWindow) => {
@@ -106,5 +167,6 @@ function updatePostImage(knex, ipcMain, mainWindow) {
         addSimplePost(knex, ipcMain, mainWindow);
         addImageSimplePost(knex, ipcMain, mainWindow);
         updatePostImage(knex, ipcMain, mainWindow);
+        updateSimplePost(knex, ipcMain, mainWindow);
       }
   }

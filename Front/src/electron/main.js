@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
+//var app  = require('remote').require('app')
 // API
 let Tags = require('./api/tags.api')
 let Posts = require('./api/posts.api')

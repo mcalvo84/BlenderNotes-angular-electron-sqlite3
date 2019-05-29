@@ -9,7 +9,7 @@
         <app-header></app-header>
     </div>
     <div class="flex-width-auto" style="box-shadow: 0 0px 10px -2px rgba(0,0,0,0.3) inset; position: relative;">
-      <div class="flex-container flex-flow-row" style="position: absolute; height: 100%;">
+      <div class="flex-container flex-flow-row" style="position: absolute;height: 100%;width: 100%;">
         <div id="app-sidebar" class="flex-width-content" style="min-width: 302px;background: #f8f9fa;border-right: 1px solid #ddd;overflow: auto;"
         *ngIf="stateService.data.display == 'home'">
             <div style="width: 300px;height: 99%;">
@@ -48,6 +48,9 @@
 
             <p-inputSwitch *ngIf="stateService.data.display == 'home'" styleClass="secondary" (onChange)="filtroExclusivoCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>
             <b *ngIf="stateService.data.display == 'home'" style="vertical-align: inherit;" class="ml-1">Filtro exclusivo</b>
+
+            <p-inputSwitch *ngIf="stateService.data.display == 'detail'" styleClass="secondary" (onChange)="modoEdicionCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>
+            <b *ngIf="stateService.data.display == 'detail'" style="vertical-align: inherit;" class="ml-1">Modo edicion</b>
 
             <p class="pull-right m-0 text-sm" style="color: #666;">
               <span class="mr-2" *ngIf="stateService.data.display == 'detail'">

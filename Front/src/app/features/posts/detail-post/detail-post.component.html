@@ -4,14 +4,22 @@
   </div>
 </div>
 
-<form *ngIf="formReady" id="app-detail-post" [formGroup]="form" [ngClass]="{ 'app-edit-mode': true }" style="margin-top: 8px;">
-  <div class="row" style="overflow: auto;">
+<form class="row" *ngIf="formReady" id="app-detail-post" [formGroup]="form" [ngClass]="{ 'app-edit-mode': true }" style="margin-top: 8px;">
+  <!-- <div class="row" style="overflow: auto;"> -->
     <div class="col-3" formGroupName="tags" id="app-detail-post-tags">
-      <img style="width: 100%;" [src]="stateService.data.detailPost.mainImage | appDefaultImage: 'assets/gallery/nodes-001.jpg'" />
+
+        <div style="text-align: center;width: 100%;background: #444;overflow: hidden;height: 150px;">
+          <img style="max-height: 200px;" [src]="stateService.data.detailPost.mainImage | appDefaultImage: 'assets/gallery/nodes-001.jpg'">
+        </div>
+
+      <!-- <img style="width: 100%;" [src]="stateService.data.detailPost.mainImage | appDefaultImage: 'assets/gallery/nodes-001.jpg'" /> -->
       <hr />
       <p-accordion (onClose)="ref.detectChanges()" (onOpen)="ref.detectChanges()">
         <div *ngFor="let item of stateService.data.tagTypes; let i = index">
           <p-accordionTab header="{{item?.name}}" class="app-tag-panel">
+            <div *ngFor="let checktag of tagMultiselectValues[item?.name]">
+                <!-- <p-checkbox name="groupname" value="val1" [(ngModel)]="checktag"></p-checkbox> -->
+            </div>
 
               <!-- <p class="mt-2 app-post-original"><b>{{item?.name}}</b></p>
               <p-multiSelect
@@ -28,7 +36,7 @@
             multiple="multiple" checkbox="checkbox" filter="filter"
             [listStyle]="{'max-height':'250px'}"
             [style]="{'width':'100%'}"
-            (onChange)="ref.detectChanges(); consolelog('onChange')"
+            (onChange)="onTagChange($event)"
             [options]="tagMultiselectValues[item?.name]"
             [formControlName]="item?.name">
             </p-listbox>
@@ -43,8 +51,8 @@
       </h1> -->
       <input id="app-post-title" type="text" pInputText formControlName="title" />
       <hr />
-      <p *ngIf="false" [innerHtml]="stateService.data.detailPost.body"></p>
-      <p-editor id="app-post-body" formControlName="body" [style]="{'height':'320px'}"></p-editor>
+      <p id="app-post-body-readonly" *ngIf="!this.stateService.data.editMode" [innerHtml]="stateService.data.detailPost.body"></p>
+      <p-editor *ngIf="this.stateService.data.editMode" id="app-post-body" formControlName="body" [style]="{'height':'500px', 'width': '100%'}"></p-editor>
       <hr />
       <div class="row mt-2 mb-4">
           <div class="col-6">
@@ -72,5 +80,6 @@
           </div>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
+  <button class="bnt btn-primary" (click)="onSubmit()">Guardar</button>
 </form>

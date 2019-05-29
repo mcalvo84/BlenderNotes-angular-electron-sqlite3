@@ -1,6 +1,8 @@
-<p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
-    <p-header >
-        <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'"  [routerLink]="['/posts/detail/', post.id]">
-    </p-header>
-    <div [innerHtml]="post.body | slice:0:250"></div>
-</p-card>
+<div  [routerLink]="['/posts/detail/', post.id]" style="cursor: pointer;">
+  <p-card title="{{post.title}}" subtitle="Subtitle"  styleClass="ui-card-shadow">
+      <p-header >
+          <img src="Card" [src]="post.mainImage  | appDefaultImage:'assets/gallery/nodes-001.jpg'" >
+      </p-header>
+      <div [innerHtml]="post.body | slice:0:250"></div>
+  </p-card>
+</div>

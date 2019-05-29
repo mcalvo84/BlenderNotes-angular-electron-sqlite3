@@ -71,7 +71,25 @@ export class TagsService {
 
       this.stateService.emitChange('sidebar');
     });
+
+    /**
+     *
+     */
+    this.ipcService.on('[tags][result][fromPost]', (evt: Electron.IpcMessageEvent, result: {categoryId: number, categoryName: string, id: number, name: string}[]) => {
+
+      var returnResult = {}
+      result.forEach(item => {
+        if (!returnResult[item.categoryName]) {
+          returnResult[item.categoryName] = [];
+        }
+        returnResult[item.categoryName].push(item.id)
+      })
+      this.stateService.data.detailPostTags = returnResult;
+      console.log('[tags][result][fromPost]', returnResult);
+      this.stateService.emitChange('detailPostTags');
+    });
   }
+
 
   public send(channel: string, ...args): void {
     this.ipcService.send(channel, ...args);

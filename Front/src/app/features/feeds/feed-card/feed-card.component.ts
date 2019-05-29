@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { IpcService } from 'src/app/ipc.service';
 import { zip, Subscription } from 'rxjs';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-feed-card',
@@ -15,7 +16,8 @@ export class FeedCardComponent implements OnInit {
 
   constructor(
     private readonly _ipc: IpcService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    public stateService: StateService,
   ) {
     this.addSimplePostSuscription = zip(
       this._ipc.addSimplePostEmitter,
@@ -43,7 +45,8 @@ export class FeedCardComponent implements OnInit {
   }
 
   addToPosts(feed) {
-      this._ipc.send('addSimplePost', feed),
-      this._ipc.send('addImageSimplePost', feed.enclosure.link)
+      this._ipc.send('addSimplePost', feed);
+      this._ipc.send('addImageSimplePost', (feed.enclosure.link || feed.enclosure.thumbnail));
+      this.stateService.emitChange('unpublishedPostList');
   }
 }

@@ -7,13 +7,15 @@ export interface IFeaturesState {
   publishedPostList?: IPostExt[];
   unpublishedPostList?: IPostExt[];
   detailPost?: IPostExt;
-  detailPostTags?: any[];
+  detailPostTags?: any;
   detailPostNotes?: any[];
   filterMode?: boolean;
   selectedTags?: number[];
   avaliableTags?: number[];
   tagTypes?: any;
   tagsByCat?: any;
+  currentBlogroll?: any;
+  editMode?: boolean;
 }
 
 @Injectable({
@@ -38,8 +40,9 @@ export class StateService {
 
     // Post detail
     this.data.detailPost = null;
-    this.data.detailPostTags = [];
+    this.data.detailPostTags = {};
     this.data.detailPostNotes = [];
+    this.data.editMode = false;
 
     // Tags
     this.data.selectedTags = [];
@@ -47,6 +50,8 @@ export class StateService {
     this.data.tagTypes = [];
     this.data.tagsByCat = {};
 
+    // Blogroll
+    this.data.currentBlogroll = '';
   }
 
   emitChange(stateItems) {

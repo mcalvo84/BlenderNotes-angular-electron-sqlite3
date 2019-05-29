@@ -21,7 +21,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
 
   // State
   private stateSuscription: Subscription = new Subscription();
-  private stateItems = ['', 'detailPost'];
+  private stateItems = ['', 'detailPost', 'detailPostTags'];
   id = 0;
   formReady = false;
 
@@ -62,6 +62,11 @@ export class DetailPostComponent implements OnInit, OnDestroy {
       if (this.stateItems.indexOf(element)) {
         this.initForm();
         this.buildBreadcrumbs();
+        if (element !== 'detailPostTags') {
+          this.tagsService.send('[tags][get][fromPost]', this.id);
+        } else {
+          this.matchTags();
+        }
         this.ref.detectChanges();
       }
     });
@@ -70,7 +75,6 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
     if (this.id > 0) {
       this.postsService.send('[posts][get][byID]', this.id);
-      this.tagsService.send('[tags][get][fromPost]', this.id);
       this.notesService.send('[notes][get][fromPost]', this.id);
     } else {
       this.ref.detectChanges();
@@ -93,29 +97,20 @@ export class DetailPostComponent implements OnInit, OnDestroy {
    * On SUBMIT FORM
    */
   onSubmit() {
-      // let body = new RejectInitiativeBODY(this.form.value);
 
-      // body.setActionID(this.data.actionID)
-      //     .setInitiativeID(this.data.initiativeID)
-      //     .setRejectionDate(Utils.dateToString(this.form.get('rejectionDate').value));
+    let post = this.form.value;
+    console.log(post)
 
-      // if (this.uploads.private) {
-      //     body.setFilePrivate(this.uploads.private);
-      // }
-      // if (this.uploads.public) {
-      //     body.setFilePublic(this.uploads.public);
-      // }
+    let p = {
+      title: post.title,
+      body: post.body,
+      original: post.original,
+      published: post.published,
+      // updatedAt: new Date().toLocaleDateString()
+    }
+    console.log(p)
 
-      // this.uxService.blockDocument();
-      // this.formSubmitSubscription = this.homeApiService.rejectRegistrationWithBody(body).subscribe(
-      //     data => {
-      //         this.uxService.unblockDocument();
-      //         this.error.successMsg$.next(data.message);
-      //         this.homeService.listUpdate.emit(this.homeService.getTableData());
-      //         this.onCancel();
-      //     },
-      //     () => this.uxService.unblockDocument()
-      // );
+    this.postsService.send('[post][update][simple]', p, this.id);
   }
 
   /**
@@ -127,6 +122,11 @@ export class DetailPostComponent implements OnInit, OnDestroy {
 
   consolelog(log) {
     console.log(log)
+  }
+
+  onTagChange(e) {
+    console.log(e, this.tagMultiselectValues);
+    this.ref.detectChanges();
   }
 
   /**
@@ -148,7 +148,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
       'title': [null, Validators.required],
       'body': [null, Validators.required],
       'published': [false],
-      'createAt': [null],
+      'createdAt': [null],
       'updatedAt': [null],
       'BlogrollId': [null],
       'ImageId': [null],
@@ -160,6 +160,12 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     this.formReady = true;
 
     console.log(tagFormGroups, this.form)
+  }
+
+  matchTags() {
+    Object.keys(this.stateService.data.detailPostTags).forEach(key => {
+      this.form.get('tags').get(key).setValue(this.stateService.data.detailPostTags);
+    });
   }
 
   /**

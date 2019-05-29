@@ -16,7 +16,6 @@ export interface IPostExt extends IPost {
   authorName?: string;
   blogrollName?: string;
   blogrollUrl?: string;
-
 }
 
 export class PostModel implements IPostExt {

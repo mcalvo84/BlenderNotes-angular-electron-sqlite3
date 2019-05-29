@@ -32,4 +32,10 @@ export class AppComponent implements OnInit {
     this.filtroExclusivoCheck = e.checked;
   }
 
+  modoEdicionCheckOnChange(e) {
+    this.stateService.data.editMode = e.checked;
+    this.stateService.emitChange('detailPost');
+    this.ref.detectChanges();
+  }
+
 }

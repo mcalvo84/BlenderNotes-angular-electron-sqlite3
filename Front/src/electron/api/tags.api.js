@@ -87,6 +87,47 @@ function GetTagsFromPost(knex, ipcMain, mainWindow) {
     })
 }
 
+function addTagToPost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[tags][add][toPost]", function (evt, idTag, idPost) {
+    knex.insert({
+      postID: post.title,
+      tagID: post.description
+    })
+    .returning('postID')
+    .into('Posts_Tags')
+    .then(function (result) {
+      // mainWindow.webContents.send("[tag][add][result][toPost]", result);
+    });
+  });
+}
+
+function removeTagFromPost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[tags][remove][fromPost]", function (evt, idTag, idPost) {
+
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("[tag][remove][result][fromPost]", result);
+    });
+  });
+
+}
+
+/**
+ * Add ralationship Posts-Tags
+ */
+function CreateTagPost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[tagPost][create][addRelation]", function (evt, idPost, idTag) {
+    knex.insert({
+      postID: idPost,
+      tagID: idTag
+    })
+    .returning('id')
+    .into('Posts_Tags')
+    .then(function (id) {
+      mainWindow.webContents.send("[tagPost][result][addRelation]", id[0]);
+    });
+  });
+}
+
 module.exports = {
   init: (knex, ipcMain, mainWindow) => {
     catGetCategoryTypes(knex, ipcMain, mainWindow);
@@ -95,5 +136,6 @@ module.exports = {
     catGetCategoriesList(knex, ipcMain, mainWindow);
     GetTagsFromPost(knex, ipcMain, mainWindow);
     getAbaliableTagsForFilteredPosts(knex, ipcMain, mainWindow);
+    CreateTagPost(knex, ipcMain, mainWindow)
   }
 };

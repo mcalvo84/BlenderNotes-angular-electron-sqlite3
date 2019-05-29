@@ -57,6 +57,35 @@
   color: #ffffff;
 }
 
+#app-post-body-readonly {
+  word-break: break-all;
+  font-size: 0.8rem;
+}
+:host >>> #app-post-body-readonly h1 {
+  font-size: 1.4rem;
+  font-weight: bold
+}
+:host >>> #app-post-body-readonly h2 {
+  font-size: 1.2rem;
+  font-weight: bold
+}
+:host >>> #app-post-body-readonly h3 {
+  font-size: 1rem;
+  font-weight: bold
+}
+
+
+#app-post-body-readonly img,
+:host >>> #app-post-body-readonly img {
+  width: 50%;
+  display: block;
+}
+
+:host >>> .ql-editor {
+  word-break: break-all;
+  font-size: 0.8rem;
+}
+
 /* :host >>> p-accordion *.ui-accordion-header{
   border-bottom-width: 1px !important;
 } */
