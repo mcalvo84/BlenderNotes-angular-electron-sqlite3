@@ -31,6 +31,8 @@ function GetPosts(knex, ipcMain, mainWindow) {
     }
     query = query + ' ORDER BY Posts.id DESC LIMIT ' + offset + ', ' + max;
 
+    console.log(query);
+
     knex.raw(query).then(function(result) {
       let key = '[posts][result][list]';
       if (published == 0) { key += '[unpublished]' }
@@ -113,6 +115,43 @@ function updateSimplePost(knex, ipcMain, mainWindow) {
   });
 }
 
+function updateComplexPost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[post][update][complex]", function(evt, post, id, tags) {
+    let postId = id;
+    knex.update({
+      title: post.title,
+      body: post.body,
+      original: post.original,
+      published: post.published,
+      updatedAt: formatDate(new Date())
+    })
+    .where({id})
+    .returning('id')
+    .into('Posts')
+    .then(function (id) {
+      console.log("ID DEVUELTO EN COMPLEX: ", postId);
+      // DELETE TAGS
+      var deletequery = 'DELETE FROM Posts_Tags WHERE postID = ' + postId;
+      knex.raw(deletequery).then(function(result) {
+        // ADD TAGS
+        tags.forEach(function(element) {
+          knex.insert({
+            postID: postId,
+            tagID: element
+          })
+          .returning('tagID')
+          .into('Posts_Tags')
+          .then(function (id) {
+            // need promise
+          });
+        });
+        // use promise
+        mainWindow.webContents.send("[posts][result][update][complex]");
+      });
+    });
+  });
+}
+
 function addImageSimplePost(knex, ipcMain, mainWindow) {
   ipcMain.on("addImageSimplePost", function(evt, imgSrc) {
     let splitPath = imgSrc.split("/");
@@ -168,5 +207,6 @@ function formatDate(date) {
         addImageSimplePost(knex, ipcMain, mainWindow);
         updatePostImage(knex, ipcMain, mainWindow);
         updateSimplePost(knex, ipcMain, mainWindow);
+        updateComplexPost(knex, ipcMain, mainWindow);
       }
   }

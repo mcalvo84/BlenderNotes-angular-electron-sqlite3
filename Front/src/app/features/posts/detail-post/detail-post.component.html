@@ -69,10 +69,22 @@
       <div class="row mt-2 mb-4">
           <div class="col-6">
             <p class="mt-2 app-post-original"><b>Videos</b></p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/WRlTyTU4w7o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/WRlTyTU4w7o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
           </div>
           <div class="col-6">
               <p class="mt-2 app-post-original"><b>Descargables</b></p>
+              <p>
+                <!-- url="./upload.php"-->
+                <p-fileUpload
+                #fileUpload
+                name="file[]"
+                mode="basic" customUpload="true"
+                (uploadHandler)="onBasicUpload($event, fileUpload)"
+                (onSelect)="onBasicSelect($event)"
+                ></p-fileUpload>
+                <!--
+                [formControl]="form.controls['file']" -->
+              </p>
               <p>
                 <i class="fa fa-file-archive-o fa-lg" aria-hidden="true"></i>
                 <span class="pl-2" style="font-size: 13px;">Addon</span>

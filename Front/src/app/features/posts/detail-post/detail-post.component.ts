@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { PostsService } from 'src/app/core/api/posts.service';
 import { NotesService } from 'src/app/core/api/notes.service';
 import { TagsService } from 'src/app/core/api/tags.service';
 import { IPost } from 'src/app/core/models/posts';
+import { FileUpload } from 'primeng/fileupload';
 declare let electron: any;
 
 @Component({
@@ -18,6 +19,8 @@ declare let electron: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailPostComponent implements OnInit, OnDestroy {
+
+  @ViewChild(FileUpload) fileUpload: FileUpload;
 
   // State
   private stateSuscription: Subscription = new Subscription();
@@ -38,6 +41,8 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     {label: 'Publicado', value: 1, icon: 'fa fa-fw fa-check-square'},
   ];
   tagMultiselectValues = {};
+  tagCategories: string[] = [];
+  myfile = [];
 
   constructor(
     private fb: FormBuilder,
@@ -99,7 +104,6 @@ export class DetailPostComponent implements OnInit, OnDestroy {
   onSubmit() {
 
     let post = this.form.value;
-    console.log(post)
 
     let p = {
       title: post.title,
@@ -108,9 +112,17 @@ export class DetailPostComponent implements OnInit, OnDestroy {
       published: post.published,
       // updatedAt: new Date().toLocaleDateString()
     }
-    console.log(p)
 
-    this.postsService.send('[post][update][simple]', p, this.id);
+    // this.postsService.send('[post][update][simple]', p, this.id);
+
+    let newTags = [];
+    this.tagCategories.forEach(TagCategory => {
+      if (this.form.get('tags').value[TagCategory]) {
+        newTags = [ ...newTags, ...this.form.get('tags').value[TagCategory]];
+      }
+    });
+
+    this.postsService.send('[post][update][complex]', p, this.id, newTags);
   }
 
   /**
@@ -125,7 +137,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
   }
 
   onTagChange(e) {
-    console.log(e, this.tagMultiselectValues);
+    //console.log(e, this.tagMultiselectValues, this.form.get('tags'));
     this.ref.detectChanges();
   }
 
@@ -137,6 +149,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     let tagFormGroups = {};
 
     this.stateService.data.tagTypes.forEach(element => {
+      this.tagCategories.push(element.name);
       tagFormGroups[element.name] = new FormControl();
       this.tagMultiselectValues[element.name] =
       this.stateService.data.tagsByCat[element.name].map(item => {
@@ -154,6 +167,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
       'ImageId': [null],
       'UserId': [null],
       'original': [null],
+      'file': [[]],
       'tags': this.fb.group(tagFormGroups)
     });
 
@@ -164,8 +178,21 @@ export class DetailPostComponent implements OnInit, OnDestroy {
 
   matchTags() {
     Object.keys(this.stateService.data.detailPostTags).forEach(key => {
-      this.form.get('tags').get(key).setValue(this.stateService.data.detailPostTags);
+      this.form.get('tags').get(key).setValue(this.stateService.data.detailPostTags[key]);
     });
+  }
+
+  onBasicUpload(evt, fileUpload) {
+    console.log("onBasicUpload(evt)", evt['files'][0]['path'], fileUpload);
+    this.postsService.send('[downloads][add]', evt['files'][0]['path']);
+    fileUpload.clear();
+    //this.form.controls['file'].setValue([]);
+    this.ref.detectChanges();
+    this.myfile = [];
+  }
+
+  onBasicSelect(evt) {
+    this.ref.detectChanges();
   }
 
   /**

@@ -21,6 +21,7 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {ListboxModule} from 'primeng/listbox';
 import {EditorModule} from 'primeng/editor';
 import {MenuItem} from 'primeng/api';
+import {FileUploadModule} from 'primeng/fileupload';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { Error404Component } from './error/error404.component';
 import { Error500Component } from './error/error500.component';
@@ -48,6 +49,7 @@ import { PipesModule } from './pipes/pipes.module';
     AccordionModule,
     ScrollPanelModule,
     ContextMenuModule,
+    FileUploadModule,
     PipesModule
   ],
   declarations: [
@@ -81,6 +83,7 @@ import { PipesModule } from './pipes/pipes.module';
     AccordionModule,
     ScrollPanelModule,
     ContextMenuModule,
+    FileUploadModule,
     PipesModule
   ]
 })

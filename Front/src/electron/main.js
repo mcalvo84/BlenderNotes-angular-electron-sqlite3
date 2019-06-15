@@ -2,6 +2,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
+const jetpack = require('fs-jetpack');
+Notification = require('electron-native-notification');
 
 //var app  = require('remote').require('app')
 // API
@@ -9,6 +11,7 @@ let Tags = require('./api/tags.api')
 let Posts = require('./api/posts.api')
 let Users = require('./api/users.api')
 let Notes = require('./api/notes.api')
+let Downloads = require('./api/downloads.api')
 
 // Settings
 let maximizedWindow = false;
@@ -47,6 +50,7 @@ function createWindow() {
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
   Notes.init(knex, ipcMain, mainWindow);
+  Downloads.init(knex, ipcMain, mainWindow, jetpack);
 
   // Close
   ipcMain.on('close-app', function() {
@@ -95,6 +99,6 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow()
+    createWindow();
   }
 })
