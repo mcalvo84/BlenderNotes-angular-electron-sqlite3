@@ -1,5 +1,5 @@
 // Base
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, shell } = require('electron')
 const path = require('path')
 const url = require('url')
 const jetpack = require('fs-jetpack');
@@ -50,7 +50,7 @@ function createWindow() {
   Posts.init(knex, ipcMain, mainWindow);
   Users.init(knex, ipcMain, mainWindow);
   Notes.init(knex, ipcMain, mainWindow);
-  Downloads.init(knex, ipcMain, mainWindow, jetpack);
+  Downloads.init(knex, ipcMain, mainWindow, jetpack, shell);
 
   // Close
   ipcMain.on('close-app', function() {

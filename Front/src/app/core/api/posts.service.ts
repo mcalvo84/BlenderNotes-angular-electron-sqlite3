@@ -34,6 +34,12 @@ export class PostsService {
       // this.detailPostEmiter.emit(result[0]);
     });
 
+    this.ipcService.on('[downloads][result][fromPost]', (evt: Electron.IpcMessageEvent, result: IPostExt) => {
+      this.stateService.data.filesPost = result;
+      this.stateService.emitChange('detailPost');
+      // this.detailPostEmiter.emit(result[0]);
+    });
+
     /* Save Posts */
     this.ipcService.on('addSimplePostResultSent', (evt: Electron.IpcMessageEvent, result) => {
       this.addSimplePostEmitter.emit(result);

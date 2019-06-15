@@ -10,6 +10,7 @@ import { NotesService } from 'src/app/core/api/notes.service';
 import { TagsService } from 'src/app/core/api/tags.service';
 import { IPost } from 'src/app/core/models/posts';
 import { FileUpload } from 'primeng/fileupload';
+import { Location } from '@angular/common';
 declare let electron: any;
 
 @Component({
@@ -51,7 +52,8 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     private notesService: NotesService,
     public stateService: StateService,
     public ref: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public location: Location
   ) {
     // Layout settings
     this.stateService.data.display = 'detail';
@@ -65,6 +67,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     this.stateSuscription =
     this.stateService.changeEmitter.subscribe((element) => {
       if (this.stateItems.indexOf(element)) {
+        console.log(location.prepareExternalUrl(location.path()))
         this.initForm();
         this.buildBreadcrumbs();
         if (element !== 'detailPostTags') {
@@ -81,6 +84,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     if (this.id > 0) {
       this.postsService.send('[posts][get][byID]', this.id);
       this.notesService.send('[notes][get][fromPost]', this.id);
+      this.postsService.send('[downloads][get][fromPost]', this.id);
     } else {
       this.ref.detectChanges();
     }
@@ -183,16 +187,18 @@ export class DetailPostComponent implements OnInit, OnDestroy {
   }
 
   onBasicUpload(evt, fileUpload) {
-    console.log("onBasicUpload(evt)", evt['files'][0]['path'], fileUpload);
-    this.postsService.send('[downloads][add]', evt['files'][0]['path']);
+    this.postsService.send('[downloads][add]', evt['files'][0]['path'], this.id);
     fileUpload.clear();
-    //this.form.controls['file'].setValue([]);
     this.ref.detectChanges();
     this.myfile = [];
   }
 
   onBasicSelect(evt) {
     this.ref.detectChanges();
+  }
+
+  openFile(url, name) {
+    this.postsService.send('[open][file]', url, name);
   }
 
   /**
