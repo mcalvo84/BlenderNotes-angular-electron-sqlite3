@@ -16,7 +16,7 @@
       <hr />
       <p-accordion (onClose)="ref.detectChanges()" (onOpen)="ref.detectChanges()">
         <div *ngFor="let item of stateService.data.tagTypes; let i = index">
-          <p-accordionTab header="{{item?.name}}" class="app-tag-panel">
+          <p-accordionTab header="{{item?.name}} ({{tagsControl.value[item?.name] ? tagsControl.value[item?.name].length : 0}})" class="app-tag-panel">
             <div *ngFor="let checktag of tagMultiselectValues[item?.name]">
                 <!-- <p-checkbox name="groupname" value="val1" [(ngModel)]="checktag"></p-checkbox> -->
             </div>
@@ -32,7 +32,15 @@
               [options]="tagMultiselectValues[item?.name]"
               [formControlName]="item?.name">
               </p-multiSelect> -->
+            <div *ngIf="!this.stateService.data.editMode">
+              <ul>
+                <li *ngFor="let item of getCategoriesReadMode(item?.name)">
+                  {{item?.label}}
+                </li>
+              </ul>
+            </div>
             <p-listbox
+            *ngIf="this.stateService.data.editMode"
             multiple="multiple" checkbox="checkbox" filter="filter"
             [listStyle]="{'max-height':'250px'}"
             [style]="{'width':'100%'}"
@@ -52,8 +60,8 @@
       <input id="app-post-title" type="text" pInputText formControlName="title" />
       <hr />
       <p id="app-post-body-readonly" *ngIf="!this.stateService.data.editMode" [innerHtml]="stateService.data.detailPost.body"></p>
-      <p-editor *ngIf="this.stateService.data.editMode" id="app-post-body" formControlName="body" [style]="{'height':'500px', 'width': '100%'}"></p-editor>
-      <ckeditor [editor]="Editor" formControlName="body" [config]="{toolbar: 'Full'}" ></ckeditor>
+      <p-editor *ngIf="this.stateService.data.editMode" id="app-post-body" formControlName="body" [style]="{'height':'300px', 'width': '100%'}"></p-editor>
+      <!-- <ckeditor [editor]="Editor" formControlName="body" [config]="{toolbar: 'Full'}" ></ckeditor> -->
       <hr />
       <div class="row mt-2 mb-4">
           <div class="col-6">
@@ -68,14 +76,42 @@
       </div>
       <hr />
       <div class="row mt-2 mb-4">
+
           <div class="col-6">
             <p class="mt-2 app-post-original"><b>Videos</b></p>
-            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/WRlTyTU4w7o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+            <div class="row" *ngIf="this.stateService.data.editMode">
+              <div class="col-4">
+                  <p class="mt-2 mb-1 app-post-original"><b>Nombre</b></p>
+                  <input id="input" type="text" size="20" pInputText [formControl]="form.controls['videoName']">
+              </div>
+              <div class="col-4">
+                  <p class="mt-2 mb-1 app-post-original"><b>Id</b></p>
+                  <input id="input" type="text" size="20" pInputText [formControl]="form.controls['videoId']">
+              </div>
+              <div class="col-4">
+                  <p class="mt-2 mb-0 app-post-original"><b>&nbsp;</b></p>
+                  <button class="btn btn-secondary" (click)="onAddVideo()">Ok</button>
+              </div>
+              <div class="col-12"><hr style="margin-top: 1.4rem;" /></div>
+            </div>
+            <div class="row">
+              <div class="col-12" *ngFor="let video of stateService.data.videosPostIframe">
+                <div [innerHTML]="getIframe(video.identificator)"></div>
+                <div *ngIf="this.stateService.data.editMode">
+                    <button class="btn btn-danger btn-sm" (click)="onDeleteVideo(video)">Delete</button>
+                    <!-- <button class="btn btn-secondary" (click)="onDownloadVideo(video)">Descargar</button> -->
+                    <!-- <span></span>% -->
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="col-6">
-              <p class="mt-2 app-post-original"><b>Descargables</b></p>
-              <p>
-                <!-- url="./upload.php"-->
+            <p class="mt-2 app-post-original"><b>Descargables</b></p>
+
+            <div class="row" *ngIf="this.stateService.data.editMode">
+              <div class="col-12">
+                <p class="mt-2 mb-1 app-post-original"><b>Archivo</b></p>
                 <p-fileUpload
                 #fileUpload
                 name="file[]"
@@ -83,19 +119,37 @@
                 (uploadHandler)="onBasicUpload($event, fileUpload)"
                 (onSelect)="onBasicSelect($event)"
                 ></p-fileUpload>
-                <!--
-                [formControl]="form.controls['file']" -->
-              </p>
-              <p *ngFor="let file of stateService.data.filesPost">
-                <span (click)="openFile(file.url, file.name)" style="cursor: pointer;">
-                  <i class="fa fa-file-archive-o fa-lg" aria-hidden="true"></i>
-                  <span class="pl-2" style="font-size: 13px;">{{file.name}}</span>
+              </div>
+              <div class="col-12"><hr /></div>
+            </div>
+            <p *ngFor="let file of stateService.data.filesPost">
+              <span>
+                <i class="fa fa-file-archive-o fa-lg" aria-hidden="true"></i>
+                <span class="pl-2" style="font-size: 13px;">{{file.name}}</span>
+                <span>
+                  <span class="text-secondary"> | </span>
+                  <span class="text- text-success" style="cursor: pointer;font-size: 12px;" (click)="openFile(file.url, file.name)">
+                      <b>Open</b>
+                  </span>
                 </span>
-              </p>
+                <span *ngIf="this.stateService.data.editMode">
+                  <span class="text-secondary"> | </span>
+                  <span class="text- text-danger" style="cursor: pointer;font-size: 12px;" (click)="onDeleteFile(file)">
+                      <b>Open</b>
+                  </span>
+                </span>
+              </span>
+            </p>
           </div>
+
       </div>
     </div>
   <!-- </div> -->
-  <button class="btn btn-danger" (click)="onSubmit()" style="position: fixed;top: 70px;r: 32px;right: 32px;-index: 9999;box-shadow: 0 0 0px 1px #444, 0 0 20px -11px black;/* border-radius: 4px !important; */">Guardar</button>
+  <button
+    *ngIf="this.stateService.data.editMode"
+    class="btn btn-danger" (click)="onSubmit()"
+    style="position: fixed;top: 70px;right: 32px;-index: 9999;box-shadow: 0 0 20px -8px black;">
+    Guardar
+  </button>
 <!--  data="<p>Hello, world!</p>" -->
 </form>

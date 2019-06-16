@@ -1,9 +1,16 @@
 // Base
-const { app, BrowserWindow, ipcMain, shell } = require('electron')
+const { app, BrowserWindow, ipcMain, shell, remote } = require('electron')
 const path = require('path')
 const url = require('url')
 const jetpack = require('fs-jetpack');
 Notification = require('electron-native-notification');
+const ytdl = require('ytdl-core');
+const electronFs = require('fs');
+
+// var remote = require('electron').remote;
+// var electronFs = remote.require('fs');
+// electronFs = electron.remote.require('fs')
+// var electronFs = require('original-fs')
 
 //var app  = require('remote').require('app')
 // API
@@ -12,8 +19,10 @@ let Posts = require('./api/posts.api')
 let Users = require('./api/users.api')
 let Notes = require('./api/notes.api')
 let Downloads = require('./api/downloads.api')
+let Videos = require('./api/videos.api')
 
 // Settings
+var config = {windowframe: false};
 let maximizedWindow = false;
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -32,7 +41,7 @@ function createWindow() {
     width: 1600,
     height: 920,
     show: false,
-    titleBarStyle: 'customButtonsOnHover', frame: true,
+    titleBarStyle: 'customButtonsOnHover', frame: config.windowframe,
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'Front/assets/icons/icon-96x96.png')
   })
@@ -51,6 +60,14 @@ function createWindow() {
   Users.init(knex, ipcMain, mainWindow);
   Notes.init(knex, ipcMain, mainWindow);
   Downloads.init(knex, ipcMain, mainWindow, jetpack, shell);
+  Videos.init(knex, ipcMain, mainWindow, ytdl, electronFs);
+
+  ipcMain.on("getAppConfig", function(evt, ids) {
+    var query = 'select * from Configs ORDER BY Configs.id DESC LIMIT 1';
+    knex.raw(query).then(function(result) {
+      mainWindow.webContents.send("resultAppConfig", result[0]);
+    });
+  });
 
   // Close
   ipcMain.on('close-app', function() {
@@ -85,11 +102,18 @@ function createWindow() {
 }
 
 
+function prepareCreateWindow() {
+  var query = 'select * from Configs ORDER BY Configs.id DESC LIMIT 1';
+  knex.raw(query).then(function(result) {
+    config = JSON.parse(result[0]['ConfigData']);
+    createWindow();
+  });
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', prepareCreateWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -104,6 +128,6 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    prepareCreateWindow();
   }
 })

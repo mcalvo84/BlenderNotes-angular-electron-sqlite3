@@ -17,6 +17,8 @@ export interface IFeaturesState {
   currentBlogroll?: any;
   editMode?: boolean;
   filesPost?: any;
+  videosPost?: any;
+  videosPostIframe?: any;
 }
 
 @Injectable({
@@ -45,6 +47,8 @@ export class StateService {
     this.data.detailPostNotes = [];
     this.data.editMode = false;
     this.data.filesPost = null;
+    this.data.videosPost = [];
+    this.data.videosPostIframe = [];
 
     // Tags
     this.data.selectedTags = [];

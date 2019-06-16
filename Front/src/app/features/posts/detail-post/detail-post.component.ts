@@ -13,6 +13,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { Location } from '@angular/common';
 declare let electron: any;
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detail-post',
@@ -47,6 +48,9 @@ export class DetailPostComponent implements OnInit, OnDestroy {
   myfile = [];
   public Editor = ClassicEditor;
 
+  videoName = '';
+  videoId = '';
+
   constructor(
     private fb: FormBuilder,
     private postsService: PostsService,
@@ -55,7 +59,8 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     public stateService: StateService,
     public ref: ChangeDetectorRef,
     private route: ActivatedRoute,
-    public location: Location
+    public location: Location,
+    public sanitizer: DomSanitizer
   ) {
     // Layout settings
     this.stateService.data.display = 'detail';
@@ -87,6 +92,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
       this.postsService.send('[posts][get][byID]', this.id);
       this.notesService.send('[notes][get][fromPost]', this.id);
       this.postsService.send('[downloads][get][fromPost]', this.id);
+      this.postsService.send('[videos][get][fromPost]', this.id);
     } else {
       this.ref.detectChanges();
     }
@@ -109,7 +115,9 @@ export class DetailPostComponent implements OnInit, OnDestroy {
    */
   onSubmit() {
 
-    let post = this.form.value;
+    this.postsService.send('[videos][download]', this.id);
+
+    const post = this.form.value;
 
     let p = {
       title: post.title,
@@ -174,6 +182,9 @@ export class DetailPostComponent implements OnInit, OnDestroy {
       'UserId': [null],
       'original': [null],
       'file': [[]],
+      'Videos': [null],
+      'videoName': [[]],
+      'videoId': [[]],
       'tags': this.fb.group(tagFormGroups)
     });
 
@@ -195,12 +206,36 @@ export class DetailPostComponent implements OnInit, OnDestroy {
     this.myfile = [];
   }
 
+  onDeleteFile(file) {
+    this.postsService.send('[downloads][remove][fromPost]', file.id, this.id);
+  }
+
   onBasicSelect(evt) {
     this.ref.detectChanges();
   }
 
   openFile(url, name) {
     this.postsService.send('[open][file]', url, name);
+  }
+
+  onAddVideo() {
+    this.postsService.send('[videos][add]', this.form.controls['videoName'].value, this.form.controls['videoId'].value, this.id);
+  }
+
+  onDeleteVideo(video) {
+    this.postsService.send('[videos][remove][fromPost]', video.id, this.id);
+  }
+
+  getIframe(key) {
+    return this.sanitizer.bypassSecurityTrustHtml('<iframe width="560" height="315" src="https://www.youtube.com/embed/'+key+'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>');
+  }
+
+  getCategoriesReadMode(tagCat) {
+    console.log('getCategoriesReadMode', this.tagsControl.value[tagCat]);
+    if (this.tagsControl && this.tagsControl.value && this.tagsControl.value[tagCat]) {
+      return this.tagMultiselectValues[tagCat].filter((value, idx) => -1 !== this.tagsControl.value[tagCat].indexOf(idx));
+    }
+    return [];
   }
 
   /**
@@ -221,6 +256,10 @@ export class DetailPostComponent implements OnInit, OnDestroy {
 
   get published(): FormControl {
     return <FormControl>this.form.controls['published'];
+  }
+
+  get tagsControl(): FormControl {
+    return <FormControl>this.form.controls['tags'];
   }
 
   private buildBreadcrumbs() {

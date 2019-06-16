@@ -60,10 +60,30 @@ function AddDownload(knex, ipcMain, mainWindow, jetpack) {
   });
 }
 
+function removeDownloadFromPost(knex, ipcMain, mainWindow) {
+  ipcMain.on("[downloads][remove][fromPost]", function (evt, idDownload, idPost) {
+    var query = 'delete from Posts_Downloads where postID = ' + idPost + ' and downloadID = ' + idDownload;
+    knex.raw(query).then(function(result) {
+      // mainWindow.webContents.send("[download][remove][result][fromPost]", result);
+        var query =
+        'select Downloads.id, Downloads.name, Downloads.url from Posts_Downloads ' +
+        'left join Downloads on Posts_Downloads.downloadID = Downloads.id ' +
+        'where Posts_Downloads.postID = ' + idPost + ' ';
+        knex.raw(query).then(function(result) {
+          let myNotification = new Notification('filename', {
+            body: 'Fichero Borrado'
+          })
+          mainWindow.webContents.send("[downloads][result][fromPost]", result);
+        });
+    });
+  });
+}
+
 module.exports = {
     init: (knex, ipcMain, mainWindow, jetpack, shell) => {
       GetDownloadsFromPost(knex, ipcMain, mainWindow);
       AddDownload(knex, ipcMain, mainWindow, jetpack);
       OpenFile(knex, ipcMain, mainWindow, shell);
+      removeDownloadFromPost(knex, ipcMain, mainWindow);
     }
 }
