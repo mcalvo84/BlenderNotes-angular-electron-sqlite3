@@ -12,6 +12,7 @@ import { IPost } from 'src/app/core/models/posts';
 import { FileUpload } from 'primeng/fileupload';
 import { Location } from '@angular/common';
 declare let electron: any;
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-detail-post',
@@ -44,6 +45,7 @@ export class DetailPostComponent implements OnInit, OnDestroy {
   tagMultiselectValues = {};
   tagCategories: string[] = [];
   myfile = [];
+  public Editor = ClassicEditor;
 
   constructor(
     private fb: FormBuilder,

@@ -53,6 +53,7 @@
       <hr />
       <p id="app-post-body-readonly" *ngIf="!this.stateService.data.editMode" [innerHtml]="stateService.data.detailPost.body"></p>
       <p-editor *ngIf="this.stateService.data.editMode" id="app-post-body" formControlName="body" [style]="{'height':'500px', 'width': '100%'}"></p-editor>
+      <ckeditor [editor]="Editor" formControlName="body" [config]="{toolbar: 'Full'}" ></ckeditor>
       <hr />
       <div class="row mt-2 mb-4">
           <div class="col-6">
@@ -95,5 +96,6 @@
       </div>
     </div>
   <!-- </div> -->
-  <button class="bnt btn-primary" (click)="onSubmit()">Guardar</button>
+  <button class="btn btn-danger" (click)="onSubmit()" style="position: fixed;top: 70px;r: 32px;right: 32px;-index: 9999;box-shadow: 0 0 0px 1px #444, 0 0 20px -11px black;/* border-radius: 4px !important; */">Guardar</button>
+<!--  data="<p>Hello, world!</p>" -->
 </form>

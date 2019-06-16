@@ -26,6 +26,7 @@ import {ContextMenuModule} from 'primeng/contextmenu';
 import { Error404Component } from './error/error404.component';
 import { Error500Component } from './error/error500.component';
 import { PipesModule } from './pipes/pipes.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { PipesModule } from './pipes/pipes.module';
     ScrollPanelModule,
     ContextMenuModule,
     FileUploadModule,
-    PipesModule
+    PipesModule,
+    CKEditorModule
   ],
   declarations: [
     Error404Component,
@@ -84,7 +86,8 @@ import { PipesModule } from './pipes/pipes.module';
     ScrollPanelModule,
     ContextMenuModule,
     FileUploadModule,
-    PipesModule
+    PipesModule,
+    CKEditorModule
   ]
 })
 export class SharedModule { }

@@ -32,8 +32,8 @@ function createWindow() {
     width: 1600,
     height: 920,
     show: false,
-    titleBarStyle: 'customButtonsOnHover', frame: false,
-    autoHidMenuBar: true,
+    titleBarStyle: 'customButtonsOnHover', frame: true,
+    autoHideMenuBar: true,
     icon: path.join(__dirname, 'Front/assets/icons/icon-96x96.png')
   })
 
@@ -79,7 +79,12 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null
   })
+
+
+  mainWindow.setMenu(null)
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

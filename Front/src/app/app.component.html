@@ -49,7 +49,7 @@
             <p-inputSwitch *ngIf="stateService.data.display == 'home'" styleClass="secondary" (onChange)="filtroExclusivoCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>
             <b *ngIf="stateService.data.display == 'home'" style="vertical-align: inherit;" class="ml-1">Filtro exclusivo</b>
 
-            <p-inputSwitch *ngIf="stateService.data.display == 'detail'" styleClass="secondary" (onChange)="modoEdicionCheckOnChange($event)" [(ngModel)]="filtroExclusivoCheck"></p-inputSwitch>
+            <p-inputSwitch *ngIf="stateService.data.display == 'detail'" styleClass="secondary" (onChange)="modoEdicionCheckOnChange($event)" [(ngModel)]="stateService.data.editMode"></p-inputSwitch>
             <b *ngIf="stateService.data.display == 'detail'" style="vertical-align: inherit;" class="ml-1">Modo edicion</b>
 
             <p class="pull-right m-0 text-sm" style="color: #666;">
